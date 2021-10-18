@@ -7,13 +7,31 @@
     "serve": "vite preview",
     "lint": "eslint src/"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --cache --fix",
+      "git add"
+    ],
+    "src/**/*.{js,jsx}": [
+      "eslint --cache --fix",
+      "git add"
+    ]
+  },
   "dependencies": {
     "@loadable/component": "^5.15.0",
     "@types/lodash": "^4.14.175",
     "classnames": "^2.3.1",
+    "husky": "4.3.8",
+    "lint-staged": "^11.2.3",
     "lodash": "^4.17.21",
     "mobx": "^6.3.5",
     "mobx-react": "^7.2.0",
+    "prettier": "^2.4.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-router": "^5.2.1",

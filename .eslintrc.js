@@ -17,13 +17,7 @@ module.exports = {
     'no-var': 'error',
     'no-undef': 'off',
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'warn',
-      {
-        args: 'none',
-        ignoreRestSiblings: true
-      }
-    ],
+    '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/ban-types': 'error',
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/member-delimiter-style': 'error',
