@@ -1,19 +1,19 @@
 import { makeAutoObservable } from 'mobx'
 
 class GlobalStore {
-  constructor() {
-    makeAutoObservable(this)
-  }
+    constructor() {
+        makeAutoObservable(this)
+    }
 
-  isLogin = false
+    isLogin = 'false'
 
-  fail = () => {
-    this.isLogin = false
-  }
+    fail = () => {
+        this.isLogin = false
+    }
 
-  success = () => {
-    this.isLogin = true
-  }
+    success = () => {
+        this.isLogin = true
+    }
 }
 
 export default new GlobalStore()

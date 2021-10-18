@@ -4,7 +4,7 @@ class HomeStore {
         makeAutoObservable(this)
     }
 
-    count = '0'
+    count = 0
 
     add = () => {
         this.count += 1
