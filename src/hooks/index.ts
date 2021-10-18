@@ -10,7 +10,7 @@ export type StoreType = typeof _store
 
 // 声明 store 类型
 interface ContextType {
-  stores: StoreType;
+  stores: StoreType
 }
 
 // 这两个是函数声明，重载

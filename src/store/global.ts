@@ -10,11 +10,10 @@ class GlobalStore {
   fail = () => {
     this.isLogin = false
   }
-  
+
   success = () => {
     this.isLogin = true
   }
-
 }
 
 export default new GlobalStore()
