@@ -1,5 +1,5 @@
 # react-boat
-vite + reactjs + ts + mobx + eslint
+vite + reactjs + typescript + mobx + eslint
 
 
 
