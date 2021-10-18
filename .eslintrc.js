@@ -22,7 +22,7 @@ module.exports = {
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    "@typescript-eslint/indent": ["error", 4, { "VariableDeclarator": 4, "SwitchCase": 1 }],
+    "@typescript-eslint/indent": ["error", 2, { "VariableDeclarator": 4, "SwitchCase": 1 }],
     '@typescript-eslint/no-explicit-any': 'off'
   },
   settings: {
