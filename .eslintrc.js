@@ -14,7 +14,7 @@ module.exports = {
   },
   rules: {
     camelcase: 'warn',
-    'indent': ["off", 2],
+    indent: ['off', 2],
     'no-var': 'error',
     'no-undef': 'off',
     'no-unused-vars': 'off',
@@ -24,7 +24,8 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    "@typescript-eslint/indent": ["off", 2]
+    // 运行时，用prettier缩进2行，但还是会提示Expected indentation of 2 spaces but found 4,暂无法解决，待排查
+    '@typescript-eslint/indent': ['off', 2]
   },
   settings: {
     react: {

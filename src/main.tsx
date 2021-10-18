@@ -7,9 +7,12 @@ import globalStore from '@/store/global'
 import routes from '@/routes'
 import './index.css'
 
+const stores = {
+  globalStore
+}
 ReactDOM.render(
   <React.StrictMode>
-    <Provider {...globalStore}>
+    <Provider stores={stores}>
       <HashRouter>{renderRoutes(routes)}</HashRouter>
     </Provider>
   </React.StrictMode>,
