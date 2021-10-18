@@ -8,13 +8,13 @@ import routes from '@/routes'
 import './index.css'
 
 const stores = {
-  globalStore
+    globalStore
 }
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider stores={stores}>
-      <HashRouter>{renderRoutes(routes)}</HashRouter>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <Provider {...stores}>
+            <HashRouter>{renderRoutes(routes)}</HashRouter>
+        </Provider>
+    </React.StrictMode>,
+    document.getElementById('root')
 )
