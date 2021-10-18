@@ -14,6 +14,7 @@ module.exports = {
   },
   rules: {
     camelcase: 'warn',
+    'indent': ["off", 2],
     'no-var': 'error',
     'no-undef': 'off',
     'no-unused-vars': 'off',
@@ -22,8 +23,8 @@ module.exports = {
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
-    "@typescript-eslint/indent": ["error", 2, { "VariableDeclarator": 4, "SwitchCase": 1 }],
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    "@typescript-eslint/indent": ["off", 2]
   },
   settings: {
     react: {

@@ -4,8 +4,8 @@ const routesConfig: RouteConfig[] = [
   {
     path: '/',
     exact: true,
-    component: Home,
-  },
+    component: Home
+  }
 ]
 
 export default routesConfig

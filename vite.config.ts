@@ -7,14 +7,18 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    {...eslint({
-      include: 'src/**/*.+(js|jsx|ts|tsx)' 
-    }), enforce: 'pre'}, 
+    {
+      ...eslint({
+        include: 'src/**/*.+(js|jsx|ts|tsx)'
+      }),
+      enforce: 'pre'
+    },
     reactRefresh(),
-    typescript()],
+    typescript()
+  ],
   resolve: {
     alias: {
-      '@/': path.resolve(__dirname, './src')
+      '@/': path.resolve(__dirname, '["error", 2]')
     }
   }
 })
