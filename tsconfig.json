@@ -1,22 +1,26 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    // 允许编译javascript文件
     "allowJs": true,
     "esModuleInterop": true,
+    // 允许从没有设置默认导出的模块中默认导入
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "module": "ESNext",
+    // 模块的解析策略
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["src/*"]
     },
     "typeRoots": ["src/@types"]
   },
-  "include": ["./src"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
