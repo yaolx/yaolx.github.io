@@ -24,7 +24,6 @@
   },
   "dependencies": {
     "@loadable/component": "^5.15.0",
-    "@types/lodash": "^4.14.175",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
     "mobx": "^6.3.5",
@@ -38,6 +37,7 @@
   "devDependencies": {
     "@rollup/plugin-eslint": "^8.0.1",
     "@rollup/plugin-typescript": "^8.3.0",
+    "@types/lodash": "^4.14.175",
     "@types/node": "^16.11.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
