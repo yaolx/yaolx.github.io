@@ -5,7 +5,7 @@ import { renderRoutes } from 'react-router-config'
 import { Provider } from 'mobx-react'
 import globalStore from '@/store/global'
 import routes from '@/routes'
-import './index.css'
+import './index.less'
 
 const stores = {
   globalStore
