@@ -1,28 +1,48 @@
 import React from 'react'
 import { observer } from 'mobx-react'
+import { Button } from 'antd'
 import { useStores } from '@/hooks'
+import request from '@/config/request'
 import homeStore from './model'
 import styles from './style/index.module.less'
 import logo from './logo.svg'
 function Home(): JSX.Element {
   const globalStore = useStores('globalStore')
+  const onHandler = () => {
+    request(
+      {
+        url: 'http://edu-base-gaokao-product.k8s.101.com/v1.0/subjects',
+        method: 'get'
+      },
+      {
+        loading: true
+      }
+    ).then((data) => {
+      console.log('EEEE', data)
+    })
+  }
   return (
     <div className={styles.App}>
       <header className={styles['App-header']}>
         <img src={logo} className={styles['App-logo']} alt="logo" />
         <p>Hello Vite + React + typescript + mobx</p>
         <p>
-          <button type="button" onClick={homeStore.add}>
+          <Button type="primary" onClick={homeStore.add}>
             count is: {homeStore.count}
-          </button>
+          </Button>
         </p>
         <div>
-          <button type="button" onClick={globalStore.success}>
+          <Button type="primary" onClick={onHandler}>
+            请求数据
+          </Button>
+        </div>
+        <div>
+          <Button type="primary" onClick={globalStore.success}>
             登录
-          </button>
-          <button type="button" onClick={globalStore.fail}>
+          </Button>
+          <Button type="primary" onClick={globalStore.fail}>
             注销
-          </button>
+          </Button>
           <div>{globalStore.isLogin ? '3已登录' : '2未登录'}</div>
         </div>
         <p></p>
