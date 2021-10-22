@@ -11,7 +11,7 @@ function Home(): JSX.Element {
   const onHandler = () => {
     request(
       {
-        url: 'http://edu-base-gaokao-product.k8s.101.com/v1.0/subjects',
+        url: '/v1.0/subjects',
         method: 'get'
       },
       {
