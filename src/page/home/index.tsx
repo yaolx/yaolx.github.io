@@ -26,7 +26,7 @@ function Home(): JSX.Element {
     <div className={styles.App}>
       <header className={styles['App-header']}>
         <img src={logo} className={styles['App-logo']} alt="logo" />
-        <p>{config.VITE_Title}</p>
+        <p>{config.VITE_TITLE}</p>
         <p>
           <Button type="primary" onClick={homeStore.add}>
             count is: {homeStore.count}
