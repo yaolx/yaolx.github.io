@@ -6,8 +6,9 @@ const pendingMap = new Map()
 let loadingCount = 0
 
 function request(axiosConfig, customOptions) {
+  const config = import.meta.env 
   const service = axios.create({
-    baseURL: 'http://edu-base-gaokao-product.k8s.101.com', // 设置统一的请求前缀
+    baseURL: (config.VITE_SERVER as string), // 设置统一的请求前缀
     timeout: 10000 // 设置统一的超时时长
   })
 

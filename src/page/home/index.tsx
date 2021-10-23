@@ -11,7 +11,7 @@ function Home(): JSX.Element {
   const onHandler = () => {
     request(
       {
-        url: '/v1.0/subjects',
+        url: '/api/user',
         method: 'get'
       },
       {
@@ -21,11 +21,12 @@ function Home(): JSX.Element {
       console.log('EEEE', data)
     })
   }
+  const config = import.meta.env
   return (
     <div className={styles.App}>
       <header className={styles['App-header']}>
         <img src={logo} className={styles['App-logo']} alt="logo" />
-        <p>Hello Vite + React + typescript + mobx</p>
+        <p>{config.VITE_Title}</p>
         <p>
           <Button type="primary" onClick={homeStore.add}>
             count is: {homeStore.count}
@@ -45,7 +46,6 @@ function Home(): JSX.Element {
           </Button>
           <div>{globalStore.isLogin ? '3已登录' : '2未登录'}</div>
         </div>
-        <p></p>
         <p>
           <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
             Learn React
