@@ -1,10 +1,23 @@
 # react-boat
-
+从零开始搭vite + reactjs项目
 vite + reactjs + typescript + mobx + eslint
 
 ## vscode 插件配置
 
-[[插件]]
+* prettier
+格式化代码，支持ts、vue、js、react
+* eslint
+代码检查
+* css module
+样式类自动提示
+* auto complete Tag
+自动补全/闭合标签
+* vetur
+vue 的支持
+* reactjs code snippets
+reactjs 代码自动补全
+* gitLens
+git 工具
 
 ## 初始化 vite 工程
 
@@ -16,7 +29,7 @@ yarn create vite
 
 ## 配置目录
 
-![[vite目录.png]]
+![vite目录](https://user-images.githubusercontent.com/7429874/138553194-83aa491d-d3d5-40e5-8bc0-2e13b742af32.png)
 
 ## 别名配置
 
