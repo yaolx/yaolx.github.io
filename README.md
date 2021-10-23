@@ -1,5 +1,6 @@
 # react-boat
 从零开始搭vite + reactjs项目
+
 vite + reactjs + typescript + mobx + eslint
 
 ## vscode 插件配置
