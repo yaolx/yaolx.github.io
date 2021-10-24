@@ -25,8 +25,8 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
       }),
       enforce: 'pre'
     },
-    reactRefresh(),
     typescript(),
+    reactRefresh(),
     legacy(),
     configStyleImportPlugin()
   ]

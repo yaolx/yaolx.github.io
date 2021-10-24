@@ -6,10 +6,10 @@
     "serve": "vite preview",
     "start:mock": "vite -m mock",
     "start:test": "vite -m test",
-    "start:product": "vite -m product",
+    "start:production": "vite -m production",
     "build": "tsc && vite build",
     "build:test": "tsc && vite build -m test",
-    "build:product": "tsc && vite build -m product",
+    "build:production": "tsc && vite build -m production",
     "lint": "eslint src/"
   },
   "husky": {

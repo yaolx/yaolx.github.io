@@ -1,24 +1,25 @@
 # react-boat
-从零开始搭vite + reactjs项目
+
+从零开始搭 vite + reactjs 项目
 
 vite + reactjs + typescript + mobx + eslint
 
 ## vscode 插件配置
 
-* prettier
-格式化代码，支持ts、vue、js、react
-* eslint
-代码检查
-* css module
-样式类自动提示
-* auto complete Tag
-自动补全/闭合标签
-* vetur
-vue 的支持
-* reactjs code snippets
-reactjs 代码自动补全
-* gitLens
-git 工具
+- prettier
+  格式化代码，支持 ts、vue、js、react
+- eslint
+  代码检查
+- css module
+  样式类自动提示
+- auto complete Tag
+  自动补全/闭合标签
+- vetur
+  vue 的支持
+- reactjs code snippets
+  reactjs 代码自动补全
+- gitLens
+  git 工具
 
 ## 初始化 vite 工程
 
@@ -226,12 +227,14 @@ function envInit(mode) {
 
 ## 构建优化
 
-todo
-
-## typedoc
-
-自动生成文档部署到 gitbug
+- 使用包分析工具`rollup-plugin-visualizer`，打包测试
+  `yarn run build:test`出来的结果发现`react-dom.development.js`是开发者模式，
+  react 的其他依赖也是。
+  遂将`yarn run build:product` 调整为 `yarn run build:production`，打包后发现
+  `react-dom.development.js`变成`react-dom.production.min.js`
+  vendor 的大小减少了几百 K。
+- 将 react 调整到 html 文件中，通过 script 作为第三方库引入。
 
 ## jest
 
-单元测试
+单元测试 todo
