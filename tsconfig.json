@@ -13,6 +13,7 @@
     "moduleResolution": "node",
     // 允许编译javascript文件
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "useDefineForClassFields": true,
     "isolatedModules": true,
     // 允许从没有设置默认导出的模块中默认导入

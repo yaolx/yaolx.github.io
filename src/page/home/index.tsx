@@ -8,6 +8,9 @@ import styles from './style/index.module.less'
 import logo from './logo.svg'
 function Home(): JSX.Element {
   const globalStore = useStores('globalStore')
+  /**
+   * @param {number} id
+   */
   const onHandler = () => {
     request(
       {

@@ -9,10 +9,7 @@ import reactRefresh from '@vitejs/plugin-react-refresh'
 import eslint from '@rollup/plugin-eslint'
 import typescript from '@rollup/plugin-typescript'
 
-import {
-  VITE_APP_ANALYZE,
-  VITE_APP_COMPRESS_GZIP
-} from '../../constant'
+import { VITE_APP_ANALYZE, VITE_APP_COMPRESS_GZIP } from '../../constant'
 import configMockPlugin from './mock'
 import configVisualizerPlugin from './visualizer'
 import configStyleImportPlugin from './styleImport'
@@ -39,9 +36,7 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
 
   // 发布，打包
   if (VITE_APP_COMPRESS_GZIP && isBuild) {
-    vitePlugins.push(
-      viteCompression({ deleteOriginFile: true })
-    )
+    vitePlugins.push(viteCompression({ deleteOriginFile: true }))
   }
 
   return vitePlugins
