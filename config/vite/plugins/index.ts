@@ -18,7 +18,7 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
   const vitePlugins: (Plugin | Plugin[])[] = [
     {
       ...eslint({
-        include: 'src/**/*.+(js|jsx|ts|tsx)'
+        include: 'src/**/*.+(js|jsx)'
       }),
       enforce: 'pre'
     },
