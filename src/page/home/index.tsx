@@ -29,10 +29,10 @@ function Home(): JSX.Element {
     <div className={styles.App}>
       <header className={styles['App-header']}>
         <img src={logo} className={styles['App-logo']} alt="logo" />
-        <p>{config.VITE_TITLE}</p>
+        <p>{config.VITE_TITLE}test</p>
         <p>
           <Button type="primary" onClick={homeStore.add}>
-            test _ count is: {homeStore.count}
+            count is: {homeStore.count}
           </Button>
         </p>
         <div>
