@@ -30,7 +30,6 @@ export default ({ command, mode }: ConfigEnv) => {
   const isBuild = command === 'build'
   envInit(mode)
   return {
-    base: `/${pkg.name}/`,
     plugins: createVitePlugins(mode, isBuild),
     resolve: {
       alias: {
