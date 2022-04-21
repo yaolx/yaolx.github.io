@@ -1,6 +1,7 @@
 {
   "name": "react-boat",
   "version": "0.0.1",
+  "homepage": "https://yaolx.github.io/react-boat",
   "scripts": {
     "dev": "vite",
     "serve": "vite preview",
