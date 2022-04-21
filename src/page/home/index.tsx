@@ -29,7 +29,7 @@ function Home(): JSX.Element {
     <div className={styles.App}>
       <header className={styles['App-header']}>
         <img src={logo} className={styles['App-logo']} alt="logo" />
-        <p>{config.VITE_TITLE}test</p>
+        <p>{config.VITE_TITLE}</p>
         <p>
           <Button type="primary" onClick={homeStore.add}>
             count is: {homeStore.count}
@@ -37,7 +37,7 @@ function Home(): JSX.Element {
         </p>
         <div>
           <Button type="primary" onClick={onHandler}>
-            请求数据
+            请求数据test
           </Button>
         </div>
         <div>
