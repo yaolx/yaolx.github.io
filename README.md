@@ -1,6 +1,6 @@
 # react-boat
 
-从零开始搭 vite + reactjs 项目
+从零开始搭 vite + reactjs 项目，并通过 `Actions` 自动构建，发布
 
 vite + reactjs + typescript + mobx + eslint
 
