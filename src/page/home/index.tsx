@@ -21,7 +21,7 @@ function Home(): JSX.Element {
         loading: true
       }
     ).then((data) => {
-      console.log('EEEE', data)
+      console.log('EEEE111', data)
     })
   }
   const config = import.meta.env
@@ -32,7 +32,7 @@ function Home(): JSX.Element {
         <p>{config.VITE_TITLE}</p>
         <p>
           <Button type="primary" onClick={homeStore.add}>
-            count is: {homeStore.count}
+            test _ count is: {homeStore.count}
           </Button>
         </p>
         <div>
