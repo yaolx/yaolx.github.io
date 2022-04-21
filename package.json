@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "homepage": "https://yaolx.github.io/react-boat",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite -m test",
     "serve": "vite preview",
     "start:mock": "vite -m mock",
     "start:test": "vite -m test",
