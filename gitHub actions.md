@@ -13,7 +13,7 @@ github actions的方便之处是在于，不用自己写很多脚本
 首先需要给开启github actions的项目一个token，让开发者拥有推送代码的权限等
 
 进入`github主页`-->`Settings`-->`Developer settings`-->`Personal access tokens`-->`Generate new token`生成token
-![[Pasted image 20220421150316.png]]
+![Pasted image 20220421150316](https://user-images.githubusercontent.com/7429874/164420280-3188ee40-0acf-44a6-b342-338bc56721e1.png)
 勾上workflow工作流权限和repo 项目基础权限
 生成token后，复制，
 然后到`react-boat`项目中，`Settings`-->`Secrets`-->`Actions`-->`New repository secret`
@@ -22,7 +22,7 @@ github actions的方便之处是在于，不用自己写很多脚本
 ## 配置项目路径
 
 在`package.json`中增加一个`homepage`，这一步是为了确定项目的根目录，在打包的时候，也要正确配置`js,css`的引用路径
-![[Pasted image 20220421151627.png]]
+![Pasted image 20220421151627](https://user-images.githubusercontent.com/7429874/164420343-ab4685ea-2427-4660-ba5e-b0f1983b2f03.png)
 ## 开启Actions
 点击`Actions`-->`set up a workflow yourself`，进入一个yml的文件编辑页面，这个脚本默认放在`项目根目录/.github/workflows/`
 配置以下相关文档
@@ -79,18 +79,17 @@ jobs:
 
 这时候去访问我们前面配置好的`homepage`，
 会发现`404`
-![[Pasted image 20220421161115.png]]
+![Pasted image 20220421161115](https://user-images.githubusercontent.com/7429874/164420385-6607af91-5f18-413e-a14d-324310115c1f.png)
 查看`github pages`文档发现还有一个pages要配置的
 
 ## 配置github pages 
 
 点击`Settings` --> `Pages`
-
-![[Pasted image 20220421160422.png]]
+![Pasted image 20220421160422](https://user-images.githubusercontent.com/7429874/164420460-5b154e06-154a-49be-9935-889c524b1c5e.png)
 选择`branch`改为`gh-pages`，点击`Save`
 `actions`又再一次做构建任务，
 再次访问`homepage`，发现可以访问，但是资源文件报错了
-![[Pasted image 20220421161412.png]]
+![Pasted image 20220421161412](https://user-images.githubusercontent.com/7429874/164420488-52faaf2a-d383-4b74-863b-394245f203d5.png)
  经过排查发现`https://yaolx.github.io/react-boat/assets/index.8656a302.js`可以正常访问，那说明是我的工程构建的时候根路径有问题，少了`react-boat`，跟github的没对应上
 vite 构建出来的js地址是`assets/*.js`
 需要改成`${项目名}/assets/*.js*`
@@ -105,14 +104,14 @@ base: `/${pkg.name}/`
 ```
 本地试着`yarn build:test`
 
-![[Pasted image 20220421161722.png]]
+![Pasted image 20220421161722](https://user-images.githubusercontent.com/7429874/164420512-25f5bb1a-95a2-42a0-a8f3-750804f73818.png)
 
 可以正常将根路径加上`react-boat`了
 再次提交代码， push到`master`分支
 
 等待构建发布。
 
-![[Pasted image 20220421162408.png]]
+![Pasted image 20220421162408](https://user-images.githubusercontent.com/7429874/164420539-f8955089-1e30-443a-b198-ff3487ba7290.png)
 最终效果，可以正常访问了
 
 [网站地址](https://yaolx.github.io/react-boat)
