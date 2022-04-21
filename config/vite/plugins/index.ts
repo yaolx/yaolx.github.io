@@ -4,11 +4,10 @@
 
 import { Plugin } from 'vite'
 import viteCompression from 'vite-plugin-compression'
-import legacy from '@vitejs/plugin-legacy'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 import eslint from '@rollup/plugin-eslint'
 import typescript from '@rollup/plugin-typescript'
-
+import mdx from 'vite-plugin-mdx'
 import { VITE_APP_ANALYZE, VITE_APP_COMPRESS_GZIP } from '../../constant'
 import configMockPlugin from './mock'
 import configVisualizerPlugin from './visualizer'
@@ -24,8 +23,8 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
     },
     typescript(),
     reactRefresh(),
-    legacy(),
-    configStyleImportPlugin()
+    configStyleImportPlugin(),
+    mdx()
   ]
 
   // mock下开启
