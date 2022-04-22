@@ -1,5 +1,5 @@
 import React from 'react'
-import { map, random } from 'lodash'
+import { map } from 'lodash'
 import { RouteObject } from 'react-router-dom'
 
 type mdxRouter = RouteObject & {
