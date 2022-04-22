@@ -4,7 +4,7 @@
 
 import { Plugin } from 'vite'
 import viteCompression from 'vite-plugin-compression'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import reactRefresh from '@vitejs/plugin-react'
 import eslint from '@rollup/plugin-eslint'
 import typescript from '@rollup/plugin-typescript'
 import mdx from 'vite-plugin-mdx'
@@ -14,7 +14,7 @@ import configVisualizerPlugin from './visualizer'
 import configStyleImportPlugin from './styleImport'
 
 export function createVitePlugins(viteEnv: string, isBuild: boolean) {
-  const vitePlugins: (Plugin | Plugin[])[] = [
+  const vitePlugins = [
     {
       ...eslint({
         include: 'src/**/*.+(js|jsx)'
