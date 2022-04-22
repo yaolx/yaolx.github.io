@@ -1,34 +1,37 @@
 import React from 'react'
-import { map } from 'lodash'
-import { RouteObject } from 'react-router-dom'
+import { map, compact } from 'lodash'
 
-type mdxRouter = RouteObject & {
-  name: string
-  date: string
+const mdxs = import.meta.globEager('../../page/md/**/*.mdx')
+// 解析md文件夹下的markdown文件，生成路由
+const MdxRouters = (type) => {
+  // md下所有markdown文件
+  return compact(
+    map(mdxs, (mdx, key) => {
+      // 根据匹配路径获取文件名，用来当path
+      const reg = new RegExp('../../page/md/(.*)/(.*).mdx')
+      const parttern: string = key.replace(reg, function (regexp, r1, r2) {
+        return r1 + '-' + r2
+      })
+      const arrParttern = parttern.split('-')
+      const mathType = arrParttern[0] || ''
+      const name = arrParttern[1] || ''
+      const date = arrParttern[2] || ''
+      if (mathType !== type) {
+        return undefined
+      }
+      const MdxComponent = mdx.default
+      return {
+        path: `/${type}/${date}`,
+        name,
+        date,
+        element: (
+          <div className="markdown-body">
+            <MdxComponent />
+          </div>
+        )
+      }
+    })
+  )
 }
 
-// md下所有markdown文件
-const mdxs = import.meta.globEager('../../page/md/*.mdx')
-// 解析md文件夹下的markdown文件，生成路由
-const MdxsRouter: mdxRouter[] = map(mdxs, (mdx, key) => {
-  // 根据匹配路径获取文件名，用来当path
-  console.log('###', mdxs)
-  const parttern: string = key.replace(/..\/..\/page\/md\/(.*).mdx/, function (regexp, replacement) {
-    return replacement
-  })
-  const name = parttern.split('-')[0] || ''
-  const date = parttern.split('-')[1] || ''
-  const MdxComponent = mdx.default
-  return {
-    path: `/md/${date}`,
-    name,
-    date,
-    element: (
-      <div className="markdown-body">
-        <MdxComponent />
-      </div>
-    )
-  }
-})
-
-export default MdxsRouter
+export default MdxRouters

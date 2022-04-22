@@ -8,7 +8,7 @@ export default function HomeLayout() {
   return (
     <Layout>
       <Header />
-      <Content>
+      <Content className="markdown-body">
         <Outlet />
       </Content>
     </Layout>
