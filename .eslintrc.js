@@ -24,7 +24,7 @@ module.exports = {
     '@typescript-eslint/member-delimiter-style': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/indent': 1
+    '@typescript-eslint/indent': ['error', 2]
   },
   settings: {
     react: {
