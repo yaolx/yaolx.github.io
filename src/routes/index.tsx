@@ -1,24 +1,35 @@
 import React from 'react'
 import Home from '@/page/home'
-import Header from '@/component/layout/Header'
-import Md from '../page/md/index.mdx'
+import MdLayout from '@/component/layout/mdLayout'
+import HomeLayout from '@/component/layout/homeLayout'
 import NotFound from '@/component/status/404'
+import MdxsRouter from '@/component/mdx-menus'
 import { useRoutes, RouteObject } from 'react-router-dom'
-
+console.log('MdxsRouter', MdxsRouter)
 const routeConfig: RouteObject[] = [
   {
     path: '/',
-    element: <Header />,
+    element: <HomeLayout />,
     children: [
       {
         index: true,
         element: <Home />
-      },
-      {
-        path: '/md',
-        element: <Md />
       }
     ]
+  },
+  // md文件
+  {
+    path: '/md',
+    element: <MdLayout />,
+    children: MdxsRouter
+  },
+  {
+    path: '/md1',
+    element: <MdLayout />
+  },
+  {
+    path: '/md2',
+    element: <MdLayout />
   },
   {
     path: '*',
