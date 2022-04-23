@@ -4,12 +4,18 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.17e50649.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>千禮之行——Ten Years Code Money</title>
-    <script type="module" crossorigin src="/assets/index.7a68a3b2.js"></script>
-    <link rel="stylesheet" href="/assets/index.fa363607.css">
+    <title>千禮之行——Ten Years Rookie Code Money</title>
+    <script type="module" crossorigin src="/assets/index.55bd9711.js"></script>
+    <link rel="stylesheet" href="/assets/index.9a0498b7.css">
   </head>
   <body>
     <div id="root"></div>
     
+    <script>
+      const isMobile = navigator.userAgent.match(
+        /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+      )
+      document.getElementById('root').classList.add(isMobile ? 'h5' : 'pc')
+    </script>
   </body>
 </html>
