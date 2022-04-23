@@ -1,45 +1,31 @@
-import React from 'react'
-import { Layout, Menu } from 'antd'
+import React, { useRef } from 'react'
+import { Layout } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { LeftOutline } from 'antd-mobile-icons'
+import Pop from '@/component/pop'
+import Menu from './menu'
 import styles from './styles/index.module.less'
-import { map } from 'lodash'
 const { Header } = Layout
-const menus = [
-  {
-    key: '',
-    title: '首页'
-  },
-  {
-    key: 'front',
-    title: '前端'
-  },
-  {
-    key: 'end',
-    title: '后端'
-  },
-  {
-    key: 'about',
-    title: '关于'
-  },
-  {
-    key: 'log',
-    title: '更新日志'
-  }
-]
 export default function HeaderLayout() {
+  const ref = useRef<any>()
   const navigate = useNavigate()
-  const onSelectMenu = ({ key }) => {
-    navigate(`/${key}`)
+  const showPop = () => {
+    ref.current?.show()
+  }
+  const hidePop = () => {
+    ref.current?.hide()
   }
   return (
     <Header className={styles.header}>
       <div className={styles.logo} />
       <div className={styles.name}>千禮之行</div>
-      <Menu className={styles.menu} mode="horizontal" onClick={onSelectMenu}>
-        {map(menus, (menu) => {
-          return <Menu.Item key={menu.key}>{menu.title}</Menu.Item>
-        })}
-      </Menu>
+      <div>
+        <Menu className={styles.pc_menu} />
+        <LeftOutline className={styles.h5_menu} onClick={showPop} />
+        <Pop ref={ref}>
+          <Menu hidePop={hidePop} />
+        </Pop>
+      </div>
     </Header>
   )
 }

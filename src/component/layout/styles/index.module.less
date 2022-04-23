@@ -17,17 +17,48 @@
     text-align: left;
     margin-left: 20px;
   }
-  .menu{
-    border: none;
-    margin-right: 100px;
+}
+:global(.h5)  {
+  .h5_menu {
+    display: block;
+  }
+  .menu {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  .menu_item{
+    padding: 20px;
+    cursor: pointer;
+  }
+  .pc_menu{
+    display: none;
   }
 }
+
+:global(.pc)  {
+  .h5_menu{
+    display: none;
+  }
+  .menu {
+    display: block;
+  }
+  .menu {
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+  }
+  .menu_item{
+    padding: 0 20px;
+    cursor: pointer;
+  }
+  .sider{
+    border-right: 1px solid #e8e8e8 ;
+  }
+}
+
 
 .layout {
   background-color: #fff;
 }
 
-.sider{
-  width: 200px;
-  border-right: 1px solid #e8e8e8 ;
-}
