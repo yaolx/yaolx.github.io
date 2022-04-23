@@ -1,4 +1,4 @@
-export const isMobile = navigator.userAgent.match(
+export const deviceEnv = navigator.userAgent.match(
   /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
 )
   ? 'h5'
@@ -13,4 +13,4 @@ export const deviceParams = {
   }
 }
 
-export const sliderWidth = deviceParams[isMobile].sliderWidth
+export const sliderWidth = deviceParams[deviceEnv].sliderWidth

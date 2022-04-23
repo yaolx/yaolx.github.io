@@ -1,6 +1,6 @@
 import React, { useState, forwardRef, useRef, useImperativeHandle } from 'react'
 import { createPortal } from 'react-dom'
-import { isMobile } from '@/utils/browse'
+import { deviceEnv } from '@/constant/global'
 
 interface PopProps {
   showPopMenu: () => void
@@ -10,7 +10,7 @@ interface PopProps {
 function PopMenu(props: PopProps) {
   const { showPopMenu, children } = props
   return (
-    <div className={`popup ${isMobile() ? 'h5' : 'pc'}`}>
+    <div className={`popup ${deviceEnv}`}>
       <div className="popup-mask" onClick={showPopMenu} />
       <div className="popup-body">{children}</div>
     </div>
