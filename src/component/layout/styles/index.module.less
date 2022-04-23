@@ -5,9 +5,10 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px #f0f1f2;
+  padding: 0 20px;
   .logo {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     background-image: url(../../../asset/images/avatar.jpg);
     background-size: 100% 100%;
     border-radius: 50%;
@@ -16,6 +17,9 @@
     flex-grow: 1;
     text-align: left;
     margin-left: 20px;
+  }
+  .github_btn{
+    margin-left: 5px;
   }
 }
 :global(.h5)  {
@@ -30,6 +34,13 @@
   .menu_item{
     padding: 20px;
     cursor: pointer;
+    &.active {
+      color: #1890ff;
+    }
+  }
+  
+  .github_btn{
+    margin-left: 5px;
   }
   .pc_menu{
     display: none;
@@ -51,6 +62,10 @@
   .menu_item{
     padding: 0 20px;
     cursor: pointer;
+    &:hover, &.active {
+      color: #1890ff;
+    }
+     
   }
   .sider{
     border-right: 1px solid #e8e8e8 ;

@@ -1,3 +1,71 @@
-.App {
+.layout {
+  padding: 20px;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: row;
+}
+
+.sider{
+  background-color: #fff;
   text-align: center;
+  box-shadow: var(--box-shadow);
+  border-radius: 5px;
+  padding: 20px;
+  height: calc(100vh - 104px);
+  &:hover {
+    box-shadow: var(--box-shadow-hover);
+  }
+  .avatar {
+    width: 80px;
+    height: 80px;
+    background-image: url(../../../asset/images/avatar.jpg);
+    background-size: 100% 100%;
+    border-radius: 50%;
+    display: flex;
+    margin: 0 auto;
+  }
+  h1 {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-top: 10px;
+  }
+}
+
+.body{
+  padding: 0 20px;
+  .card{
+    position: relative;
+    margin: 0 auto 20px;
+    padding: 16px 20px;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    box-sizing: border-box;
+    transition: all .3s;
+    background-color: var(--background-color);
+    cursor: pointer;
+    &:hover {
+      box-shadow: var(--box-shadow-hover);
+    }
+    .title {
+      font-size: 18px;
+    }
+    .date{
+      font-size: 14px;
+      font-weight: normal;
+      margin-left: 20px;
+    }
+  }
+}
+
+:global(.h5){
+  .layout {
+    flex-direction: column;
+  }
+  .body {
+    width: 100%!important;
+    margin-top: 20px;
+    padding: 0;
+  }
 }

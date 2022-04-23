@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import { Layout } from 'antd'
-import { useNavigate } from 'react-router-dom'
 import { LeftOutline } from 'antd-mobile-icons'
 import Pop from '@/component/pop'
 import Menu from './menu'
@@ -8,7 +7,6 @@ import styles from './styles/index.module.less'
 const { Header } = Layout
 export default function HeaderLayout() {
   const ref = useRef<any>()
-  const navigate = useNavigate()
   const showPop = () => {
     ref.current?.show()
   }

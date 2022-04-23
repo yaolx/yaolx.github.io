@@ -16,13 +16,19 @@ const routeConfig: RouteObject[] = [
       {
         index: true,
         element: <Home />
-      },
+      }
+    ]
+  },
+  {
+    path: '/md',
+    element: <HomeLayout isMd />,
+    children: [
       {
-        path: '/about',
+        path: '/md/about',
         element: <About />
       },
       {
-        path: '/log',
+        path: '/md/log',
         element: <Log />
       }
     ]

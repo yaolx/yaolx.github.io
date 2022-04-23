@@ -1,9 +1,14 @@
 import React from 'react'
 import { map, compact } from 'lodash'
+import { RouteObject } from 'react-router-dom'
 
+type routersProps = RouteObject & {
+  name: string
+  date: string
+}
 const mdxs = import.meta.globEager('../../page/md/**/*.mdx')
 // 解析md文件夹下的markdown文件，生成路由
-const MdxRouters = (type) => {
+const genMdxRouters = (type): routersProps[] => {
   // md下所有markdown文件
   return compact(
     map(mdxs, (mdx, key) => {
@@ -34,4 +39,13 @@ const MdxRouters = (type) => {
   )
 }
 
+const MdxRouters = (type) => {
+  return map(genMdxRouters(type), (mdx, index) => {
+    if (index === 0) {
+      mdx.index = true
+      mdx.path = ''
+    }
+    return mdx
+  })
+}
 export default MdxRouters

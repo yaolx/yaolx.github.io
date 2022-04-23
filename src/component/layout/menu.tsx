@@ -1,6 +1,7 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate, useResolvedPath } from 'react-router-dom'
 import cs from 'classnames'
+import { SendOutline } from 'antd-mobile-icons'
 import styles from './styles/index.module.less'
 import { map } from 'lodash'
 const menus = [
@@ -17,11 +18,16 @@ const menus = [
     title: '后端'
   },
   {
-    key: 'about',
+    key: 'github',
+    title: 'github',
+    url: 'https://github.com/yaolx/yaolx.github.io'
+  },
+  {
+    key: 'md/about',
     title: '关于'
   },
   {
-    key: 'log',
+    key: 'md/log',
     title: '更新日志'
   }
 ]
@@ -31,17 +37,25 @@ interface MenuProps {
 }
 export default function MenuLayout(props: MenuProps) {
   const { hidePop, className } = props
+  const hash = location.hash
   const navigate = useNavigate()
-  const onSelectMenu = (key: string) => {
-    navigate(`/${key}`)
-    hidePop && hidePop()
+  const onSelectMenu = (menu) => {
+    if (menu.url) {
+      window.open(menu.url, '_blank')
+    } else {
+      navigate(`/${menu.key}`)
+      hidePop && hidePop()
+    }
   }
+  const active = hash.slice(2)
   return (
     <div className={cs(styles.menu, className)}>
       {map(menus, (menu) => {
+        const activeClass = active === menu.key ? styles.active : ''
         return (
-          <div key={menu.key} onClick={() => onSelectMenu(menu.key)} className={styles.menu_item}>
+          <div key={menu.key} onClick={() => onSelectMenu(menu)} className={cs(styles.menu_item, activeClass)}>
             {menu.title}
+            {menu.url ? <SendOutline className={styles.github_btn} /> : null}
           </div>
         )
       })}
