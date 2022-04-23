@@ -18,6 +18,7 @@ module.exports = {
     'no-var': 'error',
     'no-undef': 'off',
     'no-unused-vars': 'off',
+    'react/display-name': 0,
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/ban-types': 'error',
     '@typescript-eslint/camelcase': 'off',

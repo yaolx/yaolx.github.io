@@ -31,6 +31,7 @@
   "dependencies": {
     "@loadable/component": "^5.15.0",
     "antd": "^4.19.5",
+    "antd-mobile-icons": "^0.2.2",
     "axios": "^0.23.0",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
