@@ -1,1 +1,16 @@
-# log
+# 日志更新
+
+## 2022-04-23
+
+1. 增加菜单组件，一份 div，通过 2 种样式维护，在 root 全局节点中，增加移动设备类型（h5,pc），用于全局样式控制
+2. 增加 pop 组件，主要使用`forwardRef`、`createPortal`特性
+3. 在`md`中增加`front`和`end`，调整正则表达式规则，多增加一层级的 mdx 生成规则，同时调整路由`path`的生成策略
+4. 增加`constant/global`，全局常量配置
+
+## 2022-04-22
+
+1. vite 中引入`vite-plugin-mdx`，用于支持 markdown 文件自动生成页面，引入 github-markdown.css
+2. 在`vite.config.js`中去掉`base`的配置，打包后，就去掉了`react-boat`路径。
+   同时在 github 中将工程名`react-boat`调整为`yaolx.github.io`，则后续只要用`https://yaolx.github.io/`访问即可。
+3. `react-router`升级到 v6，重写`routes`配置，正好学习了`useRoutes`、`useNavigate`、`Outlet`等特性
+4. mdx 生成规则
