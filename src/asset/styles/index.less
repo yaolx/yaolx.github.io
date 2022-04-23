@@ -1,0 +1,54 @@
+
+@import './markdown/github-markdown.css';
+body {
+  #root {
+    overflow: hidden;
+  }
+}
+html {
+  min-height: 100vh;
+}
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-height: calc(100vh - 64px);
+  overflow: auto;
+  padding: 45px;
+}
+
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 15px;
+  }
+}
+.popup{
+  .popup-mask{
+    position: fixed;
+    background: rgba(0, 0, 0, 0.55);
+    opacity: 1;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .popup-body{
+    width: 30vw;
+    transform: translate(0%, 0px);
+    height: 100%;
+    top: 0;
+    right: 0;
+    position: fixed;
+    background-color: #fff;
+    z-index: 1010;
+  }
+}
+.h5 {
+  .ant-layout-sider-zero-width-trigger{
+    top: 3px;
+    right: -38px;
+  }
+}
+
+
