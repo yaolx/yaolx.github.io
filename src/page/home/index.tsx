@@ -1,9 +1,12 @@
 import React from 'react'
-import { Layout, Divider } from 'antd'
-import { homeSiderWidth } from '@/constant/global'
-import styles from './style/index.module.less'
+
+import { Divider, Layout } from 'antd'
 
 const { Content, Sider } = Layout
+import { homeSiderWidth } from '@/constant/global'
+
+import styles from './style/index.module.less'
+
 function Home(): JSX.Element {
   return (
     <Layout className={styles.layout}>
@@ -11,6 +14,12 @@ function Home(): JSX.Element {
         <div className={styles.avatar} />
         <h1>千禮之行</h1>
         <h5>实迷途其未远，觉今是而昨非</h5>
+        <Divider orientation="center">本站说明</Divider>
+        <div>
+          个人博客，用 markdown 写技术文章，同时支持 pc 端和移动端。mdx 文件 push 到 github master
+          分支， 然后通过 github actions 自动构建并发布。个人博客，用 markdown 写技个人博客，用
+          markdown 写技
+        </div>
       </Sider>
       <Content className={styles.body}>
         <div className={styles.card}>

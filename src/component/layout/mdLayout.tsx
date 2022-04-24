@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet , useNavigate } from 'react-router-dom'
+
 import { Layout, Menu } from 'antd'
 import { first, map } from 'lodash'
+
 import MdxRouters from '@/component/mdx-menus'
-import { useNavigate } from 'react-router-dom'
+import { mdSiderWidth , isH5 } from '@/constant/global'
+
 import Header from './header'
-import { mdSiderWidth } from '@/constant/global'
 import styles from './styles/index.module.less'
+
 
 const { Content, Sider } = Layout
 
@@ -21,8 +24,10 @@ export default function MdLayout(props: Props) {
   const navigate = useNavigate()
   const onSelectMenu = ({ key }) => {
     setActive(key)
-    setCollapsed(true)
     navigate(key)
+    if(isH5) {
+      setCollapsed(true)
+    }
   }
   return (
     <Layout>

@@ -1,11 +1,14 @@
 // https://vitejs.dev/config/
-import { ConfigEnv } from 'vite'
 import fs from 'fs'
-import dotenv from 'dotenv'
 import path from 'path'
+
+import { parse } from 'dotenv'
+import { ConfigEnv } from 'vite'
+
+
+import { PORT } from './config/constant'
 import { createVitePlugins } from './config/vite/plugins'
 import { createProxy } from './config/vite/proxy'
-import { PORT } from './config/constant'
 
 /**
  * 环境初始化
@@ -15,7 +18,7 @@ function envInit(mode) {
   const envFile = `./config/env/.env.${mode}`
   try {
     fs.accessSync(envFile, fs.constants.F_OK)
-    const envConfig = dotenv.parse(fs.readFileSync(envFile))
+    const envConfig = parse(fs.readFileSync(envFile))
     for (const k in envConfig) {
       if (Object.prototype.hasOwnProperty.call(envConfig, k)) {
         process.env[k] = envConfig[k]

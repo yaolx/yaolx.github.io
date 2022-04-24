@@ -1,12 +1,14 @@
 import React from 'react'
-import MdLayout from '@/component/layout/mdLayout'
+import { useRoutes, RouteObject } from 'react-router-dom'
+
 import HomeLayout from '@/component/layout/homeLayout'
-import NotFound from '@/component/status/404'
+import MdLayout from '@/component/layout/mdLayout'
 import MdxRouters from '@/component/mdx-menus'
+import NotFound from '@/component/status/404'
 import Home from '@/page/home'
+
 import About from '../page/about/index.mdx'
 import Log from '../page/log/index.mdx'
-import { useRoutes, RouteObject } from 'react-router-dom'
 
 const routeConfig: RouteObject[] = [
   {
