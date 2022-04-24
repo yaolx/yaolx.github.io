@@ -1,14 +1,8 @@
 {
   "bracketSpacing": true,
-  "printWidth": 160,
+  "printWidth": 100,
   "semi": false,
   "singleQuote": true,
   "trailingComma": "none", 
-  "tabWidth": 2,
-  "overrides": [
-    {
-      "files": ".prettierrc",
-      "options": { "parser": "typescript" }
-    }
-  ]
+  "tabWidth": 2
 }
