@@ -17,3 +17,4 @@ export const deviceParams = {
 
 export const mdSiderWidth = deviceParams[deviceEnv].mdSiderWidth
 export const homeSiderWidth = deviceParams[deviceEnv].homeSiderWidth
+export const isH5 = deviceEnv === 'h5'

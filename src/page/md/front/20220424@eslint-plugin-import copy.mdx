@@ -1,0 +1,138 @@
+# <center>eslint-plugin-import 真香警告</center>
+
+## 碎言碎语
+
+下午正在改 bug 之余，突然发现有些 tsx，import 一坨，多的有 20 几行，而且外部组件、内部组件，还有样式等等掺杂在一起，看着及其难受。出于"洁癖"，下决心整理这一块。
+
+## 背景
+
+A 项目的` app.tsx` 如下
+![20220424210944](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220424210944.png)
+
+保存的时候，自动格式化代码，`import` 虽然会自动整理，但是没有那么完美，结果也是乱的。我猜可能是 eslint 有引入了自动排序的插件，但是没有配置导致的。
+
+### 排查问题
+
+#### 怀疑对象
+
+1. `sort-imports`
+
+   怀疑是 eslint 的 rules 设定，影响格式化的 fix.
+
+   查找 eslint 相关的 rules [eslint-rules](https://eslint.org/docs/rules/)，初步怀疑是`sort-imports`搞的鬼，于是在`.eslintrc.js`中增加配置.
+
+   ```json
+   {
+     "sort-imports": [
+       "error",
+       {
+         "ignoreCase": false,
+         "ignoreDeclarationSort": false,
+         "ignoreMemberSort": false,
+         "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+         "allowSeparatedGroups": false
+       }
+     ]
+   }
+   ```
+
+   结果如下：
+   ![20220424213637](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220424213637.png)
+
+   同一个`import`中多个 multiple 的导出有排序下，其他都没动，虽然检测到报错了，但是不会自动排序.
+   弃之~
+
+2. `import/order`
+   查找了相关资料，怀疑可能是`eslint-plugin-import`其中一个规则`import/order`有关。
+   然后查看`eslint-plugin-import`的`order`文档，结合例子
+   增加了如下配置
+   ![20220424230356](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220424230356.png)
+   结果如下：
+   ![20220424230114](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220424230114.png)
+
+### `import/order`学习
+
+了解`import/order`规则，对 import 进行分组，排序
+
+- `groups`：对导入模块进行分组
+
+  > builtin：内置模块
+
+  > external：外部模块
+
+  > internal：内部引用
+
+  > sibling：兄弟依赖
+
+  > parent：父节点依赖
+
+  > index：index 文件依赖
+
+  > unknown：未知依赖
+
+解析：
+`groups: ['builtin', 'external', 'internal', 'sibling', 'parent', 'index', 'unknown']`
+
+按以上分组顺序进行排序
+
+- `pathGroups`：通过路径自定义分组
+
+  > pattern：最小匹配（不包括`builtin`，`external`）
+
+  > patternOptions：pattern 匹配的参数设定
+
+  > group：在上述的分组中选择，
+
+  > position：插入 group 的位置
+
+解析：
+我的设置是把 `react*`相关的设置`before`，意思是放在`builtin`之前。
+ts 别名`@/`设置`after`，意思是放在`external`之后
+
+- `pathGroupsExcludedImportTypes`：`pathGroups`配置的导入的类型不做处理的定义在这里
+- `newlines-between`：每个分组之间换行
+- `alphabetize`：排序
+
+  > order：排序规则，`asc`升序，`desc`降序
+
+  > caseInsensitive：是否忽略大小写
+
+- `warnOnUnassignedImports`：如果为 true，未命名的导入，给出警告，但是不做 fix。false 的话，不做警告。建议 false，手动把样式放在最后。
+
+## 补充
+
+`yaolx.github.io`项目是基于 vite 构建的，按照上面的步骤操作，eslint 居然报错，提示：`Unable to resolve path to module '@/component/status/404'.eslintimport/no-unresolved`，alias 别名报错，应该是 eslint 识别不到 tsconfig 配置的路径。
+
+查找相关资料，发现`eslint-import-resolver-typescript`可以解决别名报错的问题。
+在 `.eslintrc.js`的`setting` 中增加
+
+```pre
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+```
+
+它会指向当前配置了 path 的 tsconfig 的路径，eslint 会自动识别就不会报错了。
+
+再深入看了下 webpack 构建的项目，原来它底层已经做了 tsconfig 路径识别的处理。
+
+到此一切圆满解决。
+
+## 总结
+
+一顿操作猛如虎，花了不少时间，最终还是达到了想要的效果。感觉像吃了人生果一样，从此快乐无极限。
+
+愉快地对每个 tsx 文件都进行一遍 ctrl + s~~~
+
+`eslint-plugin-import`的源码是不想看了，做个懒人，拿来主义~~~
+
+## 参考文献
+
+[eslint-plugin-import 规则之 Import / Order](https://segmentfault.com/a/1190000041375528)
+
+[eslint-plugin-import 规则之 order](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md)
+
+[typescript 路径别名踩坑之旅
+](https://juejin.cn/post/6868472838613893127)

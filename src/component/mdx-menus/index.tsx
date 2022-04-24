@@ -1,6 +1,7 @@
 import React from 'react'
-import { map, compact } from 'lodash'
 import { RouteObject } from 'react-router-dom'
+
+import { map, compact } from 'lodash'
 
 type routersProps = RouteObject & {
   name: string
@@ -15,13 +16,13 @@ const genMdxRouters = (type): routersProps[] => {
       // 根据匹配路径获取文件名，用来当path
       const reg = new RegExp('../../page/md/(.*)/(.*).mdx')
       const parttern: string = key.replace(reg, function (regexp, r1, r2) {
-        return r1 + '-' + r2
+        return r1 + '@' + r2
       })
-      const arrParttern = parttern.split('-')
-      const mathType = arrParttern[0] || ''
-      const name = arrParttern[1] || ''
-      const date = arrParttern[2] || ''
-      if (mathType !== type) {
+      const arrParttern = parttern.split('@')
+      const mdType = arrParttern[0] || ''
+      const date = arrParttern[1] || ''
+      const name = arrParttern[2] || ''
+      if (mdType !== type) {
         return undefined
       }
       const MdxComponent = mdx.default
