@@ -7,6 +7,7 @@
 ## 背景
 
 A 项目的` app.tsx` 如下
+
 ![20220424210944](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220424210944.png)
 
 保存的时候，自动格式化代码，`import` 虽然会自动整理，但是没有那么完美，结果也是乱的。我猜可能是 eslint 有引入了自动排序的插件，但是没有配置导致的。
@@ -37,17 +38,22 @@ A 项目的` app.tsx` 如下
    ```
 
    结果如下：
+
    ![20220424213637](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220424213637.png)
 
    同一个`import`中多个 multiple 的导出有排序下，其他都没动，虽然检测到报错了，但是不会自动排序.
    弃之~
 
 2. `import/order`
+
    查找了相关资料，怀疑可能是`eslint-plugin-import`其中一个规则`import/order`有关。
    然后查看`eslint-plugin-import`的`order`文档，结合例子
    增加了如下配置
+
    ![20220424230356](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220424230356.png)
+
    结果如下：
+
    ![20220424230114](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220424230114.png)
 
 ### `import/order`学习
@@ -71,6 +77,7 @@ A 项目的` app.tsx` 如下
   > unknown：未知依赖
 
 解析：
+
 `groups: ['builtin', 'external', 'internal', 'sibling', 'parent', 'index', 'unknown']`
 
 按以上分组顺序进行排序
@@ -86,6 +93,7 @@ A 项目的` app.tsx` 如下
   > position：插入 group 的位置
 
 解析：
+
 我的设置是把 `react*`相关的设置`before`，意思是放在`builtin`之前。
 ts 别名`@/`设置`after`，意思是放在`external`之后
 
@@ -116,7 +124,13 @@ ts 别名`@/`设置`after`，意思是放在`external`之后
 
 它会指向当前配置了 path 的 tsconfig 的路径，eslint 会自动识别就不会报错了。
 
-再深入看了下 webpack 构建的项目，原来它底层已经做了 tsconfig 路径识别的处理。
+再深入看了下 webpack 构建的项目，原来它底层已经做了 tsconfig 路径识别的处理。看它的 settings 里有个
+
+```js
+webpack: {
+  config: require.resolve('@gem-mine/script/webpack.config.js')
+}
+```
 
 到此一切圆满解决。
 
