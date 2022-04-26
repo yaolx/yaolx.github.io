@@ -9,16 +9,17 @@
 
 ## docker 常用命令
 
-| docker pull jenkins/jenkins                                                          | 下载 jenkins                      |
-| ------------------------------------------------------------------------------------ | --------------------------------- |
-| docker images -a                                                                     | 查看所有镜像                      |
-| docker rmi jenkins/jenkins                                                           | 删除镜像                          |
-| docker ps -a                                                                         | 查看所有容器                      |
-| docker stop ${id}                                                                    | 停止容器                          |
-| docker rm ${id}                                                                      | 删除容器                          |
-| docker-machine env                                                                   | 查看 docker 服务器的信息，获取 ip |
-| docker run -d --name jenkins --user root -p 8080:8080 -p 50000:50000 jenkins/jenkins | 启动 jenkins（端口是 8080）       |
-| docker exec -it jenkins bash                                                         | 进入虚拟机编辑页面                |
+| 命令                                         | 描述                              |
+| -------------------------------------------- | --------------------------------- |
+| docker pull jenkins/jenkins                  | 下载 jenkins                      |
+| docker images -a                             | 查看所有镜像                      |
+| docker rmi jenkins/jenkins                   | 删除镜像                          |
+| docker ps -a                                 | 查看所有容器                      |
+| docker stop ${id}                            | 停止容器                          |
+| docker rm ${id}                              | 删除容器                          |
+| docker-machine env                           | 查看 docker 服务器的信息，查看 ip |
+| docker run -d --name jenkins jenkins/jenkins | 启动 jenkins 容器（端口是 8080）  |
+| docker exec -it jenkins bash                 | 进入容器虚拟机                    |
 
 ## 安装 docker
 
@@ -28,16 +29,27 @@
 
 2. 安装 docker
 
-- 默认会安装 virtualBox v5 版本，不能用，去 virtualBox 官网，手动下载最新的版本 v6
+- boot2docker.iso 会比较旧，需要去[github](https://github.com/boot2docker/boot2docker/releases)下个最新的镜像
 
-- `Docker Quickstart Terminal`设置 git 的安装路径
+- 默认会安装 virtualBox v5 版本，如果有提示 v5b 不能用的话，去 [virtualBox 官网](https://www.virtualbox.org/wiki/Downloads)，手动下载最新的版本 v6
+
+- 安装完后 git 路径可能跟原来的不匹配，右键打开`Docker Quickstart Terminal`，设置 git 的安装路径
+
+- 点击`Docker Quickstart Terminal`，会自动创建虚拟机，创建 ssh 等一系列操作
+
+  ![20220426125227](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220426125227.png)
+
+  进入这个页面，说明安装成功了
 
 3. 配置 docker 镜像
 
 用[daocloud](http://docs.daocloud.io/faq/what-is-daocloud-accelerator)，注册一个账号，拿到镜像地址。确认 Docker Toolbox 已经启动，并执行下列命令（将 加速地址 替换为在[加速器](https://www.daocloud.io/mirror#accelerator-doc)页面获取的专属地址）
 
 ```code
-docker-machine ssh default sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=加速地址 |g" /var/lib/boot2docker/profile exit docker-machine restart default
+docker-machine ssh default
+sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=加速地址 |g" /var/lib/boot2docker/profile
+exit
+docker-machine restart default
 ```
 
 4. 安装、配置 jenkins
@@ -54,9 +66,15 @@ docker-machine ssh default sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mi
 
   查看 docker 服务器的信息，获取 ip `http://192.168.99.100:2376`
 
-- `docker run -d -u 0 --privileged --name jenkins -p 8080:8080 -p 50000:50000 -v /root/jenkins_home:/var/jenkins_home jenkins/jenkins`
+- `docker run -d -u 0 --privileged --name jenkins -p 8089:8080 -p 50000:50000 -v /root/jenkins_home:/var/jenkins_home jenkins/jenkins`
 
-  启动 jenkins（端口是 8080）
+  报错： `pool: crypto/x509: system root pool is not available on Windows`
+
+  ```code
+  docker-toolbox版本的问题，降级到1.12.x
+  ```
+
+  启动 jenkins（映射到宿主机的端口是 8089）
 
 - `docker ps -a`
 
@@ -66,7 +84,7 @@ docker-machine ssh default sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mi
 
   ![20220425201948](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220425201948.png)
 
-  需要密码登录，一脸迷惑
+  需要密码登录，一脸迷惑 ing
 
 - `docker exec -it jenkins bash`
 
@@ -86,57 +104,77 @@ docker-machine ssh default sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mi
 
 - 配置 ssh 信息
 
-  进入虚拟机中`jenkins`
+  进入`jenkins`容器
 
   ```code
   docker exec -it jenkins /bin/bash
-  mkdir ~/.ssh && cd ~/.sh
+  mkdir ~/.ssh && cd ~/.ssh
   ssh-keygen -t rsa
   ```
 
   一直回车，id_rsa 创建成功
-  再通过 cat id_rsa 复制该秘钥
+  再通过 cat id_rsa.pub 复制该秘钥
 
-  ```code
-  echo "`tail /var/jenkins_home/.ssh/id_rsa.pub`" >> authorized_keys
-  ```
+  后续将它复制到 ssh 服务器那边的 authorized_keys 里，方便后续免密登录
 
 5. 安装 ssh 服务
 
 ```code
   docker pull centos:7
-
   docker run -it centos:7 /bin/bash
-
-
   yum -y update
-
   yum install passwd openssl openssh-server net-tools vim -y
   ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
   ssh-keygen -t rsa -f /etc/ssh/ssh_host_ecdsa_key
   ssh-keygen -t rsa -f /etc/ssh/ssh_host_ed25519_key
-  =====待定
-  sed -i "s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config
-  sed -i "s/#RSAAuthentication.*/RSAAuthentication yes/g" /etc/ssh/sshd_config
-  sed -i "s/#PubkeyAuthentication.*/PubkeyAuthentication no/g" /etc/ssh/sshd_config
-  sed -i "s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config
-  =====
+
+  //修改文本例子   sed -i "s/#StrictHostKeyChecking.*/StrictHostKeyChecking no/g" /etc/ssh/sshd_config
+
+  # 修改密码
+  passwd
 ```
 
-设置启动脚本
-run.sh
+6. 设置启动脚本 run.sh
+
+```code
+  # 在/目录下，创建一个 run.sh 的脚本
+  vi /run.sh
+
+  # 设置脚本内容启动 sshd 服务
+  #!/bin/bash
+  /usr/sbin/sshd -D
+
+  # 设置可执行权限
+  chmod +x /run.sh
+```
+
+7. 生成新镜像
+
+`docker commit 4eb13e778da3 ssh`
 
 启动容器 ssh
-docker run -d --name ssh -p 2222:22 ssh /run.sh
+// docker run -d --name ssh -p 2222:22 ssh /run.sh
 
-docker run -d --name ssh --user root -p 2222:22 --privileged=true a /usr/sbin/init
+docker run -d --name ssh -p 2223:22 --privileged=true ssh /usr/sbin/init
 
-// 远程连接 ssh
-ssh root@192.168.99.100 -p 2222
+--privileged=true 可以开启 systemctl 权限，可以查看 sshd 服务是否启动，还有重启，停止等
+systemctl status sshd.service 8. 远程连接 ssh 验证
+
+- 进入 jenkins 容器：ssh root@192.168.99.100 -p 2222
+  要求输入密码，验证通过
+- pc 主机验证，用 secureCRT 连接，也是输入密码，验证通过
+
+9. 在 ssh 容器中，创建允许外部访问的认证文件（TO 免密功能还待处理）
+
+```code
+mkdir -p ~/.ssh
+> ~/.ssh/authorized_keys
+vim authorized_keys
+将jenkins中的`cat id_rsa.pub`，复制到`authorized_keys`
+```
 
 ## 参考文档
 
-[Docker 使用 Centos 镜像安装 Openssh 服务
-](https://juejin.cn/post/6844904197549391879#heading-6)
-[Docker+Nginx+Jenkins 实现前端自动化部署
-](https://juejin.cn/post/6869736425953165319)
+[Docker 使用 Centos 镜像安装 Openssh 服务](https://juejin.cn/post/6844904197549391879#heading-6)
+[Docker+Nginx+Jenkins 实现前端自动化部署](https://juejin.cn/post/6869736425953165319)
+[Docker 简介和 Win7 安装 Docker](https://blog.csdn.net/wy_______/article/details/114387265)
