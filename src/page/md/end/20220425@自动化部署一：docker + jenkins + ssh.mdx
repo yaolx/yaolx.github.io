@@ -1,4 +1,4 @@
-# docker + jenkins 部署 nest.js 项目
+# docker + jenkins 部署 nest.js 项目（一）
 
 ## 前言
 
@@ -41,18 +41,18 @@
 
   进入这个页面，说明安装成功了
 
-3. 配置 docker 镜像
+3. 配置 docker 加速器
 
 用[daocloud](http://docs.daocloud.io/faq/what-is-daocloud-accelerator)，注册一个账号，拿到镜像地址。确认 Docker Toolbox 已经启动，并执行下列命令（将 加速地址 替换为在[加速器](https://www.daocloud.io/mirror#accelerator-doc)页面获取的专属地址）
 
 ```code
-docker-machine ssh default
-sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=加速地址 |g" /var/lib/boot2docker/profile
-exit
-docker-machine restart default
+  docker-machine ssh default
+  sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=http://f1361db2.m.daocloud.io |g" /var/lib/boot2docker/profile
+  exit
+  docker-machine restart default
 ```
 
-4. 安装、配置 jenkins
+## 安装、配置 jenkins
 
 - `docker pull jenkins/jenkins`
 
@@ -67,6 +67,8 @@ docker-machine restart default
   查看 docker 服务器的信息，获取 ip `http://192.168.99.100:2376`
 
 - `docker run -d -u 0 --privileged --name jenkins -p 8089:8080 -p 50000:50000 -v /root/jenkins_home:/var/jenkins_home jenkins/jenkins`
+
+  生成容器
 
   报错： `pool: crypto/x509: system root pool is not available on Windows`
 
@@ -112,12 +114,13 @@ docker-machine restart default
   ssh-keygen -t rsa
   ```
 
-  一直回车，id_rsa 创建成功
-  再通过 cat id_rsa.pub 复制该秘钥
+  一直回车，id_rsa 创建成功。再通过 cat id_rsa.pub 复制该秘钥
 
-  后续将它复制到 ssh 服务器那边的 authorized_keys 里，方便后续免密登录
+  将它复制到 ssh 服务器那边的 authorized_keys 里，方便后续免密登录
 
-5. 安装 ssh 服务
+## 安装服务器 ssh 服务
+
+1. 安装 linux 虚拟机，安装依赖等
 
 ```code
   docker pull centos:7
@@ -134,7 +137,7 @@ docker-machine restart default
   passwd
 ```
 
-6. 设置启动脚本 run.sh
+2. 设置启动脚本 run.sh
 
 ```code
   # 在/目录下，创建一个 run.sh 的脚本
@@ -148,11 +151,15 @@ docker-machine restart default
   chmod +x /run.sh
 ```
 
-7. 生成新镜像
+3. 生成新镜像
 
-`docker commit 4eb13e778da3 ssh`
+```code
+docker ps -a
+docker commit 4eb13e778da3 ssh
+```
 
-启动容器 ssh
+4. 启动容器 ssh
+
 // docker run -d --name ssh -p 2222:22 ssh /run.sh
 
 docker run -d --name ssh -p 2223:22 --privileged=true ssh /usr/sbin/init
@@ -160,11 +167,13 @@ docker run -d --name ssh -p 2223:22 --privileged=true ssh /usr/sbin/init
 --privileged=true 可以开启 systemctl 权限，可以查看 sshd 服务是否启动，还有重启，停止等
 systemctl status sshd.service 8. 远程连接 ssh 验证
 
-- 进入 jenkins 容器：ssh root@192.168.99.100 -p 2222
+systemctl status sshd.service
+
+- 进入 jenkins 容器：ssh root@192.168.99.100 -p 2223
   要求输入密码，验证通过
 - pc 主机验证，用 secureCRT 连接，也是输入密码，验证通过
 
-9. 在 ssh 容器中，创建允许外部访问的认证文件（TO 免密功能还待处理）
+5. 在 ssh 容器中，创建允许外部访问的认证文件（TO 免密功能还待处理）
 
 ```code
 mkdir -p ~/.ssh
@@ -173,8 +182,16 @@ vim authorized_keys
 将jenkins中的`cat id_rsa.pub`，复制到`authorized_keys`
 ```
 
+## 总结
+
+docker + jenkins + ssh 已搭建完毕，用 ssh 访问都正常连接，下一步搭建 gitlab
+
 ## 参考文档
 
 [Docker 使用 Centos 镜像安装 Openssh 服务](https://juejin.cn/post/6844904197549391879#heading-6)
+
 [Docker+Nginx+Jenkins 实现前端自动化部署](https://juejin.cn/post/6869736425953165319)
+
 [Docker 简介和 Win7 安装 Docker](https://blog.csdn.net/wy_______/article/details/114387265)
+
+35a2a609b9144f2681d3a1852882089f
