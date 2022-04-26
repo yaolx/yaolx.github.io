@@ -1,0 +1,142 @@
+# docker + jenkins 部署 nest.js 项目
+
+## 前言
+
+有个项目 A 用 jenkins 构建，所以想顺便熟悉下用 jenkins 做 CICD，之前有接触过 nestjs，用 docker 发布。
+所以想用 docker + jenkins 做个自动化部署，顺便学习下整个流程，还有搭建过程中遇到的问题
+
+电脑配置有点差，目前还是用的 win7，以下都是在 win7 中操作
+
+## docker 常用命令
+
+| docker pull jenkins/jenkins                                                          | 下载 jenkins                      |
+| ------------------------------------------------------------------------------------ | --------------------------------- |
+| docker images -a                                                                     | 查看所有镜像                      |
+| docker rmi jenkins/jenkins                                                           | 删除镜像                          |
+| docker ps -a                                                                         | 查看所有容器                      |
+| docker stop ${id}                                                                    | 停止容器                          |
+| docker rm ${id}                                                                      | 删除容器                          |
+| docker-machine env                                                                   | 查看 docker 服务器的信息，获取 ip |
+| docker run -d --name jenkins --user root -p 8080:8080 -p 50000:50000 jenkins/jenkins | 启动 jenkins（端口是 8080）       |
+| docker exec -it jenkins bash                                                         | 进入虚拟机编辑页面                |
+
+## 安装 docker
+
+1. 下载`Docker Toolbox`
+
+   [阿里镜像开源 Docker Toolbox](http://mirrors.aliyun.com/docker-toolbox/windows/docker-toolbox/?spm=5176.8351553.0.0.4bc61991tQpsnV)
+
+2. 安装 docker
+
+- 默认会安装 virtualBox v5 版本，不能用，去 virtualBox 官网，手动下载最新的版本 v6
+
+- `Docker Quickstart Terminal`设置 git 的安装路径
+
+3. 配置 docker 镜像
+
+用[daocloud](http://docs.daocloud.io/faq/what-is-daocloud-accelerator)，注册一个账号，拿到镜像地址。确认 Docker Toolbox 已经启动，并执行下列命令（将 加速地址 替换为在[加速器](https://www.daocloud.io/mirror#accelerator-doc)页面获取的专属地址）
+
+```code
+docker-machine ssh default sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=加速地址 |g" /var/lib/boot2docker/profile exit docker-machine restart default
+```
+
+4. 安装、配置 jenkins
+
+- `docker pull jenkins/jenkins`
+
+  下载 jenkins
+
+- `docker images -a`
+
+  查看所有镜像
+
+- `docker-machine env`
+
+  查看 docker 服务器的信息，获取 ip `http://192.168.99.100:2376`
+
+- `docker run -d -u 0 --privileged --name jenkins -p 8080:8080 -p 50000:50000 -v /root/jenkins_home:/var/jenkins_home jenkins/jenkins`
+
+  启动 jenkins（端口是 8080）
+
+- `docker ps -a`
+
+  查看所有容器状态，`status:up`说明启动成功了
+
+- 访问 jenkins 首页`http://192.168.99.100:8080`
+
+  ![20220425201948](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220425201948.png)
+
+  需要密码登录，一脸迷惑
+
+- `docker exec -it jenkins bash`
+
+  ```code
+  root@2cce160532f1:/# cat /var/jenkins_home/secrets/initialAdminPassword
+  ```
+
+  打开密码所在的文件
+
+- 使用该密码登录 jenkins
+
+  ![20220425202545](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220425202545.png)
+
+- 安装推荐插件
+
+  经过一系列配置，到达 jenkins 首页
+
+- 配置 ssh 信息
+
+  进入虚拟机中`jenkins`
+
+  ```code
+  docker exec -it jenkins /bin/bash
+  mkdir ~/.ssh && cd ~/.sh
+  ssh-keygen -t rsa
+  ```
+
+  一直回车，id_rsa 创建成功
+  再通过 cat id_rsa 复制该秘钥
+
+  ```code
+  echo "`tail /var/jenkins_home/.ssh/id_rsa.pub`" >> authorized_keys
+  ```
+
+5. 安装 ssh 服务
+
+```code
+  docker pull centos:7
+
+  docker run -it centos:7 /bin/bash
+
+
+  yum -y update
+
+  yum install passwd openssl openssh-server net-tools vim -y
+  ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+  ssh-keygen -t rsa -f /etc/ssh/ssh_host_ecdsa_key
+  ssh-keygen -t rsa -f /etc/ssh/ssh_host_ed25519_key
+  =====待定
+  sed -i "s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config
+  sed -i "s/#RSAAuthentication.*/RSAAuthentication yes/g" /etc/ssh/sshd_config
+  sed -i "s/#PubkeyAuthentication.*/PubkeyAuthentication no/g" /etc/ssh/sshd_config
+  sed -i "s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config
+  =====
+```
+
+设置启动脚本
+run.sh
+
+启动容器 ssh
+docker run -d --name ssh -p 2222:22 ssh /run.sh
+
+docker run -d --name ssh --user root -p 2222:22 --privileged=true a /usr/sbin/init
+
+// 远程连接 ssh
+ssh root@192.168.99.100 -p 2222
+
+## 参考文档
+
+[Docker 使用 Centos 镜像安装 Openssh 服务
+](https://juejin.cn/post/6844904197549391879#heading-6)
+[Docker+Nginx+Jenkins 实现前端自动化部署
+](https://juejin.cn/post/6869736425953165319)
