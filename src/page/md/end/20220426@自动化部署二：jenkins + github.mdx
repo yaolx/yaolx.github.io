@@ -1,0 +1,193 @@
+# <center>前端持续集成二：jenkins 配置，连接 github，自动构建</center>
+
+## 前言
+
+上一篇讲到 docker、jenkins 的安装，主要是熟悉了 docker 的各种命令，还有一些各种各样的坑。接下来主要是 jenkins 的配置，插件安装，还有连接 github，拉取代码，并自动构建
+
+## 配置 jenkins
+
+1. 配置插件镜像地址
+
+- hudson.model.UpdateCenter.xml 中的
+  `https://updates.jenkins.io/update-center.json`替换为`https://mirrors.tuna.tsinghua.edu.cn/jenkins/updates/update-center.json`
+
+- 将 update/default.json 中的
+  www.google.com 改成www.baidu.com
+  `https://updates.jenkins.io/download/plugins`改为`https://mirrors.tuna.tsinghua.edu.cn/jenkins/plugins`
+
+2. 访问`http://192.168.99.100:8089`，进入 jenkins 首页
+
+   ![20220425201948](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220425201948.png)
+
+   提示需要密码登录，一脸迷惑 ing
+
+   两种方式可以获取密码
+
+   - `docker exec -it jenkins bash`
+
+     ```code
+     root@2cce160532f1:/# cat /var/jenkins_home/secrets/initialAdminPassword
+     ```
+
+     打开密码所在的文件
+
+   - 上一篇所说的共享文件，直接去 win7 中找到 D:/docker/jenkins_home 里的目录
+     里面就可以找到 `initialAdminPassword`
+
+3. 插件安装
+
+   ![20220425202545](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220425202545.png)
+
+   按照提示，安装推荐插件后
+
+4. 创建管理员用户
+
+   ![20220428073502](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428073502.png)
+
+5. 配置 jenkins URL
+
+   ![20220428073725](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428073725.png)
+
+## 配置任务
+
+1. 新建任务
+
+   ![20220428074128](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428074128.png)
+
+2. 源码管理 ，输入一个 github 项目地址`https://github.com/yaolx/yaolx.github.io`
+
+   ![20220428074406](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428074406.png)
+
+3. 添加一个 github 账号的全局凭据，用来拉取仓库代码
+
+   ![20220428074709](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428074709.png)
+
+4. 设置分支和源码库浏览器[地址](https://yaolx.github.io/)
+
+   ![20220428074840](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428074840.png)
+
+5. 构建触发器勾选 github webhook
+
+   ![20220428084211](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428084211.png)
+
+6. 选择执行 shell
+
+   输入执行简单脚本，做个测试
+
+   ```code
+   echo '1';
+   ```
+
+   ![20220428084830](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428084830.png)
+
+7. 点击立即构建，查看构建日志
+
+   ![20220428085303](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220428085303.png)
+
+   success 构建成功，并成功输出 1
+
+   而且在 win7 下的 jenkins_home/workspace 下看到从 git 拉取的代码，文件夹名称是 blog 也就是开始配置的任务名称
+
+## 安装 nodejs
+
+- 方案一：用 jenkins 自带的插件管理，坑很大
+
+  1. 在插件管理中搜 nodejs，安装
+
+  2. 在全局配置工具中增加 nodejs，并选择版本
+
+  3. 在 blog 任务中，增加 provide Node & npm bin/folder to PATH，选择 nodejs 版本
+
+  4. 回到任务列表，选择任务，点击立即构建
+
+  5. 到控制台输出，看打印信息
+
+     ![20220427234533](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220427234533.png)
+     为啥`npm: not found`???
+
+     然后我去 jenkins 对应宿主机的目录查看，发现它自动安装的 nodejs 所在的 bin 文件夹，只有 node，没有 npm。
+
+     看情况 npm 在 lib\node_modules\npm，不懂是下载不完整还是环境变量没配置
+
+  6. 又去系统管理查找环境变量，想手动配置一个环境变量，把 npm 的加上
+
+     `/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/jenkins_home/tools/jenkins.plugins.nodejs.tools.NodeJSInstallation/node12.22.0/bin`
+
+     加上后，重新构建，还是一样`npm: not found`
+
+  7. 去官网下载个，放进去替换有 npm 的，也不行
+
+  一直失败，搞的头大，索性换个方案
+
+- 方案二：在 jenkins 容器中，手动安装 node
+
+  1.  安装 node
+
+      ```code
+      // 进入 jenkins 容器
+      docker exec -it jenkins bash
+      cd /var/jenkins_home/nodes
+      // 下载nvm包
+      wget https://npm.taobao.org/mirrors/node/v12.22.0/node-v12.22.0-linux-x64.tar.xz
+      // 报错wget: command not found
+      // 安装apt-get
+      apt-get update
+      // 报错,提示没有权限：Permission denied
+      ```
+
+      以 root 身份进入容器
+
+      ```code
+      docker exec -it -u root jenkins bash
+      cd /var/jenkins_home/nodes
+      // 安装apt-get
+      apt-get update
+      apt-get install wget vim
+      // 下载node包
+      wget https://npm.taobao.org/mirrors/node/v12.22.0/node-v12.22.0-linux-x64.tar.xz
+      // 解压
+      tar -zxvf node-v12.22.0-linux-x64.tar.xz
+      并移动到 /usr/local/node 下
+      mv ./node-v12.14.1-linux-x64 /usr/local/node
+      // 创建快捷方式
+      ln -s /usr/local/node/bin/node /usr/bin/node
+      ln -s /usr/local/node/bin/npm /usr/bin/npm
+      npm install -g yarn
+      ln -s /usr/local/node/bin/yarn /usr/bin/yarn
+      node -v
+      npm -v
+      ```
+
+      正常显示版本，完美
+
+  2.  调整 shell
+
+      ```code
+      // 执行脚本
+      echo $WORKSPACE
+      node -v
+      yarn -v
+      // 打印信息：
+      echo /var/jenkins_home/workspace/blog
+      /var/jenkins_home/workspace/blog
+      node -v
+      v12.22.0
+      yarn -v
+      1.22.18
+      Finished: SUCCESS
+
+      ```
+
+## 总结
+
+在 jenkins 中有个 nodejs 的插件功能，一直想通过它来设置 nodejs 版本，可是一直都不行，安装的 nodejs 里没有 npm，自己手动下载，去覆盖，然后设置环境变量也不行。通过在 dockerfile 设置环境变量还没尝试，最后索性安装 nodejs，不用 jenkins 的 nodejs 插件功能
+
+功夫不负有心人啊，终于把 docker+jenkins+github 的打通了。最后通过 jenkins 再搭个 nginx，然后通过 git webhook 的功能，push 代码的时候，让其自动构建，并发布。
+
+## 参考文档
+
+[jenkins + github + nginx + vuecli 实现简单持续集成，自动打包部署](https://juejin.cn/post/6844904003709435918)
+
+[Jenkins 入门实战：GitHub Push 触发 Jenkins 自动构建](https://juejin.cn/post/6844903986017878029)
+
+[Linux 安装 NVM](https://blog.csdn.net/sanqima/article/details/119121432)

@@ -1,6 +1,22 @@
-# docker + jenkins 部署 nest.js 项目（一）
+# <center>前端持续集成一：docker + jenkins + ssh</center>
 
 ## 前言
+
+CI：Continuous Integration，也就是持续集成
+
+CD：Continuous Delivery 和 Continuous Deployment，也就是持续交付、持续部署
+
+作为一个前端，不能只知其然不知其所以然，提交下代码，点击发布，就完事了。想弄清楚一整个流程，自己搭建一次，是很有必要的。
+
+持续集成主要有三点：
+
+1. 准备代码库：github 上创建一个仓库
+2. 开发过程中：通过 eslint, typescript 做静态代码检查
+3. 提交代码时：通过 husky+lint-staged+prettier，做 git 的代码规范检查
+4. 环境搭建：通过 docker，安装 jenkins 容器，并在 jenkins 容器中安装 nodejs、Nginx
+5. 构建部署：在 jenkins 上部署一个流水线并自动构建发布
+
+## 背景
 
 有个项目 A 用 jenkins 构建，所以想顺便熟悉下用 jenkins 做 CICD，之前有接触过 nestjs，用 docker 发布。
 所以想用 docker + jenkins 做个自动化部署，顺便学习下整个流程，还有搭建过程中遇到的问题
@@ -11,15 +27,17 @@
 
 | 命令                                         | 描述                              |
 | -------------------------------------------- | --------------------------------- |
+| docker rm ${id}                              | 删除容器                          |
 | docker pull jenkins/jenkins                  | 下载 jenkins                      |
 | docker images -a                             | 查看所有镜像                      |
 | docker rmi jenkins/jenkins                   | 删除镜像                          |
 | docker ps -a                                 | 查看所有容器                      |
 | docker stop ${id}                            | 停止容器                          |
-| docker rm ${id}                              | 删除容器                          |
 | docker-machine env                           | 查看 docker 服务器的信息，查看 ip |
 | docker run -d --name jenkins jenkins/jenkins | 启动 jenkins 容器（端口是 8080）  |
 | docker exec -it jenkins bash                 | 进入容器虚拟机                    |
+| docker exec -it -u root jenkins bash         | 以 root 身份进入容器虚拟机        |
+| docker exec {containerID} env                | 查看环境变量                      |
 
 ## 安装 docker
 
@@ -41,68 +59,48 @@
 
   进入这个页面，说明安装成功了
 
-3. 配置 docker 加速器
+3. 设置共享文件夹，方便维护数据
 
-用[daocloud](http://docs.daocloud.io/faq/what-is-daocloud-accelerator)，注册一个账号，拿到镜像地址。确认 Docker Toolbox 已经启动，并执行下列命令（将 加速地址 替换为在[加速器](https://www.daocloud.io/mirror#accelerator-doc)页面获取的专属地址）
+   在 virtualBox 中打开`共享文件夹`，将 win7 中的 D:/docker 指定到虚拟机中的 dokcer，勾选自动挂载。
+   以后在 docker 中启动容器，可以将容器数据指定到 docker 目录下，方便直接操作数据
 
-```code
-  docker-machine ssh default
-  sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=http://f1361db2.m.daocloud.io |g" /var/lib/boot2docker/profile
-  exit
-  docker-machine restart default
-```
+4. 配置 docker 加速器
+
+   用[daocloud](http://docs.daocloud.io/faq/what-is-daocloud-accelerator)，注册一个账号，拿到镜像地址。确认 Docker Toolbox 已经启动，并执行下列命令（将 加速地址 替换为在[加速器](https://www.daocloud.io/mirror#accelerator-doc)页面获取的专属地址）
+
+   ```code
+     docker-machine ssh default
+     sudo sed -i "s|EXTRA_ARGS='|EXTRA_ARGS='--registry-mirror=加速地址 |g" /var/lib/boot2docker/profile
+     exit
+     docker-machine restart default
+   ```
 
 ## 安装、配置 jenkins
 
-- `docker pull jenkins/jenkins`
+- `docker pull jenkins/jenkins`：下载 jenkins
 
-  下载 jenkins
+- `docker images -a`：查看所有镜像
 
-- `docker images -a`
+- `docker-machine env`：查看 docker 服务器的信息，获取 ip `http://192.168.99.100:2376`
 
-  查看所有镜像
+- `docker run -d --privileged --name jenkins -p 8089:8080 -p 50000:50000 -v /docker/jenkins_home:/var/jenkins_home --privileged=true jenkins/jenkins`
 
-- `docker-machine env`
-
-  查看 docker 服务器的信息，获取 ip `http://192.168.99.100:2376`
-
-- `docker run -d -u 0 --privileged --name jenkins -p 8089:8080 -p 50000:50000 -v /root/jenkins_home:/var/jenkins_home jenkins/jenkins`
-
-  生成容器
-
-  报错： `pool: crypto/x509: system root pool is not available on Windows`
+  生成容器，将数据卷映射到宿主机的 docker/jenkins_home 目录，可以避免每次重启容器，导致数据丢失
 
   ```code
+  报错： `pool: crypto/x509: system root pool is not available on Windows`
   docker-toolbox版本的问题，降级到1.12.x
   ```
 
-  启动 jenkins（映射到宿主机的端口是 8089）
+  启动 jenkins （映射到宿主机的端口是 8089）
 
 - `docker ps -a`
 
   查看所有容器状态，`status:up`说明启动成功了
 
-- 访问 jenkins 首页`http://192.168.99.100:8080`
+- 访问 jenkins 首页`http://192.168.99.100:8089`
 
-  ![20220425201948](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220425201948.png)
-
-  需要密码登录，一脸迷惑 ing
-
-- `docker exec -it jenkins bash`
-
-  ```code
-  root@2cce160532f1:/# cat /var/jenkins_home/secrets/initialAdminPassword
-  ```
-
-  打开密码所在的文件
-
-- 使用该密码登录 jenkins
-
-  ![20220425202545](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220425202545.png)
-
-- 安装推荐插件
-
-  经过一系列配置，到达 jenkins 首页
+  说明安装成功了
 
 - 配置 ssh 信息
 
@@ -120,71 +118,77 @@
 
 ## 安装服务器 ssh 服务
 
+假设还有一台服务器，然后用 docker 安装一个虚拟机，需要在上面部署 ssh 服务
+
 1. 安装 linux 虚拟机，安装依赖等
 
-```code
-  docker pull centos:7
-  docker run -it centos:7 /bin/bash
-  yum -y update
-  yum install passwd openssl openssh-server net-tools vim -y
-  ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
-  ssh-keygen -t rsa -f /etc/ssh/ssh_host_ecdsa_key
-  ssh-keygen -t rsa -f /etc/ssh/ssh_host_ed25519_key
+   ```code
+     docker pull centos:7
+     docker run -it centos:7 /bin/bash
+     yum -y update
+     yum install passwd openssl openssh-server net-tools vim -y
+     ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+     ssh-keygen -t rsa -f /etc/ssh/ssh_host_ecdsa_key
+     ssh-keygen -t rsa -f /etc/ssh/ssh_host_ed25519_key
 
-  //修改文本例子   sed -i "s/#StrictHostKeyChecking.*/StrictHostKeyChecking no/g" /etc/ssh/sshd_config
+     //修改文本例子   sed -i "s/#StrictHostKeyChecking.*/StrictHostKeyChecking no/g" /etc/ssh/sshd_config
 
-  # 修改密码
-  passwd
-```
+     # 修改密码
+     passwd
+   ```
 
 2. 设置启动脚本 run.sh
 
-```code
-  # 在/目录下，创建一个 run.sh 的脚本
-  vi /run.sh
+   ```code
+     # 在/目录下，创建一个 run.sh 的脚本
+     vi /run.sh
 
-  # 设置脚本内容启动 sshd 服务
-  #!/bin/bash
-  /usr/sbin/sshd -D
+     # 设置脚本内容启动 sshd 服务
+     #!/bin/bash
+     /usr/sbin/sshd -D
 
-  # 设置可执行权限
-  chmod +x /run.sh
-```
+     # 设置可执行权限
+     chmod +x /run.sh
+   ```
 
 3. 生成新镜像
 
-```code
-docker ps -a
-docker commit 4eb13e778da3 ssh
-```
+   ```code
+   docker ps -a
+   docker commit 4eb ssh
+   ```
 
 4. 启动容器 ssh
 
-// docker run -d --name ssh -p 2222:22 ssh /run.sh
+   // docker run -d --name ssh -p 2222:22 ssh /run.sh
 
-docker run -d --name ssh -p 2223:22 --privileged=true ssh /usr/sbin/init
+   docker run -d --name ssh -p 2223:22 --privileged=true ssh /usr/sbin/init
 
---privileged=true 可以开启 systemctl 权限，可以查看 sshd 服务是否启动，还有重启，停止等
-systemctl status sshd.service 8. 远程连接 ssh 验证
+   --privileged=true 可以开启 systemctl 权限，可以查看 sshd 服务是否启动，还有重启，停止等
+   systemctl status sshd.service
 
-systemctl status sshd.service
+5. 远程连接 ssh 验证
 
-- 进入 jenkins 容器：ssh root@192.168.99.100 -p 2223
-  要求输入密码，验证通过
-- pc 主机验证，用 secureCRT 连接，也是输入密码，验证通过
+   systemctl status sshd.service
 
-5. 在 ssh 容器中，创建允许外部访问的认证文件（TO 免密功能还待处理）
+   - 进入 jenkins 容器：ssh root@192.168.99.100 -p 2223
+     要求输入密码，验证通过
+   - win7 主机验证，用 secureCRT 连接，也是输入密码，验证通过
 
-```code
-mkdir -p ~/.ssh
-> ~/.ssh/authorized_keys
-vim authorized_keys
-将jenkins中的`cat id_rsa.pub`，复制到`authorized_keys`
-```
+6. 在 ssh 容器中，创建允许外部访问的认证文件（TO 免密功能还待处理）
+
+   ```code
+   mkdir -p ~/.ssh
+   > ~/.ssh/authorized_keys
+   vim authorized_keys
+   将jenkins中的`cat id_rsa.pub`，复制到`authorized_keys`
+   ```
 
 ## 总结
 
-docker + jenkins + ssh 已搭建完毕，用 ssh 访问都正常连接，下一步搭建 gitlab
+docker + jenkins + ssh 已搭建完毕，用 ssh 访问都正常连接
+
+下一篇介绍，jenkin 的配置，连接 github，自动构建
 
 ## 参考文档
 
@@ -193,5 +197,3 @@ docker + jenkins + ssh 已搭建完毕，用 ssh 访问都正常连接，下一�
 [Docker+Nginx+Jenkins 实现前端自动化部署](https://juejin.cn/post/6869736425953165319)
 
 [Docker 简介和 Win7 安装 Docker](https://blog.csdn.net/wy_______/article/details/114387265)
-
-35a2a609b9144f2681d3a1852882089f

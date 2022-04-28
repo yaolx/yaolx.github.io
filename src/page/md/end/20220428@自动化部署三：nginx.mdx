@@ -1,0 +1,76 @@
+# <center>前端持续集成三：nginx</center>
+
+## 前言
+
+jenkins 的大体流程处理完毕，接下来就是搭建 nginx，然后配合 webhook，触发 jenkins 的自动构建和发布
+
+## 安装 nginx
+
+- 安装 nginx
+  apt-get install nginx
+- 配置 nginx
+  cd /etc/nginx/conf.d
+  vim jenkins.conf
+
+  ```code
+  server {
+  listen  8091;
+  server_name 192.168.99.100;
+
+  location / {
+    // 工程的构建后的build地址
+    root /var/jenkins_home/workspace/blog/dist;
+    index index.html;
+    }
+  }
+  ```
+
+- 配置映射端口
+  为了简单，直接在 jenkins 容器里，再开一个映射端口
+
+  ```code
+  // 停止原型的jenkins
+  docker stop jenkins
+  // 用jenkins生成一个镜像jenkins1
+  docker commit 29d jenkins1
+  // 用jenkins启动一个容器，再多加一个8091的端口
+  docker run -d --privileged --name jenkins1 -p 8091:8091 -p 8089:8080 -p 50000:50000 -v /docker/jenkins_home:/var/jenkins_home --privileged=true jenkins1
+  // 进入容器
+  cd /usr/sbin
+  // 启动nginx
+  ./nginx
+  ```
+
+- 访问 http//:192.168.99.100:8091
+  打开成功
+
+## 调整构建脚本
+
+    ```code
+    echo $WORKSPACE
+    node -v
+    npm install
+    npm run build:test
+    ```
+
+    报错：`Read-only file system`
+    在 win7 com 中运行
+    VBoxManage setextradata default VBoxInternal2/SharedFoldersEnableSymlinksCreate/docker 1
+    VBoxManage getextradata default enumerate
+
+    由于yarn 安装老是报`info There appears to be trouble with your network connection. Retrying...`的错误，就改成用npm运行
+    更改yarn的registry也没用，后面重启下看看
+
+## 总结
+
+由于内网穿透工具不好找，下载 ngrok 又报病毒，就没做 webhook 的验证了。
+
+基本从安装 docker ，到 jenkins，再到 nginx，一步步流程下来自己搭建，收货挺大的。
+
+从 github actions 的自动化部署，到 docker +jenkins+nginx 的自动化构建部署，学习了很多。特别对 docker 又多了一些了解
+
+接下来再学习下 dockerfile，服务端这块的知识应该是差不多了。
+
+## 参考文档
+
+[Jenkins 入门实战：GitHub Push 触发 Jenkins 自动构建](https://juejin.cn/post/6844903986017878029)
