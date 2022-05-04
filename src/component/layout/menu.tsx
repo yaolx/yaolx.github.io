@@ -55,7 +55,11 @@ export default function MenuLayout(props: MenuProps) {
       {map(menus, (menu) => {
         const activeClass = active === menu.key ? styles.active : ''
         return (
-          <div key={menu.key} onClick={() => onSelectMenu(menu)} className={cs(styles.menu_item, activeClass)}>
+          <div
+            key={menu.key}
+            onClick={() => onSelectMenu(menu)}
+            className={cs(styles.menu_item, activeClass)}
+          >
             {menu.title}
             {menu.url ? <SendOutline className={styles.github_btn} /> : null}
           </div>

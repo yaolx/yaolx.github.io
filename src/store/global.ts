@@ -1,18 +1,23 @@
+import { RouteObject } from 'react-router-dom'
+
 import { makeAutoObservable } from 'mobx'
+
+// import { mdxRouters } from '@/service/mdx-service'
+
+type routersProps = RouteObject & {
+  name: string
+  date: string
+}
 
 class GlobalStore {
   constructor() {
     makeAutoObservable(this)
   }
 
-  isLogin = false
+  mdxRouters: routersProps[] = []
 
-  fail = () => {
-    this.isLogin = false
-  }
-
-  success = () => {
-    this.isLogin = true
+  initMdx = () => {
+    // this.mdxRouters = mdxRouters()
   }
 }
 
