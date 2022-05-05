@@ -1,0 +1,31 @@
+# <center>fiddler 设置断点并修改请求</center>
+
+## fiddler 有两种方式设置断点
+
+- 在菜单栏 Rules-》Automatic BreakPoints 的下拉菜单里选择设置断点的方式（Before Requests，After Responses），取消断点选择 Disabled。这种设断点的方式是对所有 url 生效。
+
+  ![20220505154108](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220505154108.png)
+
+  一般不推荐该方法
+
+- 用 bpu 命令对特定 url 设置断点，这种方式断点设在 Before Requests。取消断点时只需要再执行 bpu 命令即可。
+  执行如下命令（如下图）：
+  bpu https://www.baidu.com/
+
+  ![20220505154146](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220505154146.png)
+
+## 用 bpu 命令设置断点并修改请求
+
+以百度首页为例修改 Requests 之前的数据
+
+- 在 Fiddler 命令行输入区输入“bpu”回车执行清掉原有的断点。
+- 在浏览器打开https://www.baidu.com/
+- 输入`bpu https://www.baidu.com/`回车执行，接下来就会中断 URL 中包含此地址的请求。
+- 在 input 中，输入"fiddler"。
+  ![20220505155023](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220505155023.png)
+- 点击会话列表中被中断的会话，依次进入 Inspectors–>WebForms。此时请求并未发出，wd 参数即为查询关键字，我们修改为“虎扑”，然后点击“Break on Response”按钮（这里请求只是达到了 fidder，并没有到达浏览器），最后点击 run to completion（请求到达浏览器）。
+  ![20220505154403](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220505154403.png)
+
+- 可以看到页面的请求结果
+
+  ![20220505154533](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220505154533.png)
