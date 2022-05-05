@@ -1,4 +1,4 @@
-import { compact, map, filter } from 'lodash'
+import { compact, map, filter, keyBy } from 'lodash'
 
 const mdxs = import.meta.globEager('../page/md/**/*.mdx')
 
@@ -8,6 +8,7 @@ interface RouterPops {
   name: string
   date: string
   element: any
+  parentTitle: string
   index?: boolean
 }
 // 解析md文件夹下的markdown文件，生成路由
@@ -24,9 +25,12 @@ export const genMdxRouters = (): RouterPops[] => {
       const group = arrParttern[0] || ''
       const date = arrParttern[1] || ''
       const name = arrParttern[2] || ''
+      const parentPath = group.split('_')[0]
+      const parentTitle = group.split('_')[1]
       return {
-        parentPath: group,
-        path: `/${group}/${date}`,
+        parentPath,
+        parentTitle,
+        path: `/${parentPath}/${date}`,
         name,
         date,
         element: mdx.default
@@ -35,8 +39,10 @@ export const genMdxRouters = (): RouterPops[] => {
   )
 }
 
+export const mdxFiles = genMdxRouters()
+// 生成路由
 export const MdxRouters = (type) => {
-  const mdxs = filter(genMdxRouters(), (mdx) => mdx.parentPath === type)
+  const mdxs = filter(mdxFiles, (mdx) => mdx.parentPath === type)
   return map(mdxs, (mdx, n) => {
     if (n === 0) {
       mdx.index = true
@@ -46,4 +52,15 @@ export const MdxRouters = (type) => {
       ...mdx
     }
   })
+}
+//  生成一级菜单
+export const genMdxMenus = () => {
+  const mainRoutes = keyBy(genMdxRouters(), 'parentPath')
+  const rs = map(mainRoutes, (c, key) => {
+    return {
+      key,
+      title: c.parentTitle
+    }
+  })
+  return rs
 }

@@ -1,11 +1,20 @@
 import React from 'react'
 
 import { Divider, Layout } from 'antd'
+import { map } from 'lodash'
 
-const { Content, Sider } = Layout
 import { homeSiderWidth } from '@/constant/global'
 
 import styles from './style/index.module.less'
+
+const { Content, Sider } = Layout
+const description = [
+  'vite + typescript + mobx',
+  '纵享vite构建带来的丝滑开发体验',
+  'MDX实现markdown和jsx的无缝结合',
+  '解析mdx目录及文件，动态实现路由菜单',
+  '实现mdx文件全局搜索功能'
+]
 
 function Home(): JSX.Element {
   return (
@@ -14,12 +23,12 @@ function Home(): JSX.Element {
         <div className={styles.avatar} />
         <h1>千禮之行</h1>
         <h5>实迷途其未远，觉今是而昨非</h5>
-        <Divider orientation="center">本站说明</Divider>
-        <div>
-          个人博客，用 markdown 写技术文章，同时支持 pc 端和移动端。mdx 文件 push 到 github master
-          分支， 然后通过 github actions 自动构建并发布。个人博客，用 markdown 写技个人博客，用
-          markdown 写技
-        </div>
+        <Divider orientation="center">技术栈说明</Divider>
+        {map(description, (desc, index) => (
+          <div className={styles.dot} key={index}>
+            {index + 1}. {desc}
+          </div>
+        ))}
       </Sider>
       <Content className={styles.body}>
         <div className={styles.card}>

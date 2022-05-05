@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import { Layout, Menu } from 'antd'
-import { first, map } from 'lodash'
+import { map } from 'lodash'
 
 import { mdSiderWidth, isH5 } from '@/constant/global'
 import { MdxRouters } from '@/service/mdx-service'

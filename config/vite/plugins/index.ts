@@ -2,16 +2,17 @@
  * vite plugin
  */
 
-import { Plugin } from 'vite'
-import viteCompression from 'vite-plugin-compression'
-import reactRefresh from '@vitejs/plugin-react'
 import eslint from '@rollup/plugin-eslint'
 import typescript from '@rollup/plugin-typescript'
+import reactRefresh from '@vitejs/plugin-react'
+import viteCompression from 'vite-plugin-compression'
 import mdx from 'vite-plugin-mdx'
-import { VITE_APP_ANALYZE, VITE_APP_COMPRESS_GZIP } from '../../constant'
+
 import configMockPlugin from './mock'
-import configVisualizerPlugin from './visualizer'
 import configStyleImportPlugin from './styleImport'
+import configVisualizerPlugin from './visualizer'
+
+import { VITE_APP_ANALYZE, VITE_APP_COMPRESS_GZIP } from '../../constant'
 
 export function createVitePlugins(viteEnv: string, isBuild: boolean) {
   const vitePlugins = [

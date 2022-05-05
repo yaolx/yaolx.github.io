@@ -5,7 +5,7 @@
   flex-direction: row;
 }
 
-.sider{
+.sider {
   background-color: #fff;
   text-align: center;
   box-shadow: var(--box-shadow);
@@ -29,11 +29,14 @@
     font-size: 1.5em;
     margin-top: 10px;
   }
+  .dot {
+    text-align: left;
+  }
 }
 
-.body{
+.body {
   padding: 0 20px;
-  .card{
+  .card {
     position: relative;
     margin: 0 auto 20px;
     padding: 16px 20px;
@@ -42,7 +45,7 @@
     border-radius: 5px;
     box-shadow: var(--box-shadow);
     box-sizing: border-box;
-    transition: all .3s;
+    transition: all 0.3s;
     background-color: var(--background-color);
     cursor: pointer;
     &:hover {
@@ -51,7 +54,7 @@
     .title {
       font-size: 18px;
     }
-    .date{
+    .date {
       font-size: 14px;
       font-weight: normal;
       margin-left: 20px;
@@ -59,12 +62,12 @@
   }
 }
 
-:global(.h5){
+:global(.h5) {
   .layout {
     flex-direction: column;
   }
   .body {
-    width: 100%!important;
+    width: 100% !important;
     margin-top: 20px;
     padding: 0;
   }

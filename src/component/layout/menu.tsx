@@ -1,43 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { SendOutline } from 'antd-mobile-icons'
 import cs from 'classnames'
 import { map } from 'lodash'
+import { observer } from 'mobx-react'
+
+import { useStores } from '@/hooks'
+
+import {} from '@/store/global'
 
 import styles from './styles/index.module.less'
-const menus = [
-  {
-    key: '',
-    title: '首页'
-  },
-  {
-    key: 'front',
-    title: '前端'
-  },
-  {
-    key: 'end',
-    title: '后端'
-  },
-  {
-    key: 'github',
-    title: 'github',
-    url: 'https://github.com/yaolx/yaolx.github.io'
-  },
-  {
-    key: 'md/about',
-    title: '关于'
-  },
-  {
-    key: 'md/log',
-    title: '更新日志'
-  }
-]
 interface MenuProps {
   hidePop?: () => void
   className?: string
 }
-export default function MenuLayout(props: MenuProps) {
+function MenuLayout(props: MenuProps) {
+  const globalStore = useStores('globalStore')
   const { hidePop, className } = props
   const hash = location.hash
   const navigate = useNavigate()
@@ -49,11 +28,16 @@ export default function MenuLayout(props: MenuProps) {
       hidePop && hidePop()
     }
   }
+  useEffect(() => {
+    globalStore.initMdx()
+  }, [])
   const active = hash.slice(2)
+  const menus = globalStore.mdxMenus
   return (
     <div className={cs(styles.menu, className)}>
       {map(menus, (menu) => {
-        const activeClass = active === menu.key ? styles.active : ''
+        const activeClass =
+          menu.key === active || (active.includes(menu.key) && menu.key !== '') ? styles.active : ''
         return (
           <div
             key={menu.key}
@@ -68,3 +52,5 @@ export default function MenuLayout(props: MenuProps) {
     </div>
   )
 }
+
+export default observer(MenuLayout)
