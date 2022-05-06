@@ -11,9 +11,10 @@ const { Content, Sider } = Layout
 const description = [
   'vite + typescript + mobx',
   '纵享vite构建带来的丝滑开发体验',
-  'MDX实现markdown和jsx的无缝结合',
-  '解析mdx目录及文件，动态实现路由菜单',
-  '实现mdx文件全局搜索功能'
+  'MDX 实现 markdown 和 jsx 的无缝结合，适用组件库文档生成',
+  '解析md目录及文件，动态生成菜单',
+  '实现md文件全局搜索功能',
+  '利用gitHub Actions进行静态站构建发布'
 ]
 
 function Home(): JSX.Element {
@@ -23,7 +24,7 @@ function Home(): JSX.Element {
         <div className={styles.avatar} />
         <h1>千禮之行</h1>
         <h5>实迷途其未远，觉今是而昨非</h5>
-        <Divider orientation="center">技术栈说明</Divider>
+        <Divider orientation="center">本站说明</Divider>
         {map(description, (desc, index) => (
           <div className={styles.dot} key={index}>
             {index + 1}. {desc}

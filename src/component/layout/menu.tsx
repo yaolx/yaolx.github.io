@@ -8,8 +8,6 @@ import { observer } from 'mobx-react'
 
 import { useStores } from '@/hooks'
 
-import {} from '@/store/global'
-
 import styles from './styles/index.module.less'
 interface MenuProps {
   hidePop?: () => void

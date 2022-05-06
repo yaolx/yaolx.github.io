@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, useRef, useImperativeHandle } from 'react'
 import { createPortal } from 'react-dom'
+
 import { deviceEnv } from '@/constant/global'
 
 interface PopProps {
@@ -38,6 +39,11 @@ const Pop = forwardRef((props: PopRef, ref) => {
     }),
     [popRef]
   )
-  return visible ? createPortal(<PopMenu showPopMenu={showPopMenu}>{props.children}</PopMenu>, document.querySelector('body') as HTMLBodyElement) : null
+  return visible
+    ? createPortal(
+      <PopMenu showPopMenu={showPopMenu}>{props.children}</PopMenu>,
+      document.querySelector('body') as HTMLBodyElement
+    )
+    : null
 })
 export default Pop
