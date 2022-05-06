@@ -38,3 +38,23 @@
 3. 解析 md 目录及文件，动态生成菜单
 4. 实现 md 文件全局搜索功能
 5. 利用 gitHub Actions 进行静态站构建发布
+
+## 使用说明
+
+- 格式：
+
+  目前只支持 2 层级目录树
+
+  文件夹格式：`${文本}_${文本}`
+
+  mdx 文件格式：`${日期}@${文章标题}.mdx`
+
+  如下所示：
+
+  ![20220506214758](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220506214758.png)
+
+- 步骤：
+
+  按照 md 目录里的文档格式，上传对应的 mdx 文件即可自动生成对应的菜单或者数据
+
+  ![20220506215026](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220506215026.png)
