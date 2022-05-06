@@ -47,13 +47,13 @@ function Home(): JSX.Element {
         ))}
       </Sider>
       <Content className={styles.body}>
-        {map(mdxFiles, (mdx) => {
+        {map(mdxFiles, (mdx, index) => {
           return (
-            <div className={styles.card}>
+            <div className={styles.card} key={index}>
               <span className={styles.tag}>{mdx.category}</span>
               {map(mdx.files, (file) => {
                 return (
-                  <div className={styles.file} onClick={() => onClick(file)}>
+                  <div className={styles.file} key={file.path} onClick={() => onClick(file)}>
                     <Divider orientation="left">
                       <span className={styles.date}>2022-02-23</span>
                     </Divider>
