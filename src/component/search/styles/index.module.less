@@ -1,0 +1,18 @@
+.search {
+  width: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+:global(.h5) {
+  .search{
+    width: 150px;
+    margin-right: 10px;
+    transition: width .5s;
+    &:global(.focus_active) {
+      width: 200px;
+      margin-right: 0;
+      display: block;
+    }
+  }
+}
