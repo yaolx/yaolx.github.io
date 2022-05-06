@@ -1,13 +1,12 @@
 import React from 'react'
 import { useRoutes, RouteObject } from 'react-router-dom'
 
-import { groupBy, map } from 'lodash'
+import { groupBy, map, cloneDeep } from 'lodash'
 
-import HomeLayout from '@/component/layout/homeLayout'
-import MdLayout from '@/component/layout/mdLayout'
+import Layout from '@/component/layout/index'
 import NotFound from '@/component/status/404'
 import Home from '@/page/home'
-import { genMdxRouters } from '@/service/mdx-service'
+import { mdxFiles } from '@/service/mdx-service'
 
 import About from '../page/about/index.mdx'
 import Log from '../page/log/index.mdx'
@@ -15,7 +14,7 @@ import Log from '../page/log/index.mdx'
 const routeConfig: RouteObject[] = [
   {
     path: '/',
-    element: <HomeLayout />,
+    element: <Layout />,
     children: [
       {
         index: true,
@@ -25,7 +24,7 @@ const routeConfig: RouteObject[] = [
   },
   {
     path: '/md',
-    element: <HomeLayout isMd />,
+    element: <Layout isMd />,
     children: [
       {
         path: '/md/about',
@@ -44,11 +43,11 @@ const routeConfig: RouteObject[] = [
 ]
 // 动态生成md文件路由
 const mdxRouters = () => {
-  const groupRouters = groupBy(genMdxRouters(), 'parentPath')
+  const groupRouters = groupBy(cloneDeep(mdxFiles), 'parentPath')
   return map(groupRouters, (mdxs, key) => {
     return {
       path: `/${key}`,
-      element: <MdLayout type={key} />,
+      element: <Layout type={key} />,
       children: map(mdxs, (mdx, n) => {
         const MdxComponent = mdx.element
         if (n === 0) {

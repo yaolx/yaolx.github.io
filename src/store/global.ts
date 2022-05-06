@@ -1,12 +1,15 @@
 import { RouteObject } from 'react-router-dom'
 
+import { filter } from 'lodash'
 import { makeAutoObservable } from 'mobx'
 
-import { genMdxRouters, genMdxMenus } from '@/service/mdx-service'
+import { mdxFiles, genMdxMenus } from '@/service/mdx-service'
 
 type routersProps = RouteObject & {
   name: string
   date: string
+  parentPath: string
+  parentTitle: string
 }
 const homeMenu = [
   {
@@ -34,14 +37,25 @@ class GlobalStore {
   constructor() {
     makeAutoObservable(this)
   }
-
-  mdxRouters: routersProps[] = []
-
+  // mdx文件
+  mdxFiles: routersProps[] = []
+  // mdx菜单
   mdxMenus: any
-
+  // 初始化mdx数据
   initMdx = () => {
-    this.mdxRouters = genMdxRouters()
+    this.mdxFiles = mdxFiles
     this.mdxMenus = homeMenu.concat(genMdxMenus()).concat(fixedMenus)
+  }
+  /**
+   * 全局搜索文章
+   * @param keyword
+   * @returns
+   */
+  search = (keyword) => {
+    const filterMdx = filter(this.mdxFiles, (mdx) => {
+      return mdx.name.includes(keyword)
+    })
+    return filterMdx
   }
 }
 
