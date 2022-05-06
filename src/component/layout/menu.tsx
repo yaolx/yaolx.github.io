@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { SendOutline } from 'antd-mobile-icons'
+import { ExportOutlined } from '@ant-design/icons'
 import cs from 'classnames'
 import { map } from 'lodash'
 import { observer } from 'mobx-react'
@@ -43,7 +43,7 @@ function MenuLayout(props: MenuProps) {
             className={cs(styles.menu_item, activeClass)}
           >
             {menu.title}
-            {menu.url ? <SendOutline className={styles.github_btn} /> : null}
+            {menu.url ? <ExportOutlined className={styles.github_btn} /> : null}
           </div>
         )
       })}
