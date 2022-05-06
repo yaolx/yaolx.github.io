@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router-dom'
 
-import { filter } from 'lodash'
+import { filter, first, groupBy, map, take, toPairsIn } from 'lodash'
 import { makeAutoObservable } from 'mobx'
 
 import { mdxFiles, genMdxMenus } from '@/service/mdx-service'
@@ -56,6 +56,20 @@ class GlobalStore {
       return mdx.name.includes(keyword)
     })
     return filterMdx
+  }
+  /**
+   * 获取分类的第一条文章
+   */
+  getMdxByGroup = () => {
+    const groupMdx = map(toPairsIn(groupBy(this.mdxFiles, 'parentPath')), ([name, value]) => {
+      const firstMdx = first(value)
+      const files = take(value, 3)
+      return {
+        category: firstMdx?.parentTitle,
+        files
+      }
+    })
+    return groupMdx
   }
 }
 

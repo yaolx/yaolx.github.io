@@ -46,6 +46,7 @@
     box-sizing: border-box;
     transition: all 0.3s;
     background-color: var(--background-color);
+    display: flex;
     cursor: pointer;
     &:hover {
       box-shadow: var(--box-shadow-hover);
@@ -58,6 +59,27 @@
       font-weight: normal;
       margin-left: 20px;
     }
+    .tag{
+      position: absolute;
+      top: 18px;
+      right: -22px;
+      transform: rotate(45deg);
+      text-align: center;
+      width: 100px;
+      height: 0;
+      border-bottom: 20px solid red;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      color: #fff;
+    }
+    .file{
+      flex: 1;
+      text-align: left;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 20px 10px;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
   }
 }
 
@@ -69,5 +91,12 @@
     width: 100% !important;
     margin-top: 20px;
     padding: 0;
+    .card {
+      flex-direction: column;
+      .file{ 
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
   }
 }
