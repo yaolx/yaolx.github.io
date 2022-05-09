@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 import { Divider, Layout } from 'antd'
 import { map } from 'lodash'
@@ -11,12 +11,6 @@ import { useStores } from '@/hooks'
 import styles from './style/index.module.less'
 
 const { Content, Sider } = Layout
-const description = [
-  'MDX 实现 markdown 和 jsx 的无缝结合，快速生成组件库文档',
-  '解析md目录及文件，动态生成菜单',
-  '实现md文件全局搜索功能',
-  '利用gitHub Actions进行静态站构建发布'
-]
 const scene = ['博客网站', '组件库或产品的文档站点', 'React 组件的 Demo 演示']
 function Home(): JSX.Element {
   const globalStore = useStores('globalStore')
@@ -33,18 +27,15 @@ function Home(): JSX.Element {
         <h5>实迷途其未远，觉今是而昨非</h5>
         <Divider orientation="center"> 技术栈</Divider>
         vite + typescript + mdx + mobx，纵享vite构建带来的丝滑开发体验。
-        <Divider orientation="center">功能点</Divider>
-        {map(description, (desc, index) => (
-          <div className={styles.dot} key={index}>
-            {index + 1}. {desc}
-          </div>
-        ))}
         <Divider orientation="center">适用场景</Divider>
         {map(scene, (desc, index) => (
           <div className={styles.dot} key={index}>
             {index + 1}. {desc}
           </div>
         ))}
+        <Divider orientation="center">
+          <Link to="/md/about">更多说明</Link>
+        </Divider>
       </Sider>
       <Content className={styles.body}>
         {map(mdxFiles, (mdx, index) => {

@@ -3,6 +3,24 @@
 个人博客，用 markdown 写技术文章，同时支持 pc 端和移动端。
 并通过 github actions 自动构建并发布。
 
+## 特性
+
+1. 纵享 vite 构建带来的丝滑开发体验
+
+2. 支持 MDX
+
+   使用 react 和 markdown 灵活组合，适用组件库文档生成，组件与代码预览
+
+3. 约定路由规则，动态生成菜单
+
+   约定 md 目录下的文档规则，实现路由和菜单动态生成，实现 md 文件的全局搜索
+
+4. 支持 typescript 类型提取，将 typescript 的类型定义和注释生成为组件 API 文档表格 --- todo
+
+5. 打包输出 lib，提供组件库能力 -- todo
+
+6. 利用 gitHub Actions 进行静态站构建发布
+
 ## 技术栈
 
 - `vite`
@@ -31,15 +49,9 @@
 - `github actions`
 - `github pages`
 
-## 功能点描述
+## md 命名约定说明
 
-1. 纵享 vite 构建带来的丝滑开发体验
-2. MDX 实现 markdown 和 jsx 的无缝结合，适用组件库文档生成
-3. 解析 md 目录及文件，动态生成菜单
-4. 实现 md 文件全局搜索功能
-5. 利用 gitHub Actions 进行静态站构建发布
-
-## 规则说明
+在 md 目录下的文件命名规则如下：
 
 - 格式：
 
