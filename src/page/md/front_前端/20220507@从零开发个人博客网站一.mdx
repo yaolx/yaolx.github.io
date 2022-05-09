@@ -1,0 +1,39 @@
+# <center>从零开发个人博客网站一</center>
+
+## 背景
+
+作为一个前端，想做个技术沉淀，想必都想拥有自己的博客网站，当做笔记本记录一些笔记。
+现在有很多线上的技术博客网站，比如掘金，博客园等等，都能满足需求。
+从工具上面看，也有 gitbook，hexo,hugo 等，安装依赖后，运行命令，即可。
+但是比如 hexo，配置比较多，还得编译后生成 html，才能使用，用起来感觉不是很方便。
+所以，想从零开始，开发一个适合自己的网站，一边学习 reactjs 脚手架的搭建建，一边学习 ts，还能熟悉自动化部署，最好能一键上传文件，就把菜单，分类都处理好，不用自己再去配置菜单路由什么的。
+
+## 技术选型
+
+1. vite
+
+vite 构建，相比 webpack，开发的时候效率更高，无需等待编译后再启动服务。通过浏览器 esm 的能力，让 tsx 文件直接运行，秒启动，简直不要太爽。
+
+2. typescript
+
+这个肯定也是必须的，静态代码检查，配合 eslint，在开发过程中就尽量减少不必要的程序错误。
+
+3. mobx
+
+mobx 比较容易上手，也不是很复杂，将解析后的 md 文件数据通过 mobx 管理，方便后续做文章查询等功能
+
+4. react17 + react-router v6
+
+公司层面的脚手架还未使用 react-router v6，所以这次尝试体验下 v6，顺便学习一下
+
+5. mdx
+
+引入`vite-plugin-mdx`，`@mdx-js/mdx`,`@mdx-js/react`,使用 react 与 markdown 灵活组合，更具可读性和易于编辑，让组件库开发更加便捷
+
+6. CICD
+
+在 github 建一个仓库，然后通过 github actions 自动构建，再通过 github pages 自动发布
+
+## 脚手架搭建
+
+脚手架搭建参考：[cra-template-react-boat](https://github.com/yaolx/cra-template-react-boat)
