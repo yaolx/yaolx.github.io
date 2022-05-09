@@ -32,7 +32,7 @@ function Home(): JSX.Element {
         <h1>千禮之行</h1>
         <h5>实迷途其未远，觉今是而昨非</h5>
         <Divider orientation="center"> 技术栈</Divider>
-        vite + typescript + mobx，纵享vite构建带来的丝滑开发体验。
+        vite + typescript + mdx + mobx，纵享vite构建带来的丝滑开发体验。
         <Divider orientation="center">功能点</Divider>
         {map(description, (desc, index) => (
           <div className={styles.dot} key={index}>
@@ -55,7 +55,7 @@ function Home(): JSX.Element {
                 return (
                   <div className={styles.file} key={file.path} onClick={() => onClick(file)}>
                     <Divider orientation="left">
-                      <span className={styles.date}>2022-02-23</span>
+                      <span className={styles.date}>{file.date}</span>
                     </Divider>
                     <div>{file.name}</div>
                   </div>
