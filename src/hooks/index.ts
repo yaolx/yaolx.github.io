@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { MobXProviderContext } from 'mobx-react'
+
 import globalStore from '@/store/global'
 
 const _store = {

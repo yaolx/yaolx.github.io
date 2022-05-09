@@ -1,4 +1,4 @@
-.header{
+.header {
   background: #fff;
   z-index: 10;
   display: flex;
@@ -13,16 +13,16 @@
     background-size: 100% 100%;
     border-radius: 50%;
   }
-  .name{
+  .name {
     flex-grow: 1;
     text-align: left;
     margin-left: 20px;
   }
-  .github_btn{
+  .github_btn {
     margin-left: 5px;
   }
 }
-:global(.h5)  {
+:global(.h5) {
   .h5_menu {
     display: block;
     font-size: 20px;
@@ -32,18 +32,18 @@
     flex-direction: column;
     text-align: center;
   }
-  .menu_item{
+  .menu_item {
     padding: 20px;
     cursor: pointer;
     &.active {
       color: #1890ff;
     }
   }
-  
-  .github_btn{
+
+  .github_btn {
     margin-left: 5px;
   }
-  .pc_menu{
+  .pc_menu {
     display: none;
   }
   :global(.focus_active) {
@@ -51,8 +51,8 @@
   }
 }
 
-:global(.pc)  {
-  .h5_menu{
+:global(.pc) {
+  .h5_menu {
     display: none;
   }
   .menu {
@@ -63,21 +63,20 @@
     flex-direction: row;
     text-align: center;
   }
-  .menu_item{
+  .menu_item {
     padding: 0 20px;
     cursor: pointer;
-    &:hover, &.active {
+    &:hover,
+    &.active {
       color: #1890ff;
     }
-     
   }
-  .sider{
-    border-right: 1px solid #e8e8e8 ;
+  .sider {
+    border-right: 1px solid #e8e8e8;
+    height: calc(100vh - 70px);
   }
 }
-
 
 .layout {
   background-color: #fff;
 }
-
