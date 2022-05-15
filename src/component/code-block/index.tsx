@@ -14,18 +14,19 @@ function CodeBlock(props: CodeBlockProps) {
   const { component } = props
   const [visible, setVisible] = useState(false)
   // import动态获取文件内容， 在production环境中不能使用，改成用静态导入，统一在constant/files中配置
-  const getFileContent = async () => {
+  /*  const getFileContent = async () => {
     const filePromise = await import(`../../ui-component/${component}/demo/index.tsx?raw`)
     const code = filePromise.default
   }
-  // 复制到剪切板
-  const onCopy = () => {
-    copy(files.Button)
-    message.success('代码复制成功')
-  }
   useEffect(() => {
     getFileContent()
-  }, [])
+  }, []) */
+  // 复制到剪切板
+  const onCopy = () => {
+    copy(files[component])
+    message.success('代码复制成功')
+  }
+
   return (
     <div className={styles.code_block}>
       <div className={styles.actions}>
@@ -44,7 +45,7 @@ function CodeBlock(props: CodeBlockProps) {
       </div>
       {visible ? (
         <HighLight className="language-tsx" style={{ overflow: 'visible', background: '#f6f8fa' }}>
-          {files.Button}
+          {files[component]}
         </HighLight>
       ) : null}
     </div>
