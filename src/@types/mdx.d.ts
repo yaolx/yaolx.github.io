@@ -13,3 +13,7 @@ interface RouterPops {
   element?: any
   index?: boolean
 }
+
+interface CodeBlockProps {
+  component: string
+}

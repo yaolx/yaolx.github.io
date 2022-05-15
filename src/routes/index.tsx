@@ -1,12 +1,14 @@
 import React from 'react'
 import { useRoutes, RouteObject } from 'react-router-dom'
 
+import { MDXProvider } from '@mdx-js/react'
 import { groupBy, map, cloneDeep } from 'lodash'
 
 import Layout from '@/component/layout/index'
 import NotFound from '@/component/status/404'
 import Home from '@/page/home'
 import { mdxFiles } from '@/service/mdx-service'
+import { CodeBlock } from '@/ui-component'
 
 import About from '../page/about/index.mdx'
 import Log from '../page/log/index.mdx'
@@ -41,6 +43,10 @@ const routeConfig: RouteObject[] = [
     element: <NotFound />
   }
 ]
+
+const components = {
+  CodeBlock
+}
 // 动态生成md文件路由
 const mdxRouters = () => {
   const groupRouters = groupBy(cloneDeep(mdxFiles), 'parentPath')
@@ -58,7 +64,9 @@ const mdxRouters = () => {
           ...mdx,
           element: (
             <div className="markdown-body">
-              <MdxComponent />
+              <MDXProvider components={components}>
+                <MdxComponent />
+              </MDXProvider>
             </div>
           )
         }
