@@ -4,6 +4,8 @@ import { CopyOutlined } from '@ant-design/icons'
 import { message } from 'antd'
 import copy from 'copy-to-clipboard'
 
+import files from '@/constant/file'
+
 import HighLight from './highlight'
 import { Code } from './icons'
 import styles from './styles/index.module.less'
@@ -11,15 +13,14 @@ import styles from './styles/index.module.less'
 function CodeBlock(props: CodeBlockProps) {
   const { component } = props
   const [visible, setVisible] = useState(false)
-  const [code, setCode] = useState('')
-  // 获取文件内容
+  // import动态获取文件内容， 在production环境中不能使用，改成用静态导入，统一在constant/files中配置
   const getFileContent = async () => {
-    const filePromise = import(`../../ui-component/${component}/demo/index.tsx?raw`)
-    const content = await filePromise
-    setCode(content.default)
+    const filePromise = await import(`../../ui-component/${component}/demo/index.tsx?raw`)
+    const code = filePromise.default
   }
+  // 复制到剪切板
   const onCopy = () => {
-    copy(code)
+    copy(files.Button)
     message.success('代码复制成功')
   }
   useEffect(() => {
@@ -43,7 +44,7 @@ function CodeBlock(props: CodeBlockProps) {
       </div>
       {visible ? (
         <HighLight className="language-tsx" style={{ overflow: 'visible', background: '#f6f8fa' }}>
-          {code}
+          {files.Button}
         </HighLight>
       ) : null}
     </div>
