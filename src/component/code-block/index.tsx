@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { CopyOutlined } from '@ant-design/icons'
 import { message } from 'antd'
@@ -9,18 +9,9 @@ import files from '@/constant/file'
 import HighLight from './highlight'
 import { Code } from './icons'
 import styles from './styles/index.module.less'
-
 function CodeBlock(props: CodeBlockProps) {
   const { component } = props
   const [visible, setVisible] = useState(false)
-  // import动态获取文件内容， 在production环境中不能使用，改成用静态导入，统一在constant/files中配置
-  /*  const getFileContent = async () => {
-    const filePromise = await import(`../../ui-component/${component}/demo/index.tsx?raw`)
-    const code = filePromise.default
-  }
-  useEffect(() => {
-    getFileContent()
-  }, []) */
   // 复制到剪切板
   const onCopy = () => {
     copy(files[component])
