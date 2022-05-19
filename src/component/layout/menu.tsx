@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { ExportOutlined } from '@ant-design/icons'
@@ -26,9 +26,6 @@ function MenuLayout(props: MenuProps) {
       hidePop && hidePop()
     }
   }
-  useEffect(() => {
-    globalStore.initMdx()
-  }, [])
   const active = hash.slice(2)
   const menus = globalStore.mdxMenus
   return (

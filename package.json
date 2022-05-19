@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@yaolx/utils": "^1.0.1",
     "antd": "^4.20.2",
     "axios": "^0.23.0",
     "classnames": "^2.3.1",
