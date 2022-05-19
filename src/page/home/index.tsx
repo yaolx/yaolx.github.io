@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
+import { LikeOutlined, CommentOutlined } from '@ant-design/icons'
 import { Divider, Layout } from 'antd'
 import { map } from 'lodash'
 import { observer } from 'mobx-react'
@@ -19,6 +20,7 @@ function Home(): JSX.Element {
   const onClick = (file) => {
     navigate(file.path)
   }
+
   return (
     <Layout className={styles.layout}>
       <Sider className={styles.sider} width={homeSiderWidth}>
@@ -49,6 +51,12 @@ function Home(): JSX.Element {
                       <span className={styles.date}>{file.date}</span>
                     </Divider>
                     <div>{file.name}</div>
+                    <div className={styles.reactions}>
+                      <LikeOutlined className={styles.reaction} />
+                      <div className={styles.reaction}>{file.reactions}</div>
+                      <CommentOutlined className={styles.reaction} />
+                      <div className={styles.reaction}>{file.comments}</div>
+                    </div>
                   </div>
                 )
               })}

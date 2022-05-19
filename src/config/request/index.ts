@@ -9,7 +9,13 @@ function request(axiosConfig, customOptions?): Promise<any> {
   const config = import.meta.env
   const service = axios.create({
     baseURL: config.VITE_SERVER as string, // 设置统一的请求前缀
-    timeout: 10000 // 设置统一的超时时长
+    timeout: 10000, // 设置统一的超时时长
+    headers: {
+      // 1.因为第三方登录获取code后换取token需要服务端繁育，目前没有服务器，就直接写死token
+      // 2.拿到github Personal access tokens，即可请求github的api
+      Authorization: 'xxx',
+      ...axiosConfig.headers
+    }
   })
 
   // 自定义配置

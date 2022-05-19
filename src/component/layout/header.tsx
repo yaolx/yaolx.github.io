@@ -27,8 +27,13 @@ function HeaderLayout() {
   const handleClassSearch = (activeClass: string) => {
     setActiveClass(activeClass)
   }
+  // 第三方登录
+  const onLogin = () => {
+    location.href = `https://github.com/login/oauth/authorize?client_id=c5b764488feef71ad4b5`
+  }
   return (
     <Header className={styles.header}>
+      {/* <div onClick={onLogin}>登录</div> */}
       <div className={styles.logo} />
       <div className={styles.name}>千禮之行</div>
       <Search handleClassSearch={handleClassSearch} activeClass={activeClass} />

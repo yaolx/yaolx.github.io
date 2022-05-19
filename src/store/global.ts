@@ -1,16 +1,9 @@
-import { RouteObject } from 'react-router-dom'
-
-import { filter, first, groupBy, map, take, toPairsIn } from 'lodash'
+import { filter, first, groupBy, map, take, toPairsIn, find } from 'lodash'
 import { makeAutoObservable } from 'mobx'
 
+import { getIssues } from '@/api/issue-api'
 import { mdxFiles, genMdxMenus } from '@/service/mdx-service'
 
-type routersProps = RouteObject & {
-  name: string
-  date: string
-  parentPath: string
-  parentTitle: string
-}
 const homeMenu = [
   {
     key: '',
@@ -38,13 +31,26 @@ class GlobalStore {
     makeAutoObservable(this)
   }
   // mdx文件
-  mdxFiles: routersProps[] = []
+  mdxFiles: RouterPops[] = []
   // mdx菜单
   mdxMenus: any
+  // 当前页的mdx
+  curMdx: Partial<RouterPops> = {}
   // 初始化mdx数据
   initMdx = async () => {
-    this.mdxFiles = mdxFiles
     this.mdxMenus = homeMenu.concat(genMdxMenus()).concat(fixedMenus)
+    const issues = await getIssues()
+    this.mdxFiles = map(mdxFiles, (file) => {
+      const issue = find(issues, {
+        title: file.name
+      })
+      return {
+        ...file,
+        comments: issue?.comments || 0,
+        reactions: issue?.reactions?.total_count || 0,
+        id: issue?.number
+      }
+    })
   }
   /**
    * 全局搜索文章
@@ -70,6 +76,13 @@ class GlobalStore {
       }
     })
     return groupMdx
+  }
+
+  setCurMdx = (key) => {
+    this.curMdx =
+      find(this.mdxFiles, {
+        key
+      }) || {}
   }
 }
 

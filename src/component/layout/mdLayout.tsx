@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
 import { Layout, Menu } from 'antd'
-import { map } from 'lodash'
+import { map, find } from 'lodash'
 
 import { mdSiderWidth, isH5 } from '@/constant/global'
+import { useStores } from '@/hooks'
 import { genSubMdxRouters } from '@/service/mdx-service'
 
 import styles from './styles/index.module.less'
-
 const { Content, Sider } = Layout
 
 interface Props {
@@ -16,6 +16,7 @@ interface Props {
 }
 
 export default function MdLayout(props: Props) {
+  const globalStore = useStores('globalStore')
   const mdxRouters = genSubMdxRouters(props.type)
   const [active, setActive] = useState('')
   const [collapsed, setCollapsed] = useState(true)
@@ -29,7 +30,12 @@ export default function MdLayout(props: Props) {
   }
 
   useEffect(() => {
-    setActive(window.location.hash.slice(1))
+    const curActive = window.location.hash.slice(1)
+    setActive(curActive)
+    const menu = find(mdxRouters, {
+      path: curActive
+    })
+    globalStore.setCurMdx(menu?.key)
   }, [location.hash])
   return (
     <Layout className={styles.layout}>
