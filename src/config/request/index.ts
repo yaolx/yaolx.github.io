@@ -5,7 +5,7 @@ const pendingMap = new Map()
 
 let loadingCount = 0
 
-function request(axiosConfig, customOptions?) {
+function request(axiosConfig, customOptions?): Promise<any> {
   const config = import.meta.env
   const service = axios.create({
     baseURL: config.VITE_SERVER as string, // 设置统一的请求前缀
