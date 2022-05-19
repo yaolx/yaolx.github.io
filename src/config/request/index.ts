@@ -1,14 +1,14 @@
-import axios from 'axios'
 import { message } from 'antd'
+import axios from 'axios'
 
 const pendingMap = new Map()
 
 let loadingCount = 0
 
-function request(axiosConfig, customOptions) {
-  const config = import.meta.env 
+function request(axiosConfig, customOptions?) {
+  const config = import.meta.env
   const service = axios.create({
-    baseURL: (config.VITE_SERVER as string), // 设置统一的请求前缀
+    baseURL: config.VITE_SERVER as string, // 设置统一的请求前缀
     timeout: 10000 // 设置统一的超时时长
   })
 
@@ -128,7 +128,8 @@ function httpErrorStatusHandle(error) {
     }
   }
   if (error.message.includes('timeout')) messageText = '网络请求超时！'
-  if (error.message.includes('Network')) messageText = window.navigator.onLine ? '服务端异常！' : '您断网了！'
+  if (error.message.includes('Network'))
+    messageText = window.navigator.onLine ? '服务端异常！' : '您断网了！'
   message.error(messageText)
 }
 

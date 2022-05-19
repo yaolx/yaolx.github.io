@@ -42,7 +42,7 @@ class GlobalStore {
   // mdx菜单
   mdxMenus: any
   // 初始化mdx数据
-  initMdx = () => {
+  initMdx = async () => {
     this.mdxFiles = mdxFiles
     this.mdxMenus = homeMenu.concat(genMdxMenus()).concat(fixedMenus)
   }
