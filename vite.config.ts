@@ -5,11 +5,10 @@ import path from 'path'
 import { parse } from 'dotenv'
 import { ConfigEnv } from 'vite'
 
-
 import { PORT } from './config/constant'
 import { createVitePlugins } from './config/vite/plugins'
 import { createProxy } from './config/vite/proxy'
-
+import pkg from './package.json'
 /**
  * 环境初始化
  * @param mode
@@ -22,6 +21,7 @@ function envInit(mode) {
     for (const k in envConfig) {
       if (Object.prototype.hasOwnProperty.call(envConfig, k)) {
         process.env[k] = envConfig[k]
+        process.env['author'] = pkg.author
       }
     }
   } catch (error) {

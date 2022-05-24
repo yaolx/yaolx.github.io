@@ -5,6 +5,7 @@ import { Layout } from 'antd'
 
 import Pop from '@/component/pop'
 import Search from '@/component/search'
+import { AUTHOR } from '@/constant/global'
 
 import Menu from './menu'
 import styles from './styles/index.module.less'
@@ -30,7 +31,7 @@ function HeaderLayout() {
   return (
     <Header className={styles.header}>
       <div className={styles.logo} />
-      <div className={styles.name}>千禮之行</div>
+      <div className={styles.name}>{AUTHOR}</div>
       <Search handleClassSearch={handleClassSearch} activeClass={activeClass} />
       <div className={activeClass}>
         <Menu className={styles.pc_menu} />

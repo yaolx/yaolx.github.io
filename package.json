@@ -2,6 +2,7 @@
   "name": "react-boat",
   "version": "0.0.1",
   "homepage": "https://yaolx.github.io/",
+  "author": "千禮之行",
   "scripts": {
     "dev": "vite -m test",
     "serve": "vite preview",

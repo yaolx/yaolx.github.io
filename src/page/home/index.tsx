@@ -5,7 +5,7 @@ import { Divider, Layout } from 'antd'
 import { map } from 'lodash'
 import { observer } from 'mobx-react'
 
-import { homeSiderWidth } from '@/constant/global'
+import { AUTHOR, homeSiderWidth } from '@/constant/global'
 import { useStores } from '@/hooks'
 
 import styles from './style/index.module.less'
@@ -23,7 +23,7 @@ function Home(): JSX.Element {
     <Layout className={styles.layout}>
       <Sider className={styles.sider} width={homeSiderWidth}>
         <div className={styles.avatar} />
-        <h1>千禮之行</h1>
+        <h1>{AUTHOR}</h1>
         <h5>实迷途其未远，觉今是而昨非</h5>
         <Divider orientation="center"> 技术栈</Divider>
         vite + typescript + mdx + mobx，纵享vite构建带来的丝滑开发体验。
@@ -58,10 +58,10 @@ function Home(): JSX.Element {
       </Content>
       <Sider className={styles.sider} width={homeSiderWidth}>
         <Divider orientation="center">快速导航</Divider>
-        <h1>千禮之行</h1>
+        <h1>{AUTHOR}</h1>
         <h5>实迷途其未远，觉今是而昨非</h5>
         <Divider orientation="center">Left Text</Divider>
-        <h1>千禮之行</h1>
+        <h1>{AUTHOR}</h1>
         <h5>实迷途其未远，觉今是而昨非</h5>
       </Sider>
     </Layout>
