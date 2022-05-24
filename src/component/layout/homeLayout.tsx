@@ -10,7 +10,7 @@ interface Props {
 export default function HomeLayout(props: Props) {
   const { isMd } = props
   return (
-    <Content className={isMd ? 'markdown-body' : ''}>
+    <Content className={isMd ? 'markdown-body' : 'home'}>
       <Outlet />
     </Content>
   )
