@@ -6,13 +6,12 @@ import { groupBy, map, cloneDeep } from 'lodash'
 import Layout from '@/component/layout/index'
 import Mdx from '@/component/mdx'
 import NotFound from '@/component/status/404'
-// import AutoLogin from '@/page/auto-login'
 import Home from '@/page/home'
 import { mdxFiles } from '@/service/mdx-service'
 
 import About from '../page/about/index.mdx'
 import Log from '../page/log/index.mdx'
-
+import Resume from '../page/resume/index.mdx'
 const routeConfig: RouteObject[] = [
   {
     path: '/',
@@ -35,13 +34,17 @@ const routeConfig: RouteObject[] = [
       {
         path: '/md/log',
         element: <Log />
+      },
+      {
+        path: '/md/resume',
+        element: (
+          <Mdx>
+            <Resume />
+          </Mdx>
+        )
       }
     ]
   },
-  /* {
-    path: 'auto-login',
-    element: <AutoLogin />
-  }, */
   {
     path: '*',
     element: <NotFound />

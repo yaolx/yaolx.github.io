@@ -3,11 +3,12 @@ import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { observer } from 'mobx-react'
 
-import { CodeBlock } from '@/ui-component'
+import { CodeBlock, MdTitle, MdCard } from '@/ui-component'
 
-import styles from './styles/index.module.less'
 const components = {
-  CodeBlock
+  CodeBlock,
+  MdTitle,
+  MdCard
 }
 
 interface MdxProps {

@@ -34,7 +34,7 @@ function Home(): JSX.Element {
           </div>
         ))}
         <Divider orientation="center">
-          <Link to="/md/about">更多说明</Link>
+          <Link to="/md/resume">我的简历</Link>
         </Divider>
       </Sider>
       <Content className={styles.body}>
@@ -57,12 +57,10 @@ function Home(): JSX.Element {
         })}
       </Content>
       <Sider className={styles.sider} width={homeSiderWidth}>
-        <Divider orientation="center">快速导航</Divider>
-        <h1>{AUTHOR}</h1>
-        <h5>实迷途其未远，觉今是而昨非</h5>
-        <Divider orientation="center">Left Text</Divider>
-        <h1>{AUTHOR}</h1>
-        <h5>实迷途其未远，觉今是而昨非</h5>
+        <Divider orientation="center">
+          <Link to="/md/about">本站更多说明</Link>
+        </Divider>
+        <Divider orientation="center">每日警言</Divider>
       </Sider>
     </Layout>
   )
