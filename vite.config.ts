@@ -21,7 +21,7 @@ function envInit(mode) {
     for (const k in envConfig) {
       if (Object.prototype.hasOwnProperty.call(envConfig, k)) {
         process.env[k] = envConfig[k]
-        process.env['author'] = pkg.author
+        process.env['VITE_AUTHOR'] = pkg.author
       }
     }
   } catch (error) {
