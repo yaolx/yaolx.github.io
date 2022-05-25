@@ -1,39 +1,252 @@
-# <center>基于 vite 构建的静态站 mdx 博客网站和组件库文档</center>
+# <center>基于 vite 构建的 mdx 博客网站和组件库文档</center>
 
-## 背景
+## 前言
 
 作为一个前端，想做个技术沉淀，想必都想拥有自己的博客网站，当做笔记本记录一些笔记。
 现在有很多线上的技术博客网站，比如掘金，博客园等等，都能满足需求。
 从工具上面看，也有 gitbook，hexo,hugo 等，安装依赖后，运行命令，即可。
 但是比如 hexo，配置比较多，还得编译后生成 html，才能使用，用起来感觉不是很方便。
-所以，想从零开始，开发一个适合自己的网站，一边学习 reactjs 脚手架的搭建建，一边学习 ts，还能熟悉自动化部署，最好能一键上传文件，就把菜单，分类都处理好，不用自己再去配置菜单路由什么的。
+所以，想从零开始，开发一个适合自己的网站，一边学习 reactjs 脚手架的搭建建，一边学习 ts，还能熟悉自动化部署，
+最好能一键上传文件，就把菜单，分类都处理好，不用自己再去配置菜单路由什么的。
 
 ## 技术选型
 
 1. vite
 
-vite 构建，相比 webpack，开发的时候效率更高，无需等待编译后再启动服务。通过浏览器 esm 的能力，让 tsx 文件直接运行，秒启动，简直不要太爽。
+   vite 构建，相比 webpack，开发的时候效率更高，无需等待编译后再启动服务。通过浏览器 esm 的能力，让 tsx 文件直接运行，秒启动，简直不要太爽。
 
 2. typescript
 
-这个肯定也是必须的，静态代码检查，配合 eslint，在开发过程中就尽量减少不必要的程序错误。
+   这个肯定也是必须的，静态代码检查，配合 eslint，在开发过程中就尽量减少不必要的程序错误。
 
 3. mobx
 
-mobx 比较容易上手，也不是很复杂，将解析后的 md 文件数据通过 mobx 管理，方便后续做文章查询等功能
+   obx 比较容易上手，也不是很复杂，将解析后的 md 文件数据通过 mobx 管理，方便后续做文章查询等功能
 
 4. react17 + react-router v6
 
-公司层面的脚手架还未使用 react-router v6，所以这次尝试体验下 v6，顺便学习一下
+   公司层面的脚手架还未使用 react-router v6，所以这次尝试体验下 v6，顺便学习一下
 
 5. mdx
 
-引入`vite-plugin-mdx`，`@mdx-js/mdx`,`@mdx-js/react`,使用 react 与 markdown 灵活组合，更具可读性和易于编辑，让组件库开发更加便捷
+   引入`vite-plugin-mdx`，`@mdx-js/mdx`,`@mdx-js/react`,使用 react 与 markdown 灵活组合，更具可读性和易于编辑，让组件库开发更加便捷
 
 6. CICD
 
-在 github 建一个仓库，然后通过 github actions 自动构建，再通过 github pages 自动发布
+   在 github 建一个仓库，然后通过 github actions 自动构建，再通过 github pages 自动发布
 
-## 脚手架搭建
+## 项目搭建
 
 脚手架搭建参考：[cra-template-react-boat](https://github.com/yaolx/cra-template-react-boat)
+
+## 技术博客网站开发
+
+### 安装 mdx 相关依赖
+
+`yarn add vite-plugin-mdx @mdx-js/mdx @mdx-js/react`
+
+在 vite 中配置 mdx
+
+```jsx
+import mdx from 'vite-plugin-mdx'
+export function createVitePlugins() {
+  const vitePlugins = [mdx()]
+
+  return vitePlugins
+}
+```
+
+### 引入 github-markdown.css
+
+目前暂时用 github 的 markdown 样式
+
+### 配置 mdx 路由
+
+新建一个 mdx 文件，然后配置路由
+
+```jsx
+import About from '../page/about/index.mdx'
+  {
+      path: '/md/about',
+      element: <About />
+    }
+```
+
+访问页面即可看到 markdown 效果
+
+![20220525221522](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220525221522.png)
+
+### mdx 文件数据动态生成路由和菜单
+
+由于之前用过 gitbook，每次写完 md 文件，还得手动去加路由菜单，觉得很是麻烦。毕竟懒人一个，不想配置路由，想通过一定的目录、文件夹约定的规则，生成自己想要的数据，然后去生成对应的路由和菜单数据，最后完成 md 快速搜索的功能
+
+这块的逻辑实现，主要是通过 vite 的 globaEager 来实现
+
+通过正则匹配目录格式，构造 mdxFiles 文件数据，从而动态生成路由数据
+
+`const mdxs = import.meta.globEager('../page/md/**/*.mdx')`
+
+相关逻辑在`service/mdx-service.ts`实现
+
+然后通过 mbox 将文件数据缓存起来，用于后面的菜单生成和文件搜索
+
+### md 命名约定说明
+
+在 md 目录下的文件命名规则如下：
+
+- 格式：
+
+  目前只支持 2 层级目录树
+
+  文件夹格式：`${文本}_${文本}`
+
+  mdx 文件格式：`${日期}@${文章标题}.mdx`
+
+  如下所示：
+
+  ![20220506214758](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220506214758.png)
+
+- 步骤：
+
+  按照 md 目录里的文档格式，上传对应的 mdx 文件即可自动生成对应的菜单或者数据
+
+  ![20220506215026](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220506215026.png)
+
+上面几个步骤下来，基本完成了 mdx 文件的预览和搜索功能，而且还支持 pc 端和移动端，就是样式有点挫，没花太多时间去美化。最后也学习了`react-router v6` ，`mdx`, `mobx`的使用。
+
+## 组件库文档的开发
+
+### 封装 mdx 组件
+
+```jsx
+import { MDXProvider } from '@mdx-js/react'
+import { CodeBlock, MdTitle, MdCard } from '@/ui-component'
+
+const components = {
+  CodeBlock,
+  MdTitle,
+  MdCard
+}
+function Mdx(props: MdxProps) {
+  const { children } = props
+  return <MDXProvider components={components}>{children}</MDXProvider>
+}
+```
+
+在 mdx 中通过 import 导入组件很是麻烦，可以通过`@mdx-js/react` `MDXProvider`的能力，将组件注入其中
+
+### demo 测试
+
+```jsx
+demo测试
+# Button
+组件库 demo 测试
+import Button from '@/ui-component/button/demo'
+<Button />
+<CodeBlock component="button" />
+```
+
+![20220525230305](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220525230305.png)
+
+CodeBlock 相比较 Button 而言，就来得更加简洁。
+
+CodeBlock 顺手做了代码预览和复制的功能。
+
+利用 vite import `?raw`的能力，拿到文件的文本内容，渲染到 html 上，然后利用`prism`的能力，对 tsx 脚本进行美化
+
+### 给自己做一个定制化的 mdx 简历
+
+又加了 2 个 ui 组件，MdCard 和 Mdtitle
+然后稍微写下简历 demo
+
+```tsx
+
+# 我的简历
+
+<MdTitle text="基本信息" />
+
+- 姓名： 千禮之行
+
+<MdTitle text="教育经历" />
+
+- 2020.09 — 2021.07 xxx
+
+- 2021.09 — 2022.07 xxx
+
+<MdTitle text="个人优势" />
+
+- 精通 javascript，typescript，es6 以上常用语法
+- 熟练运用 reactjs、vuejs 框架， ui 库使用 antd
+- 熟悉前端工程化，使用 webpack、vite 搭建前端脚手架，使用 npm 进行包管理
+- 熟练使用 Fiddler、vconsole，排查、解决线上移动端问题
+- 熟练使用 nodejs，了解 egg.js，nest.js 框架，开发 cli 工具
+
+<MdTitle text="工作经历" />
+
+- xxx
+
+- xxx
+
+<MdTitle text="项目经验" />
+
+<MdCard
+  content={[
+    {
+      title: '项目名称： xxx'
+    },
+    {
+      title: '项目描述：xxx'
+    },
+    {
+      title: '技术栈：',
+      desc: [
+        'toc web 端：nodejs + egg + redis 框架开发，后续新功能用 react+redux 开发',
+        'toc h5 端：reactjs + redux + ts'
+      ]
+    },
+    {
+      title: '责任描述：',
+      desc: [
+        '项目主程，负责项目的功能拆解/工时评估，任务分配',
+        '负责前端数据埋点开发',
+        '负责前端项目的迁移，私有化部署、域名变更，配合运维人员完成反代和负载均衡的测试',
+        '负责小程序与 h5 的对接开发，将微信用户通过 oauth2.0 授权对接到公司 uc 系统'
+      ]
+    }
+  ]}
+/>
+
+```
+
+就完成一份定制化简历的开发了。
+
+## 编写一个 node cli
+
+在 package.json 中添加
+
+```js
+"bin": {
+    "vite-mdx": "bin/index.js"
+  }
+
+```
+
+将`vite-mdx-cli`发布到 npm 中
+
+参考[vite-mdx-cli](https://github.com/yaolx/vite-mdx-cli)
+
+## 总结
+
+用过 vite-press,gitbook， 主要是配置的东西都比较多，不够傻瓜式，所以想做一个零配置，给自己或者以后团队都轻松使用的文档工具，然后顺便学习下 vite 的生态，感觉还不错。
+遇到挺多问题，也逐一做笔记记录。
+
+从用 vite 脚手架的搭建开始，到个人博客的开发，再到组件库文档的完成，学习了很多，也收货了很多。
+
+全静态站的 mdx 博客网站，还是有一定的局限性，但是内部使用，感觉还是可以的。
+后续继续完善，比如样式美化，简历的导出等等
+
+代码已开源：
+
+```js
+https://github.com/yaolx/yaolx.github.io
+```
