@@ -1081,7 +1081,7 @@ const Demo = () => {
 }
 
 export default Demo
-`;const KE={button:Ode,techmdx:Nde},Mde="_mind_gynh2_1",Bde="_button_gynh2_9",Pde="_map_gynh2_15";var gx={mind:Mde,button:Bde,map:Pde};function Ide(){const e=new Ble,{root:t,features:n}=e.transform(KE.techmdx),{styles:r,scripts:i}=e.getUsedAssets(n),{Markmap:o,loadCSS:l,loadJS:f}=Tk;r&&l(r),i&&f(i,{getMarkmap:()=>Tk}),o.create("#markmap",void 0,t)}function Lde(e){const{showMindMap:t}=e,[n,r]=k.exports.useState(!1),i=()=>{r(!n)};return k.exports.useEffect(()=>{n&&Ide()},[n]),Ue.createElement(Ue.Fragment,null,t?Ue.createElement(pte,{onClick:i},n?"\u5173\u95ED":"\u6253\u5F00","\u601D\u7EF4\u5BFC\u56FE"):null,n?Ue.createElement("div",{className:gx.mind},Ue.createElement(SC,{onClick:i,className:gx.button}),Ue.createElement("svg",{id:"markmap",className:gx.map})):null)}/**
+`;const KE={button:Ode,techmdx:Nde},Mde="_mind_1dnzr_1",Bde="_button_1dnzr_11",Pde="_map_1dnzr_17";var gx={mind:Mde,button:Bde,map:Pde};function Ide(){const e=new Ble,{root:t,features:n}=e.transform(KE.techmdx),{styles:r,scripts:i}=e.getUsedAssets(n),{Markmap:o,loadCSS:l,loadJS:f}=Tk;r&&l(r),i&&f(i,{getMarkmap:()=>Tk}),o.create("#markmap",void 0,t)}function Lde(e){const{showMindMap:t}=e,[n,r]=k.exports.useState(!1),i=()=>{r(!n)};return k.exports.useEffect(()=>{n&&Ide()},[n]),Ue.createElement(Ue.Fragment,null,t?Ue.createElement(pte,{onClick:i},n?"\u5173\u95ED":"\u6253\u5F00","\u601D\u7EF4\u5BFC\u56FE"):null,n?Ue.createElement("div",{className:gx.mind},Ue.createElement(SC,{onClick:i,className:gx.button}),Ue.createElement("svg",{id:"markmap",className:gx.map})):null)}/**
  * Prism: Lightweight, robust, elegant syntax highlighting
  *
  * @license MIT <https://opensource.org/licenses/MIT>
