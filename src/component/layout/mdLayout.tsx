@@ -40,7 +40,7 @@ export default function MdLayout(props: Props) {
         collapsedWidth="0"
         collapsed={collapsed}
         onBreakpoint={(broken) => {
-          console.log(broken)
+          // console.log(broken)
         }}
         onCollapse={(collapsed) => {
           setCollapsed(collapsed)

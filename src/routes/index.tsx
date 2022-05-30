@@ -68,7 +68,8 @@ const mdxRouters = () => {
           ...mdx,
           element: (
             <div className="markdown-body">
-              <Mdx>
+              {/* 技术栈页面才显示知识图谱 */}
+              <Mdx showMindMap={mdx.parentPath === 'tech'}>
                 <Element />
               </Mdx>
             </div>
