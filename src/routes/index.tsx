@@ -12,6 +12,7 @@ import { mdxFiles } from '@/service/mdx-service'
 import About from '../page/about/index.mdx'
 import Log from '../page/log/index.mdx'
 import Resume from '../page/resume/index.mdx'
+import MyResume from '../page/resume/resume.mdx'
 const routeConfig: RouteObject[] = [
   {
     path: '/',
@@ -40,6 +41,14 @@ const routeConfig: RouteObject[] = [
         element: (
           <Mdx>
             <Resume />
+          </Mdx>
+        )
+      },
+      {
+        path: '/md/myresume',
+        element: (
+          <Mdx isResum>
+            <MyResume />
           </Mdx>
         )
       }
