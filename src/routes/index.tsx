@@ -7,6 +7,7 @@ import Layout from '@/component/layout/index'
 import Mdx from '@/component/mdx'
 import NotFound from '@/component/status/404'
 import Home from '@/page/home'
+import Site from '@/page/site'
 import { mdxFiles } from '@/service/mdx-service'
 
 import About from '../page/about/index.mdx'
@@ -23,6 +24,10 @@ const routeConfig: RouteObject[] = [
         element: <Home />
       }
     ]
+  },
+  {
+    path: '/site',
+    element: <Site />
   },
   {
     path: '/md',

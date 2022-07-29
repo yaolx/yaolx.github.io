@@ -58,7 +58,7 @@ function Home(): JSX.Element {
       </Content>
       <Sider className={styles.sider} width={homeSiderWidth}>
         <Divider orientation="center">
-          <Link to="/md/about">本站更多说明</Link>
+          <Link to="/site">前端常用网站</Link>
         </Divider>
         <Divider orientation="center">每日警言</Divider>
       </Sider>

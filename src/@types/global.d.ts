@@ -33,3 +33,11 @@ interface Dict {
   key: string
   name: string
 }
+
+interface Site {
+  id: string
+  title: string
+  children?: Site[]
+  href?: string
+  icon?: string
+}
