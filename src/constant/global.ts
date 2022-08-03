@@ -353,6 +353,24 @@ export const SITE_CATEGORY: Site[] = [
     ]
   },
   {
+    title: '建站工具',
+    id: 'siteTools',
+    children: [
+      {
+        id: 'vitepress',
+        href: 'https://vitepress.vuejs.org/guide/what-is-vitepress.html',
+        icon: 'http://img.alicdn.com/imgextra/i3/O1CN01Mn65HV1FfSEzR6DKv_!!6000000000514-55-tps-228-59.svg',
+        title: 'vitepress'
+      },
+      {
+        id: 'vuepress',
+        href: 'https://vuepress.vuejs.org/zh/',
+        icon: 'https://cn.vuejs.org/images/logo.svg',
+        title: 'vuepress'
+      }
+    ]
+  },
+  {
     title: '图标',
     id: 'icon',
     children: [
