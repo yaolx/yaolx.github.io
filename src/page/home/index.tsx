@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 
+import { URLQueryParserUtils } from '@yaolx/utils'
 import { Divider, Layout } from 'antd'
 import { map } from 'lodash'
 import { observer } from 'mobx-react'
@@ -14,6 +15,7 @@ const { Content, Sider } = Layout
 const scene = ['博客网站', '组件库或产品的文档站点', 'React 组件的 Demo 演示']
 function Home(): JSX.Element {
   const globalStore = useStores('globalStore')
+  const { showResume } = URLQueryParserUtils.resolveQuery()
   const navigate = useNavigate()
   const mdxFiles = globalStore.getMdxByGroup()
   const onClick = (file) => {
@@ -33,9 +35,11 @@ function Home(): JSX.Element {
             {index + 1}. {desc}
           </div>
         ))}
-        <Divider orientation="center">
-          <Link to="/md/resume">我的简历</Link>
-        </Divider>
+        {showResume ? (
+          <Divider orientation="center">
+            <Link to="/md/resume">我的简历</Link>
+          </Divider>
+        ) : null}
       </Sider>
       <Content className={styles.body}>
         {map(mdxFiles, (mdx, index) => {

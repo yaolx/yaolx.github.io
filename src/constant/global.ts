@@ -178,6 +178,18 @@ export const SITE_CATEGORY: Site[] = [
     ]
   },
   {
+    title: '路由',
+    id: 'router',
+    children: [
+      {
+        id: 'reactrouter',
+        href: 'https://reactrouter.com/docs/en/v6',
+        icon: 'https://reactrouter.com/favicon.ico',
+        title: 'react-router'
+      }
+    ]
+  },
+  {
     title: '状态管理库',
     id: 'archive',
     children: [
