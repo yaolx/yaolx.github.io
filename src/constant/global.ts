@@ -309,7 +309,24 @@ export const SITE_CATEGORY: Site[] = [
       }
     ]
   },
-
+  {
+    title: '测试工具',
+    id: 'testTools',
+    children: [
+      {
+        id: 'vitest',
+        href: 'https://cn.vitest.dev/',
+        icon: 'hhttps://cn.vitest.dev/logo.svg',
+        title: 'vitest'
+      },
+      {
+        id: 'jest',
+        href: 'https://www.jestjs.cn/',
+        icon: 'https://cn.vuejs.org/images/logo.svg',
+        title: 'jest'
+      }
+    ]
+  },
   {
     title: '可视化图表库',
     id: 'chartFrame',

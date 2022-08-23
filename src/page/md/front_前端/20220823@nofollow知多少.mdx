@@ -1,0 +1,73 @@
+# <center>noreferrer 知多少</center>
+
+## 前言
+
+今天在对接金山[wps 开放平台](https://open.wps.cn/docs/personal-doc/api-info)的开发过程中，遇到一个问题：
+
+获取文件下载链接，然后再用 window.open 打开 url 下载文件，却下载不了。
+
+如果把链接放在浏览器 url 地址中，点击 ENter 键，却能下载。这是为何？
+
+[文档地址](https://wpsfile.ks3-cn-beijing.ksyun.com/32a188aad17da4d7d19773aee887fd8da29d9a9c?response-content-disposition=attachment%3Bfilename%2A%3Dutf-8%27%27%25E6%2588%2591%25E6%2598%25AF%25E4%25B8%25AD%25E5%259B%25BD%25E4%25BA%25BA.ppt&KSSAccessKeyId=AKLTg4fpvC3aQgO_OBCuKYy98A&Expires=1661150099&Signature=KInq6T97UU5R98eoSlnRqrbTS8k%3D)
+
+## 分析问题
+
+用 fiddler 查看请求链接
+
+1. 分析 response Headers
+
+- 用 window.open 打开
+
+response: `Content-Type: application/xml; charset=UTF-8`
+
+返回的是 xml 格式
+
+![20220823094153](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220823094153.png)
+
+提示 AccessDenied，没有权限访问
+
+- 在地址栏直接打开的
+
+response: `Content-Type: application/octet-stream`
+
+返回的是二进制流数据，可以正常下载
+
+2. 为什么 2 次访问金山文档 response 的 content-type 会不一样呢
+
+试了好几种方式，用 window.open 打开的，a 标签打开的，都无法正常下载文件。
+分析可能是金山文档服务端做了安全校验。
+然后看了下 request Headers，window.open 的多了个 referer
+
+3. 分析 request Headers
+
+window.open 比 地址栏直接打开的 多了一个 `Referer: https://localhost:8080/`
+
+Referer 是指来源页面的地址，金山文档服务端对来源网站做了安全限制，防止一些信息被窃取
+
+现在要做的就是在点击的时候，把 referer 禁用
+
+4. 禁用 Referer
+
+- 在 html 中设置`<meta name="referrer" content="no-referrer" />`
+
+这个对全站生效
+
+- 将 window.open 改为 a 标签点击，然后设置 rel = 'noreferrer'
+
+只对打开的 url 生效
+
+5. 方法封装
+
+```js
+export function downloadFile(url) {
+  const aLink = document.createElement('a')
+  const evt = document.createEvent('MouseEvents')
+  // 初始化点击事件
+  // 注：initEvent 不加后两个参数在FF下会报错
+  evt.initEvent('click', false, false)
+  aLink.href = url
+  // 要设置noreferrer，不然金山文档会校验非法来源
+  aLink.rel = 'noreferrer'
+  aLink.dispatchEvent(evt)
+}
+```
