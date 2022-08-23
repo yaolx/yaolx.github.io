@@ -13,6 +13,20 @@
 
 ![20220502190716](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220502190716.png)
 
+## raw.githubusercontent.com 不能访问的问题
+
+部署到服务器上，发现`cdn.jsdelivr.net`的图片会重定向到`raw.githubusercontent.com`，`raw.githubusercontent.com`访问不了
+
+到[查询网](https://site.ip138.com/raw.githubusercontent.com/)，查下`raw.githubusercontent.com`的解析 ip
+
+然后打开 hosts ，加上
+
+```js
+185.199.111.133 raw.githubusercontent.com
+```
+
+就可以正常访问图片了
+
 ## 总结
 
 配置完 picgo 的 github 信息后，现在写 md，速度真是快的飞起，再也不用担心图片上传的问题了
