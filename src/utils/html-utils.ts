@@ -20,7 +20,7 @@ export function genTextAreaSetInnerHTML(html: string) {
   }
 }
 
-export function genTextAreaSetInnerHTML15555(html: string) {
+export function genTextAreaSetInnerHTML122(html: string) {
   // textArea 有换行，显示的时候需要转成<br />
   if (html.indexOf('\n') > -1 || html.indexOf('\r') > -1) {
     html = replace(html, /\r?\n/g, '<br />')
