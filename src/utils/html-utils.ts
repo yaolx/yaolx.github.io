@@ -19,3 +19,13 @@ export function genTextAreaSetInnerHTML(html: string) {
     __html: html
   }
 }
+
+export function genTextAreaSetInnerHTML1(html: string) {
+  // textArea 有换行，显示的时候需要转成<br />
+  if (html.indexOf('\n') > -1 || html.indexOf('\r') > -1) {
+    html = replace(html, /\r?\n/g, '<br />')
+  }
+  return {
+    __html: html
+  }
+}
