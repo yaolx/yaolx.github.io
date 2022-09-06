@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { Layout } from 'antd'
+import { debounce } from 'lodash'
 import { observer } from 'mobx-react'
 
 import { useStores } from '@/hooks'
@@ -21,7 +22,16 @@ function LayoutIndex(props: Props) {
     globalStore.initMdx().then(() => {
       setIsInit(true)
     })
+    // 窗口大小调整，重新渲染
+    const onResize = () => {
+      window.location.reload()
+    }
+    window.addEventListener('resize', debounce(onResize, 100))
+    return () => {
+      window.removeEventListener('resize', onResize)
+    }
   }, [])
+
   if (!isInit) {
     return <></>
   }
