@@ -1,0 +1,67 @@
+# <center>echarts 绘制 geo 地图</center>
+
+## 背景
+
+需要将 2 个地级市，合并成一个市局机关，需要合并 2 个地级市的地图坐标，并抹除重叠部分的轨迹
+
+## echarts 如何绘制 geo 地图
+
+1. 访问阿里云的[数据可视化平台](http://datav.aliyun.com/portal/school/atlas/area_selector)，下载 geojson 数据
+2. 以下载郴州市数据为例
+   ![20220906214631](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220906214631.png)
+
+   在左侧点击所选择的区域，勾选是否包含子区域（是否显示各个市区域），然后直接下载即可
+
+3. 代码中引入
+
+```tsx
+import React from 'react'
+import ReactEChartsCore from 'echarts-for-react/lib/core'
+import echarts from '@/util/echarts-loader'
+import { echartsConfigForMap } from '@/util/echarts'
+const geoJson = require('@/asset/json/chenzhoushi.json')
+const data = [
+  { name: '安仁县', value: 1, adcode: 431028 },
+  { name: '永兴县', value: 5, adcode: 431023 },
+  { name: '资兴市', value: 11, adcode: 431081 },
+  { name: '桂东县', value: 5, adcode: 431027 },
+  { name: '汝城县', value: 44, adcode: 431026 },
+  { name: '桂阳县', value: 17, adcode: 431021 },
+  { name: '嘉禾县', value: 25, adcode: 431024 },
+  { name: '临武县', value: 52, adcode: 431025 },
+  { name: '宜章县', value: 77, adcode: 431022 },
+  { name: '北湖区', value: 33, adcode: 431002 },
+  { name: '苏仙区', value: 22, adcode: 431003 },
+  { name: '市局机关', value: 77, adcode: 431099 }
+]
+export default function mapChart(): JSX.Element {
+  echarts.registerMap('chenzhou', geoJson)
+  return <ReactEChartsCore echarts={echarts} option={echartsConfigForMap(data)} />
+}
+```
+
+4. 呈现结果
+   ![20220906214722](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220906214722.png)
+
+## 绘制合并地图
+
+前面只是将已经现成的 geojson 数据绘制出来
+如果遇到一个需求，需要将地图合并，该如何处理呢？
+例如，需要将北湖区和苏仙区合并成市局机关，geojson 数据要如何处理呢？
+
+## 解决方案
+
+1. 访问阿里云的[数据可视化平台](http://datav.aliyun.com/portal/school/atlas/area_selector)，下载郴州市的所有县级市 geojson
+2. 访问http://geojson.io/
+   将苏仙区和湖北区合并，并导出 new.geojson
+3. 用 mapshaper 工具来处理地图合并，并去除重叠的点
+   npm install -g mapshaper
+   可以参考[地图工匠秘籍](https://echarts-maps.github.io/echarts-geomapping-book-zh/howtos/split-and-merge/)
+4. 执行命令
+   mapshaper new.geojson -dissolve2 -o result.geojson
+   完成
+5. 再次用http://geojson.io/
+6. 把郴州市下的地级市（剔除北湖区和苏仙区），result.geojson 合并
+   最后导出
+7. 呈现结果
+   ![20220906214755](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220906214755.png)
