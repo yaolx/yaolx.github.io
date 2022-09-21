@@ -1,0 +1,204 @@
+# 前端工程化
+
+## webpack
+
+### loader
+
+- file-loader：把⽂件输出到⼀个⽂件夹中，在代码中通过相对 URL 去引⽤输出的⽂件
+- url-loader：和 file-loader 类似，但是能在⽂件很⼩的情况下以 base64 的⽅式把⽂件内容注⼊到代码中去
+- source-map-loader：加载额外的 Source Map ⽂件，以⽅便断点调试
+- image-loader：加载并且压缩图⽚⽂件
+- babel-loader：把 ES6 转换成 ES5
+- css-loader：加载 CSS，⽀持模块化、压缩、⽂件导⼊等特性
+- style-loader：把 CSS 代码注⼊到 JavaScript 中，通过 DOM 操作去加载 CSS。
+- eslint-loader：通过 ESLint 检查 JavaScript 代码
+
+### plugin
+
+- define-plugin：定义环境变量
+- html-webpack-plugin：简化 html ⽂件创建
+- uglifyjs-webpack-plugin：通过 UglifyES 压缩 ES6 代码
+- webpack-parallel-uglify-plugin: 多核压缩，提⾼压缩速度
+- webpack-bundle-analyzer: 可视化 webpack 输出⽂件的体积
+- mini-css-extract-plugin: CSS 提取到单独的⽂件中，⽀持按需加载
+
+### **bundle**，**chunk**，**module**是什么？
+
+- bundle：是由 webpack 打包出来的⽂件；
+- chunk：代码块，⼀个 chunk 由多个模块组合⽽成，⽤于代码的合并和分割；
+- module：是开发中的单个模块，在 webpack 的世界，⼀切皆模块，⼀个模块对应⼀个⽂件，webpack 会从配置的 entry 中递归开始找出所有依赖的模块。
+
+### **webpack**的构建流程 webpack 的构建流程
+
+Webpack 的运⾏流程是⼀个串⾏的过程，从启动到结束会依次执⾏以下流程：
+
+1. `初始化参数`：从配置⽂件和 Shell 语句中读取与合并参数，得出最终的参数；
+2. `开始编译`：⽤上⼀步得到的参数初始化 Compiler 对象，加载所有配置的插件，执⾏对象的 run ⽅法开始执⾏编译；
+3. `确定⼊⼝`：根据配置中的 entry 找出所有的⼊⼝⽂件；
+4. `编译模块`：从⼊⼝⽂件出发，调⽤所有配置的 Loader 对模块进⾏翻译，再找出该模块依赖的模块，再递归本步骤直到所有⼊⼝依赖的⽂件都经过了本步骤的处理；
+5. `完成模块编译`：在经过第 4 步使⽤ Loader 翻译完所有模块后，得到了每个模块被翻译后的最终内容以及它们之间的依赖关系；
+6. `输出资源`：根据⼊⼝和模块之间的依赖关系，组装成⼀个个包含多个模块的 Chunk，再把每个 Chunk 转换成⼀个单独的⽂件加⼊到输出列表，这步是可以修改输出内容的最后机会；
+7. `输出完成`：在确定好输出内容后，根据配置确定输出的路径和⽂件名，把⽂件内容写⼊到⽂件系统。
+
+在以上过程中，Webpack 会在特定的时间点⼴播出特定的事件，插件在监听到感兴趣的事件后会执⾏特定的逻辑，并且插件可以调⽤ Webpack 提供的 API 改变 Webpack 的运⾏结果。
+
+### webpack 优化前端性能
+
+1. `压缩代码`：删除多余的代码、注释、简化代码的写法等等⽅式。可以利⽤ webpack 的 UglifyJsPlugin 和 ParallelUglifyPlugin 来压缩 JS ⽂件， 利⽤ cssnano （css-loader?minimize）来压缩 css
+2. `利⽤CDN加速`: 在构建过程中，将引⽤的静态资源路径修改为 CDN 上对应的路径。可以利⽤ webpack 对于 output 参数和各 loader 的 publicPath 参数来修改资源路径
+3. `Tree Shaking`: 将代码中永远不会⾛到的⽚段删除掉。可以通过在启动 webpack 时追加参数 --optimize-minimize 来实现
+4. `Code Splitting`: 将代码按路由维度或者组件分块(chunk),这样做到按需加载,同时可以充分利⽤浏览器缓存
+5. `提取公共第三⽅库`: SplitChunksPlugin 插件来进⾏公共模块抽取,利⽤浏览器缓存可以⻓期缓存这些⽆需频繁变动的公共代码
+6. `Scope Hoisting`
+
+### webpack 提高构建速度
+
+1. `happypack:` 利⽤进程并⾏编译 loader,利⽤缓存来使得 rebuild 更快,遗憾的是作者表示已经不会继续开发此项⽬,类似的替代者是 thread-loader
+2. `外部扩展(externals)`: 将不怎么需要更新的第三⽅库脱离 webpack 打包，不被打⼊ bundle 中，从⽽减少打包时间，⽐如 jQuery ⽤ script 标签引⼊
+3. `dll`: 采⽤ webpack 的 DllPlugin 和 DllReferencePlugin 引⼊ dll，让⼀些基本不会改动的代码先打包成静态资源，避免反复编译浪费时间
+4. `利⽤缓存`: webpack.cache 、babel-loader.cacheDirectory、 HappyPack.cache 都可以利⽤缓存提⾼ rebuild 效率缩⼩⽂件搜索范围: ⽐如 babel-loader 插件,如果你的⽂件仅存在于 src 中,那么可以 include: path.resolve(\_\_dirname,'src') ,当然绝⼤多数情况下这种操作的提升有限，除⾮不⼩⼼ build 了 node_modules ⽂件
+5. `多⼊⼝情况下`：使⽤ CommonsChunkPlugin 来提取公共代码
+
+# 网络篇
+
+### [web 缓存](https://mp.weixin.qq.com/s/uwtKu0h-r2O6XrmWhiJhtQ)
+
+### http1 和 http2
+
+- `二进制协议`：HTTP/2 是一个二进制协议。在 HTTP/1.1 版中，报文的头信息必须是文本（ASCII 编码），数据体可以是文本，也可以是二进制。HTTP/2 则是一个彻底的二进制协议，头信息和数据体都是二进制，并且统称为"帧"，可以分为头信息帧和数据帧。 帧的概念是它实现多路复用的基础。
+- `多路复用`：HTTP/2 实现了多路复用，HTTP/2 仍然复用 TCP 连接，但是在一个连接里，客户端和服务器都可以同时发送多个请求或回应，而且不用按照顺序一一发送，这样就避免了"队头堵塞"【1】的问题。
+- `数据流`：HTTP/2 使用了数据流的概念，因为 HTTP/2 的数据包是不按顺序发送的，同一个连接里面连续的数据包，可能属于不同的请求。因此，必须要对数据包做标记，指出它属于哪个请求。HTTP/2 将每个请求或回应的所有数据包，称为一个数据流。每个数据流都有一个独一无二的编号。数据包发送时，都必须标记数据流 ID ，用来区分它属于哪个数据流。
+- `头信息压缩`：HTTP/2 实现了头信息压缩，由于 HTTP 1.1 协议不带状态，每次请求都必须附上所有信息。所以，请求的很多字段都是重复的，比如 Cookie 和 User Agent ，一模一样的内容，每次请求都必须附带，这会浪费很多带宽，也影响速度。HTTP/2 对这一点做了优化，引入了头信息压缩机制。一方面，头信息使用 gzip 或 compress 压缩后再发送；另一方面，客户端和服务器同时维护一张头信息表，所有字段都会存入这个表，生成一个索引号，以后就不发送同样字段了，只发送索引号，这样就能提高速度了。
+- `服务器推送`：HTTP/2 允许服务器未经请求，主动向客户端发送资源，这叫做服务器推送。使用服务器推送提前给客户端推送必要的资源，这样就可以相对减少一些延迟时间。这里需要注意的是 http2 下服务器主动推送的是静态资源，和 WebSocket 以及使用 SSE 等方式向客户端发送即时数据的推送是不同的。
+
+### http 和 https
+
+- HTTPS 协议需要 CA 证书，费用较高；而 HTTP 协议不需要；
+- HTTP 协议是超文本传输协议，信息是明文传输的，HTTPS 则是具有安全性的 SSL 加密传输协议；
+- 使用不同的连接方式，端口也不同，HTTP 协议端口是 80，HTTPS 协议端口是 443；
+- HTTP 协议连接很简单，是无状态的；HTTPS 协议是有 SSL 和 HTTP 协议构建的可进行加密传输、身份认证的网络协议，比 HTTP 更加安全。
+
+### 页面有多张图片，HTTP 是怎样的加载表现？
+
+- 在`HTTP 1`下，浏览器对一个域名下最大 TCP 连接数为 6，所以会请求多次。可以用**多域名部署**解决。这样可以提高同时请求的数目，加快页面图片的获取速度。
+- 在`HTTP 2`下，可以一瞬间加载出来很多资源，因为，HTTP2 支持多路复用，可以在一个 TCP 连接中发送多个 HTTP 请求
+
+### DNS
+
+### TCP 和 UDP
+
+# 性能优化
+
+### CDN
+
+### 懒加载-延迟加载/按需加载
+
+图片到可视区域的时候，再通过 data-src 的方式，赋值给 src
+
+### 预加载
+
+将所需资源提前请求加载到本地，后续从缓存中获取
+
+### 回流与重绘
+
+# 首屏加载优化
+
+    1. 用户打开页面，这个时候页面是完全空白的；
+    2. 然后 html 和引用的 css 加载完毕，浏览器进行首次渲染，我们把首次渲染需要加载的资源体积称为 “首屏体积”；
+    3. 然后 react、react-dom、业务代码加载完毕，应用第一次渲染，或者说首次内容渲染；
+    4. 然后应用的代码开始执行，拉取数据、进行动态 import、响应事件等等，完毕后页面进入可交互状态；
+    5. 接下来 lazyload 的图片等多媒体内容开始逐渐加载完毕；
+    6. 然后直到页面的其它资源（如错误上报组件、打点上报组件等）加载完毕，整个页面的加载就结束了
+
+[react16 加载性能优化指南](https://juejin.cn/post/6844903640902156301)
+
+1. 包分析工具
+
+   webpack-bundle-analyzer
+   对打包后的文件大小进行可视化分析，看哪些包比较大的，进行分析
+
+2. 页面打开--->首屏
+
+   html 入口处，使用动画或者骨架屏
+
+   首屏体积 （首次渲染需要加载的资源体积）= html + js + css
+
+   ```html
+   <div class="root">
+     <!-- svg  loading动画-->
+   </div>
+   ```
+
+   使用 html-webpack-plugin 自动插入 loading
+
+3. 首屏--->首次内容渲染
+
+- 使用缓存 （expires, cache-control，last-modified/if-modified-since, etag/if-none-match）
+
+- 按需引入 polyfill
+  polyfill.io 的 features 设置需要的对象，比如 features=Map,Set
+
+- `SplitChunksPlugin`合并
+
+- webpack4.0 的`Tree Shaking` 减少业务代码体积
+
+4. 首次内容渲染 --->可交互
+
+   `code splitting` 路由懒加载
+
+   react16 react-loable+import 实现路由代码分割
+
+   react17 suspense + import/lazy
+
+5. 可交互--->内容加载完毕
+
+- `骨架屏`
+
+- 组件按需加载
+
+6. 图片压缩，使用 webP 格式图片、svg 图标
+
+7. 使用 cdn 优化
+
+   使用 externals 防止将第三方库打包到 bundle 中，使用 cdn 放到 html 模板上;
+
+   静态资源使用 cdn 放到 html 上
+
+8. 首屏可以用 ssr 渲染
+
+9. 开启 http2.0，gzip 压缩， prefetch
+
+   http2 多路复用
+
+# 算法
+
+1. [扁平数据结构转树](https://juejin.cn/post/6983904373508145189)
+
+- 递归
+- 通过 Map 缓存
+
+2. 栈
+
+   后进先出
+
+- string
+- number
+- boolean
+- null
+- undefined
+- symbol
+- bigInt
+
+  基本数据类型变量保存在栈内存中
+
+3. 堆
+
+   闭包中的基本数据类型是保存在堆内存中的
+
+   `Array`，`Function`，`Object`
+
+   引用数据类型是存储在堆内存中
+
+4. 队列
+
+   先进先出
