@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Layout } from 'antd'
-import { debounce, first } from 'lodash'
 import { observer } from 'mobx-react'
 
 import { useStores } from '@/hooks'
+import { getResizeFire, setResizeFire } from '@/service/resize-service'
 
 import Header from './header'
 import HomeLayout from './homeLayout'
@@ -18,7 +18,6 @@ interface Props {
 function LayoutIndex(props: Props) {
   const globalStore = useStores('globalStore')
   const [isInit, setIsInit] = useState(false)
-  const firstFire = useRef<number | null>(null)
   const { isMd, type } = props
   useEffect(() => {
     globalStore.initMdx().then(() => {
@@ -26,9 +25,10 @@ function LayoutIndex(props: Props) {
     })
     // 窗口大小调整，重新渲染
     const onResize = () => {
-      if (firstFire.current === null) {
-        firstFire.current = setTimeout(() => {
-          firstFire.current = null
+      let firstFire = getResizeFire()
+      if (+firstFire === 1) {
+        firstFire = setTimeout(() => {
+          setResizeFire(1)
           window.location.reload()
         }, 100)
       }
