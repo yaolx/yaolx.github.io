@@ -7,11 +7,13 @@ import { Provider } from 'mobx-react'
 import Router from '@/routes'
 import { genMdxRouters } from '@/service/mdx-service'
 import globalStore from '@/store/global'
+import { startDebug } from '@/utils/debug'
 import './asset/styles/index.less'
 const stores = {
   globalStore
 }
 genMdxRouters()
+startDebug()
 ReactDOM.render(
   <React.StrictMode>
     <Provider stores={stores}>
