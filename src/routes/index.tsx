@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { useRoutes, RouteObject } from 'react-router-dom'
 
 import { groupBy, map, cloneDeep } from 'lodash'
@@ -6,14 +6,15 @@ import { groupBy, map, cloneDeep } from 'lodash'
 import Layout from '@/component/layout/index'
 import Mdx from '@/component/mdx'
 import NotFound from '@/component/status/404'
-import Home from '@/page/home'
-import Site from '@/page/site'
 import { mdxFiles } from '@/service/mdx-service'
 
-import About from '../page/about/index.mdx'
-import Log from '../page/log/index.mdx'
-import Resume from '../page/resume/index.mdx'
-import MyResume from '../page/resume/resume.mdx'
+// 路由懒加载
+const Home = lazy(() => import('@/page/home'))
+const Site = lazy(() => import('@/page/site'))
+const About = lazy(() => import('../page/about/index.mdx'))
+const Log = lazy(() => import('../page/log/index.mdx'))
+const Resume = lazy(() => import('../page/resume/index.mdx'))
+const MyResume = lazy(() => import('../page/resume/resume.mdx'))
 const routeConfig: RouteObject[] = [
   {
     path: '/',

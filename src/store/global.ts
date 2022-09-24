@@ -5,7 +5,7 @@ import { makeAutoObservable } from 'mobx'
 
 import { mdxFiles, genMdxMenus } from '@/service/mdx-service'
 
-type routersProps = RouteObject & {
+type RoutersProps = RouteObject & {
   name: string
   date: string
   parentPath: string
@@ -38,7 +38,7 @@ class GlobalStore {
     makeAutoObservable(this)
   }
   // mdx文件
-  mdxFiles: routersProps[] = []
+  mdxFiles: RoutersProps[] = []
   // mdx菜单
   mdxMenus: any
   // 初始化mdx数据

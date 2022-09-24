@@ -12,9 +12,6 @@ interface RouterPops {
   date: string
   element?: any
   index?: boolean
-  comments?: number
-  reactions?: number
-  id?: number
 }
 
 interface Issue {

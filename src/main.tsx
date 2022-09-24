@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { StrictMode, Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter } from 'react-router-dom'
 
+import { Spin } from 'antd'
 import { Provider } from 'mobx-react'
 
 import Router from '@/routes'
@@ -15,12 +16,14 @@ const stores = {
 genMdxRouters()
 startDebug()
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <Provider stores={stores}>
       <HashRouter>
-        <Router />
+        <Suspense fallback={<Spin size="large" className="loading" />}>
+          <Router />
+        </Suspense>
       </HashRouter>
     </Provider>
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('root')
 )
