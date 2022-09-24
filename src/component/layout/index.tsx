@@ -27,6 +27,7 @@ function LayoutIndex(props: Props) {
     const onResize = () => {
       let firstFire = getResizeFire()
       if (+firstFire === 1) {
+        setResizeFire(0)
         firstFire = setTimeout(() => {
           setResizeFire(1)
           window.location.reload()
