@@ -33,7 +33,7 @@ function LayoutIndex(props: Props) {
         }, 100)
       }
     }
-    window.addEventListener('resize', debounce(onResize, 100))
+    window.addEventListener('resize', onResize)
     return () => {
       window.removeEventListener('resize', onResize)
     }
