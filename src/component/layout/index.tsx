@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { Layout } from 'antd'
 import { debounce } from 'lodash'
@@ -17,6 +17,7 @@ interface Props {
 function LayoutIndex(props: Props) {
   const globalStore = useStores('globalStore')
   const [isInit, setIsInit] = useState(false)
+  const reload = useRef(false)
   const { isMd, type } = props
   useEffect(() => {
     globalStore.initMdx().then(() => {
@@ -24,6 +25,7 @@ function LayoutIndex(props: Props) {
     })
     // 窗口大小调整，重新渲染
     const onResize = () => {
+      alert('test')
       window.location.reload()
     }
     window.addEventListener('resize', debounce(onResize, 100))
