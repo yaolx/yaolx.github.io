@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { Layout } from 'antd'
+import { debounce } from 'lodash'
 import { observer } from 'mobx-react'
 
 import { useStores } from '@/hooks'
-import { getResizeFire, setResizeFire } from '@/service/resize-service'
 
 import Header from './header'
 import HomeLayout from './homeLayout'
@@ -18,23 +18,22 @@ interface Props {
 function LayoutIndex(props: Props) {
   const globalStore = useStores('globalStore')
   const [isInit, setIsInit] = useState(false)
+  const clientHeight = useRef(document.body.clientHeight)
   const { isMd, type } = props
   useEffect(() => {
     globalStore.initMdx().then(() => {
       setIsInit(true)
     })
     // 窗口大小调整，重新渲染
+    console.log('1###', document.body.clientHeight)
     const onResize = () => {
-      let firstFire = getResizeFire()
-      if (+firstFire === 1) {
-        setResizeFire(0)
-        firstFire = setTimeout(() => {
-          setResizeFire(1)
-          window.location.reload()
-        }, 100)
+      console.log('2###', document.body.clientHeight)
+      if (clientHeight.current !== document.body.clientHeight) {
+        console.log('3###', document.body.clientHeight)
+        window.location.reload()
       }
     }
-    window.addEventListener('resize', onResize)
+    window.addEventListener('resize', debounce(onResize, 100))
     return () => {
       window.removeEventListener('resize', onResize)
     }
