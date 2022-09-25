@@ -1,6 +1,6 @@
 import { compact, map, filter, keyBy, isEmpty } from 'lodash'
 
-const mdxs = import.meta.globEager('../page/md/**/*.mdx')
+const mdxs = import.meta.glob('../page/md/**/*.mdx')
 
 export let mdxFiles: RouterPops[] = []
 // 解析md文件夹下的markdown文件，生成路由
@@ -28,7 +28,7 @@ export const genMdxRouters = (): RouterPops[] => {
           key: `/${parentPath}/${date}`,
           name,
           date,
-          element: mdx.default
+          element: mdx
         }
         if (parentPath !== cacheParentPath) {
           cacheParentPath = parentPath

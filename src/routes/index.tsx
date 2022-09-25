@@ -74,11 +74,11 @@ const mdxRouters = () => {
       path: `/${key}`,
       element: <Layout type={key} />,
       children: map(mdxs, (mdx, n) => {
-        const Element = mdx.element
         if (n === 0) {
           mdx.index = true
           mdx.path = ''
         }
+        const Element = lazy(mdx.element)
         return {
           ...mdx,
           element: (

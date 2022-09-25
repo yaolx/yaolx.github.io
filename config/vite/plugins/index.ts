@@ -5,6 +5,7 @@
 import eslint from '@rollup/plugin-eslint'
 import typescript from '@rollup/plugin-typescript'
 import reactRefresh from '@vitejs/plugin-react'
+import { splitVendorChunkPlugin } from 'vite'
 import viteCompression from 'vite-plugin-compression'
 import mdx from 'vite-plugin-mdx'
 
@@ -33,6 +34,8 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
 
   // 包分析
   VITE_APP_ANALYZE && vitePlugins.push(configVisualizerPlugin())
+  // 分包
+  isBuild && vitePlugins.push(splitVendorChunkPlugin())
 
   // 发布，打包
   if (VITE_APP_COMPRESS_GZIP && isBuild) {
