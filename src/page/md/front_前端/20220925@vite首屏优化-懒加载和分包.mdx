@@ -1,0 +1,107 @@
+# <center>vite 打包优化之：懒加载和分包</center>
+
+## 背景
+
+通过 yarn build 打包后，控制台有以下输出
+
+![20220925231020](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220925231020.png)
+
+css：index.02739bc1.css
+js：index.584305a3.js
+html:
+
+这是 vite 默认的拆包策略，没有配置`manualChunks`，实现了 css 代码分割，业务代码和第三方库打包在 index.js 中，缺点明显，打包产物臃肿，明显有进一步拆包优化的空间。
+因为没有采用懒加载和分包策略，js 包就一个，有 1781K
+首屏加载的时候有点慢，并且控制台有如下警告
+
+![20220925222617](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220925222617.png)
+
+1. 建议采用 import 动态导入
+2. 通过 rollup 的 manualChunks 进行分包
+
+所以以下将根据这两点，对 vite 拆包进行优化。
+
+## 分析
+
+1. 使用`rollup-plugin-visualizer`工具分析包体积
+
+2. build 的时候开启
+
+3. 查看结果
+
+   ![20220925224341](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220925224341.png)
+
+- lodash：500 多 K
+- markmap: 思维导图组件 600 多 K
+- react：100 多 K
+
+  这 3 个包体积比较大
+
+## 解决方案
+
+1. 路由懒加载
+
+- 引入 suspense 和 lazy
+
+  `main.tsx`入口通过 suspense 包裹，并设置加载中组件
+
+  ```js
+  <Suspense fallback={<Spin size="large" className="loading" />}>
+    <Router />
+  </Suspense>
+  ```
+
+- 路由中将直接加载的组件改为懒加载
+
+  ```js
+  import Home from '@/page/home'
+  改为
+  const Home = lazy(() => import('@/page/home'))
+  ```
+
+- `import.meta.globEager` 改为 `import.meta.glob`
+
+  动态路由中将`import.meta.globEager`改为`import.meta.glob`
+
+  经过这三步改造后，重新打包
+
+  ![20220925224341](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220925231628.png)
+
+  看到很多根据组件细分出来的 js,vendor 包少了将近 200K
+
+2. 通过`vite-plugin-chunk-split` 进行分包处理，将第三方包分离出去
+
+   安装`vite-plugin-chunk-split`
+   `yarn add vite-plugin-chunk-split -D`
+
+   ```js
+   import { chunkSplitPlugin } from 'vite-plugin-chunk-split'
+
+   isBuild &&
+     vitePlugins.push(
+       chunkSplitPlugin({
+         strategy: 'default',
+         customSplitting: {
+           'react-vendor': ['react', 'react-dom'],
+           lodash: ['lodash'],
+           markmap: ['markmap-lib', 'markmap-view']
+         }
+       })
+     )
+   ```
+
+   再次构建
+
+   ![20220925232027](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20220925232027.png)
+
+   这次 vendor 包，只剩下 800 多 K
+
+   首屏访问速度大大提升
+
+3. 将`react`,`lodash`等第三方包放到 rollup 的 externals，用 cdn 加载
+
+   这样将会更大的提升首屏加载速度
+
+## 总结
+
+此次性能优化，主要涉及`组件懒加载`，`chunk-split拆包`，`第三方包放入cdn`,成功将 vendor 体积大小从 1700K 降到 800K，并且通过懒加载方式，动态加载路由，性能大大提升
