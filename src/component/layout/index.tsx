@@ -25,11 +25,8 @@ function LayoutIndex(props: Props) {
       setIsInit(true)
     })
     // 窗口大小调整，重新渲染
-    console.log('1###', document.body.clientHeight)
     const onResize = () => {
-      console.log('2###', document.body.clientHeight)
       if (clientHeight.current !== document.body.clientHeight) {
-        console.log('3###', document.body.clientHeight)
         window.location.reload()
       }
     }

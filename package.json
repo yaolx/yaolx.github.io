@@ -71,6 +71,7 @@
     "typescript": "^4.3.2",
     "vconsole": "^3.14.6",
     "vite": "^2.6.4",
+    "vite-plugin-chunk-split": "^0.4.0",
     "vite-plugin-compression": "^0.3.5",
     "vite-plugin-mdx": "^3.5.10",
     "vite-plugin-mock": "^2.9.6",
