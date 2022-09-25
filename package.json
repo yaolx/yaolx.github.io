@@ -9,9 +9,10 @@
     "start:mock": "vite -m mock",
     "start:test": "vite -m test",
     "start:production": "vite -m production",
-    "build": "tsc && vite build",
-    "build:test": "tsc && vite build -m test",
+    "build": "tsc && vite build && yarn copy",
+    "build:test": "tsc && vite build -m test && yarn copy",
     "build:production": "tsc && vite build -m production",
+    "copy": "copyfiles -f .nojekyll dist",
     "lint": "eslint src/"
   },
   "husky": {
@@ -58,6 +59,7 @@
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "@vitejs/plugin-react": "^1.3.1",
+    "copyfiles": "^2.4.1",
     "dotenv": "^10.0.0",
     "eslint": "^7.0.1",
     "eslint-import-resolver-typescript": "^2.7.1",
