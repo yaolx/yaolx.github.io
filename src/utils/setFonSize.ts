@@ -17,7 +17,7 @@ export default function setFontSize(designWidth = DESIGN_WIDTH, maxWidth = MAX_P
     // 大于1000px的ratio = 设备宽度除以设计稿宽度
     let ratio = 1
     if (clientWidth >= maxWidth) {
-      ratio = Math.round(clientWidth / DESIGN_WIDTH)
+      ratio = clientWidth / DESIGN_WIDTH
     }
     docEl.style.fontSize = `${vw / ratio}vw`
   }
