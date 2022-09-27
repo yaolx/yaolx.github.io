@@ -9,6 +9,7 @@ import Router from '@/routes'
 import { genMdxRouters } from '@/service/mdx-service'
 import globalStore from '@/store/global'
 import { startDebug } from '@/utils/debug'
+import '@/utils/setFonSize'
 import './asset/styles/index.less'
 const stores = {
   globalStore
