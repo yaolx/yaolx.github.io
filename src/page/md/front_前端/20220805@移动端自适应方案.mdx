@@ -3,28 +3,69 @@
 ## 移动端自适应
 
 下面以 iphone se 为例，它的分辨率是 375 \* 667，dpr = 2
-设计稿的尺寸：750px
+对应的设计稿的尺寸：750px
 
 ### 方案一：flexible+rem 实现
 
-在页面中引入`<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>`
+    在页面中引入`<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>`
 
-会在`<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">`中
-将`initail-scale`设为 0.5
-将 html 的 font-size 设为 75px
-我们在样式中需要根据设计稿来计算实际的 rem
-比如设计稿中的图片是 180 \* 180，那么对应它的 rem 是 180 / 75 = 2.4rem
+    会在`<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">`中
+    将`initail-scale`设为 0.5
+    将 html 的 font-size 设为 75px
+    我们在样式中需要根据设计稿来计算实际的 rem
+    比如设计稿中的图片是 180 \* 180，那么对应它的 rem 是 180 / 75 = 2.4rem
 
 ### 方案二：vm+rem 实现
 
-无需引入任何的 js 库
+    无需引入任何的 js 库
 
-html 的 style 属性的 font-size 设置为 13.333333vw
-css 中 20px 改写为 0.2rem 即可
-这么计算的呢？
-750px = 100vw
-1px = 0.13333333vw
-100px = 13.333333vw
+    html 的 style 属性的 font-size 设置为 26.26666667vw
 
-参考
+    怎么计算的呢？
+    设计稿是 750px，因为 dpr = 2 所以，实际的样式是
+
+    750px / 2 = 100vw
+    1px = 0.26666667vw
+    100px = 26.26666667vw
+
+    因为 rem 是根据 html 的 font-size 计算的，那么
+    1rem = 100px
+
+    所以设计稿中的 10px，其实就是对应样式中的 0.1rem
+
+    这样就做到了自适应
+
+### 自适应实战
+
+    项目中自适应的方案是：所有的 css 单位都用 vw，在手机和 pad 竖屏中，自适应的还可以，但是在横屏或者 pc 端，大于 1000px 的设备中，字体、间距就显得太大了
+
+    有人推荐用 media，根据尺寸，再写一套兼容样式。想了想，这么搞岂不是吐血，工作量实在太大。
+
+    开始考虑方案二，结合 vm+rem
+
+1. 判断设备的尺寸
+
+   如果是小于 1000 的，设置 html 的 fontSize: 100 / 375 \* 100 = 26.666667vw
+
+   如果是大于等于 1000px 的，设置 html 的 fontSize: 100/ 375 \* 100 / 2 = 13.333333vw
+
+   最后根据当前设备 width/设计稿宽度，用来作为系数
+
+2. 引入`postcss-plugin-px2rem`
+
+   样式中还是用设计稿的尺寸，然后引入`postcss-plugin-px2rem`，将 px 转换成 rem
+
+3. 查看手机，pad 端，PC 端样式，基本做到了自适应，其他 width 比较大的，建议还是用百分比
+
+## 总结：
+
+1. html 的 font-size 采用 vw 单位
+2. 字体、间距等内容宽度比较小的，用 rem 做自适应
+3. 对应占比比较大的空间，用百分比
+4. 尽可能使用 flex 布局
+5. pc 端，h5 端根据设备判断，在 body 处，设置他们的 class，方便在样式中适配
+6. 样式中还是使用设计稿提供的 px，然后使用`postcss-plugin-px2rem`，将 px 转换为 rem
+
+## 参考
+
 [都 2020 移动端适配你还用 flexible.js 吗？vw+rem 一行代码搞定](https://juejin.cn/post/6844904029898670088)
