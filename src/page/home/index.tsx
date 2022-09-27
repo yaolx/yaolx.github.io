@@ -6,6 +6,7 @@ import { Divider, Layout } from 'antd'
 import { map } from 'lodash'
 import { observer } from 'mobx-react'
 
+import Calculating from '@/component/calculating'
 import { AUTHOR, homeSiderWidth } from '@/constant/global'
 import { useStores } from '@/hooks'
 
@@ -17,10 +18,12 @@ function Home(): JSX.Element {
   const globalStore = useStores('globalStore')
   const { showResume } = URLQueryParserUtils.resolveQuery()
   const navigate = useNavigate()
+
   const mdxFiles = globalStore.getMdxByGroup()
   const onClick = (file) => {
     navigate(file.path)
   }
+
   return (
     <Layout className={styles.layout}>
       <Sider className={styles.sider} width={homeSiderWidth}>
@@ -65,6 +68,8 @@ function Home(): JSX.Element {
           <Link to="/site">前端常用网站</Link>
         </Divider>
         <Divider orientation="center">每日警言</Divider>
+        <Divider orientation="center">CSS单位换算器</Divider>
+        <Calculating />
       </Sider>
     </Layout>
   )
