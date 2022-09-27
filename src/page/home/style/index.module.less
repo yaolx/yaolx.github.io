@@ -11,6 +11,12 @@
   box-shadow: var(--box-shadow);
   border-radius: 5px;
   padding: 20px;
+  &.homeSiderWidth {
+    width: 300px !important;
+    flex: 0 0 300px !important;
+    max-width: 300px !important;
+    min-width: 300px !important;
+  }
   &:hover {
     box-shadow: var(--box-shadow-hover);
   }
@@ -59,7 +65,7 @@
       font-weight: normal;
       margin-left: 20px;
     }
-    .tag{
+    .tag {
       position: absolute;
       top: 18px;
       right: -22px;
@@ -72,7 +78,7 @@
       border-right: 20px solid transparent;
       color: #fff;
     }
-    .file{
+    .file {
       flex: 1;
       text-align: left;
       border: 1px solid rgba(0, 0, 0, 0.06);
@@ -93,10 +99,17 @@
     padding: 0;
     .card {
       flex-direction: column;
-      .file{ 
+      .file {
         margin-right: 0;
         margin-bottom: 10px;
       }
     }
+  }
+
+  .sider.homeSiderWidth {
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    min-width: 100% !important;
   }
 }

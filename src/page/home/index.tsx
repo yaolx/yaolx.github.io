@@ -3,11 +3,12 @@ import { useNavigate, Link } from 'react-router-dom'
 
 import { URLQueryParserUtils } from '@yaolx/utils'
 import { Divider, Layout } from 'antd'
+import classNames from 'classnames'
 import { map } from 'lodash'
 import { observer } from 'mobx-react'
 
 import Calculating from '@/component/calculating'
-import { AUTHOR, homeSiderWidth } from '@/constant/global'
+import { AUTHOR } from '@/constant/global'
 import { useStores } from '@/hooks'
 
 import styles from './style/index.module.less'
@@ -26,7 +27,7 @@ function Home(): JSX.Element {
 
   return (
     <Layout className={styles.layout}>
-      <Sider className={styles.sider} width={homeSiderWidth}>
+      <Sider className={classNames(styles.sider, styles.homeSiderWidth)}>
         <div className={styles.avatar} />
         <h1>{AUTHOR}</h1>
         <h5>实迷途其未远，觉今是而昨非</h5>
@@ -63,7 +64,7 @@ function Home(): JSX.Element {
           )
         })}
       </Content>
-      <Sider className={styles.sider} width={homeSiderWidth}>
+      <Sider className={classNames(styles.sider, styles.homeSiderWidth)}>
         <Divider orientation="center">
           <Link to="/site">前端常用网站</Link>
         </Divider>

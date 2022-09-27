@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
+import classNames from 'classnames'
 import { map } from 'lodash'
 
-import { mdSiderWidth, isH5 } from '@/constant/global'
 import { genSubMdxRouters } from '@/service/mdx-service'
 
 import styles from './styles/index.module.less'
@@ -23,9 +24,6 @@ export default function MdLayout(props: Props) {
   const onSelectMenu = ({ key }) => {
     setActive(key)
     navigate(key)
-    if (isH5) {
-      setCollapsed(true)
-    }
   }
 
   useEffect(() => {
@@ -33,18 +31,18 @@ export default function MdLayout(props: Props) {
   }, [location.hash])
   return (
     <Layout className={styles.layout}>
+      <div className={styles.folder}>
+        {collapsed ? (
+          <MenuUnfoldOutlined onClick={() => setCollapsed(!collapsed)} />
+        ) : (
+          <MenuFoldOutlined onClick={() => setCollapsed(!collapsed)} />
+        )}
+      </div>
       <Sider
-        className={styles.sider}
-        width={mdSiderWidth}
-        breakpoint="md"
+        className={classNames(styles.sider, collapsed ? '' : styles.mdSiderWidth)}
         collapsedWidth="0"
+        trigger={null}
         collapsed={collapsed}
-        onBreakpoint={(broken) => {
-          // console.log(broken)
-        }}
-        onCollapse={(collapsed) => {
-          setCollapsed(collapsed)
-        }}
       >
         <Menu
           mode="inline"
