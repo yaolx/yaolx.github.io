@@ -1,4 +1,4 @@
-import"./react-vendor.288f1b98.js";import{n as u}from"./vendor.3e7262e5.js";import"./markmap.f3d39f47.js";import"./__commonjsHelpers__.be7665b8.js";import"./lodash.b4f4b5bf.js";const E={},F="wrapper";function n({components:e,...t}){return u(F,{...E,...t,components:e,mdxType:"MDXLayout"},u("h1",null,u("center",null,"\u79FB\u52A8\u7AEF\u81EA\u9002\u5E94\u65B9\u6848")),u("h2",null,"\u79FB\u52A8\u7AEF\u81EA\u9002\u5E94"),u("p",null,"\u4E0B\u9762\u4EE5 iphone se \u4E3A\u4F8B\uFF0C\u5B83\u7684\u5206\u8FA8\u7387\u662F 375 ","*",` 667\uFF0Cdpr = 2
+import"./react-vendor.288f1b98.js";import{p as u}from"./vendor.8d276f22.js";import"./markmap.f3d39f47.js";import"./__commonjsHelpers__.be7665b8.js";import"./lodash.b4f4b5bf.js";const E={},F="wrapper";function l({components:e,...t}){return u(F,{...E,...t,components:e,mdxType:"MDXLayout"},u("h1",null,u("center",null,"\u79FB\u52A8\u7AEF\u81EA\u9002\u5E94\u65B9\u6848")),u("h2",null,"\u79FB\u52A8\u7AEF\u81EA\u9002\u5E94"),u("p",null,"\u4E0B\u9762\u4EE5 iphone se \u4E3A\u4F8B\uFF0C\u5B83\u7684\u5206\u8FA8\u7387\u662F 375 ","*",` 667\uFF0Cdpr = 2
 \u8BBE\u8BA1\u7A3F\u7684\u5C3A\u5BF8\uFF1A750px`),u("h3",null,"\u65B9\u6848\u4E00\uFF1Aflexible+rem \u5B9E\u73B0"),u("p",null,"\u5728\u9875\u9762\u4E2D\u5F15\u5165",u("inlineCode",{parentName:"p"},'<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"><\/script>')),u("p",null,"\u4F1A\u5728",u("inlineCode",{parentName:"p"},'<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">'),`\u4E2D
 \u5C06`,u("inlineCode",{parentName:"p"},"initail-scale"),`\u8BBE\u4E3A 0.5
 \u5C06 html \u7684 font-size \u8BBE\u4E3A 75px
@@ -9,4 +9,4 @@ css \u4E2D 20px \u6539\u5199\u4E3A 0.2rem \u5373\u53EF
 750px = 100vw
 1px = 0.13333333vw
 100px = 13.333333vw`),u("p",null,`\u53C2\u8003
-`,u("a",{parentName:"p",href:"https://juejin.cn/post/6844904029898670088"},"\u90FD 2020 \u79FB\u52A8\u7AEF\u9002\u914D\u4F60\u8FD8\u7528 flexible.js \u5417\uFF1Fvw+rem \u4E00\u884C\u4EE3\u7801\u641E\u5B9A")))}n.isMDXComponent=!0;export{n as default};
+`,u("a",{parentName:"p",href:"https://juejin.cn/post/6844904029898670088"},"\u90FD 2020 \u79FB\u52A8\u7AEF\u9002\u914D\u4F60\u8FD8\u7528 flexible.js \u5417\uFF1Fvw+rem \u4E00\u884C\u4EE3\u7801\u641E\u5B9A")))}l.isMDXComponent=!0;export{l as default};
