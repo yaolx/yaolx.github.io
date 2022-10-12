@@ -1,5 +1,4 @@
 import { URLQueryParserUtils } from '@yaolx/utils'
-import VConsole from 'vconsole'
 
 export function startDebug() {
   // 获取search中的参数
@@ -9,7 +8,9 @@ export function startDebug() {
   }
   // 本地开发或者url中有带debug=1，则开启vconsole调试
   if (window.localStorage.getItem('debug') === '1') {
-    new VConsole()
-    console.log('vConsole debug start:')
+    // 动态引入，避免被打包到vendor中
+    import('vconsole').then((VConsole) => {
+      new VConsole.default()
+    })
   }
 }
