@@ -6,6 +6,7 @@ import { groupBy, map, cloneDeep } from 'lodash'
 import Layout from '@/component/layout/index'
 import Mdx from '@/component/mdx'
 import NotFound from '@/component/status/404'
+import Suspense from '@/component/suspense'
 import { mdxFiles } from '@/service/mdx-service'
 
 // 路由懒加载
@@ -22,13 +23,21 @@ const routeConfig: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <Home />
+        element: (
+          <Suspense>
+            <Home />
+          </Suspense>
+        )
       }
     ]
   },
   {
     path: '/site',
-    element: <Site />
+    element: (
+      <Suspense>
+        <Site />
+      </Suspense>
+    )
   },
   {
     path: '/md',
@@ -36,17 +45,27 @@ const routeConfig: RouteObject[] = [
     children: [
       {
         path: '/md/about',
-        element: <About />
+        element: (
+          <Suspense>
+            <About />
+          </Suspense>
+        )
       },
       {
         path: '/md/log',
-        element: <Log />
+        element: (
+          <Suspense>
+            <Log />
+          </Suspense>
+        )
       },
       {
         path: '/md/resume',
         element: (
           <Mdx>
-            <Resume />
+            <Suspense>
+              <Resume />
+            </Suspense>
           </Mdx>
         )
       },
@@ -54,7 +73,9 @@ const routeConfig: RouteObject[] = [
         path: '/md/myresume',
         element: (
           <Mdx isResum>
-            <MyResume />
+            <Suspense>
+              <MyResume />
+            </Suspense>
           </Mdx>
         )
       }
@@ -85,7 +106,9 @@ const mdxRouters = () => {
             <div className="markdown-body">
               {/* 技术栈页面才显示知识图谱 */}
               <Mdx showMindMap={mdx.parentPath === 'tech'}>
-                <Element />
+                <Suspense>
+                  <Element />
+                </Suspense>
               </Mdx>
             </div>
           )

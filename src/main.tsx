@@ -1,8 +1,7 @@
-import React, { StrictMode, Suspense } from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { HashRouter } from 'react-router-dom'
 
-import { Spin } from 'antd'
 import { Provider } from 'mobx-react'
 
 import Router from '@/routes'
@@ -20,9 +19,7 @@ ReactDOM.render(
   <StrictMode>
     <Provider stores={stores}>
       <HashRouter>
-        <Suspense fallback={<Spin size="large" className="loading" />}>
-          <Router />
-        </Suspense>
+        <Router />
       </HashRouter>
     </Provider>
   </StrictMode>,

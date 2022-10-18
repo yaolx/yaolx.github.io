@@ -1,0 +1,51 @@
+# <center>less 语法 mixin 之：@content 的妙用</center>
+
+## 背景
+
+在大部分工程中，我们都用到了 less，为了多端样式的适配，我们通常用媒体查询@media 做不同尺寸的响应式布局。
+
+针对多端样式适配方案，一般都采用 flex + media。
+
+## @media 的 minxin 封装
+
+为了避免在各个 less 中到处写 media，通过@content 对@media 进行封装，最终 less 的书写跟 js 方法类似，只要传入需要适配的样式即可。
+
+```code
+
+media方法封装：传入width，可适配不同尺寸的样式
+.mediaScreen(@content, @width: 1000) {
+  @media only screen and (min-width: ~'@{width}px') {
+    @content();
+  }
+}
+
+调用：
+.mediaScreen({
+  .empty {
+    img {
+      height: 100px;
+    }
+  }
+});
+
+
+编译后：
+@media only screen and (min-width: 1000px) {
+  .empty {
+    img {
+      height: 100px;
+    }
+  }
+}
+```
+
+相关知识点：
+
+1. @media：媒体查询
+2. @content：将内容区代码传入
+3. ~：对 less 无法识别的语法不进行编译
+
+## 总结
+
+1. 通过 minxin 做到了样式方法封装，便于维护
+2. 方便统一管理，做不同分辨率的响应式开发
