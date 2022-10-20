@@ -68,6 +68,12 @@ export const SITE_CATEGORY: Site[] = [
     id: 'uiLib',
     children: [
       {
+        id: 'web-components',
+        href: 'https://www.webcomponents.org/introduction',
+        icon: 'https://wu-component.github.io/assets/logo.png',
+        title: 'web-components'
+      },
+      {
         id: 'antd-react',
         href: 'https://ant.design/docs/react/introduce-cn',
         icon: 'https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png',
