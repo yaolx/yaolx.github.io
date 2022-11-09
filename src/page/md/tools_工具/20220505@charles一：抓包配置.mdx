@@ -1,0 +1,71 @@
+# <center>charles 抓包配置</center>
+
+## 背景
+
+fiddler 在安卓模拟器下抓包不稳定，经常捕获不到 https 请求，果断弃用，换成 charles 试试。
+
+## 下载安装
+
+[官方地址](https://www.charlesproxy.com/)
+
+## 配置
+
+1. 设置开启 http 代理
+
+   ![20221109103650](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20221109103650.png)
+
+- 选择 proxy
+- 点击 Proxy Settings
+- 勾选 Enable transparent HTTP proxying
+- 点击确定
+
+2. https 设置
+
+   ![20221109104351](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20221109104351.png)
+
+- 选择 proxy
+- 点击 SSL Proxy Settings
+- 在 include 中，点击 add，增加 host 和 port 配置，一般设置`*.*`
+
+3. pc 端安装 SSL 安全证书
+
+- 打开 charles 的 help，安装根证书
+
+  ![20221109104827](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20221109104827.png)
+
+- 选择【安装证书】
+
+  ![20221109104938](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20221109104938.png)
+
+- 选择【本地计算机】，点击下一步
+
+  ![20221109105127](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20221109105127.png)
+
+- 选择【将所有的证书都放入下列存储】，点击浏览，选择【受信任的根证书颁发机构】，点击下一步
+
+  ![20221109105457](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20221109105457.png)
+
+- 最后点完成即可
+
+4. 访问 https 网站，查看验证结果
+
+   访问 gaokao.101.com，即可捕获到 https 请求
+   ![20221109104610](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20221109104610.png)
+
+5. 移动端配置及证书安装
+
+- 手机模拟器中在 wifi 网络那边设置 http 代理
+
+  ![20221109112321](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20221109112321.png)
+
+- 浏览器访问`chls.pro/ssl`，下载证书,并安装
+
+## 常见问题
+
+1. 抓包出现 unknown
+
+   如果抓包出现 unknown 一般是 https 的数据包，需要安装 ssl 安全证书，以上第三部可解决
+
+2. 移动端`chls.pro/ssl`无法下载证书，之前可能用过 fiddler，charles 的端口和 fiddler 的一样，将 charles 的端口设置 8887
+
+3. ios 手机，一定要去设置信任证书
