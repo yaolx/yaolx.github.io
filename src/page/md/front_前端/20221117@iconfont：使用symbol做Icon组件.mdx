@@ -20,41 +20,41 @@
 
 2. 设置通用 css
 
-```css
-.icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
-```
+   ```css
+   .icon {
+     width: 1em;
+     height: 1em;
+     vertical-align: -0.15em;
+     fill: currentColor;
+     overflow: hidden;
+   }
+   ```
 
 3. 自定义 react Icon 组件
 
-```js
-import React from 'react'
-import classNames from 'classnames'
-import styles from './styles.css'
-export default (props) => {
-  let { type, className, ...other } = props
-  return (
-    <svg className={classNames(styles.icon, className)} {...other} aria-hidden="true">
-      <use xlinkHref={`#icon${type}`}></use>
-    </svg>
-  )
-}
-```
+   ```js
+   import React from 'react'
+   import classNames from 'classnames'
+   import styles from './styles.css'
+   export default (props) => {
+     let { type, className, ...other } = props
+     return (
+       <svg className={classNames(styles.icon, className)} {...other} aria-hidden="true">
+         <use xlinkHref={`#icon${type}`}></use>
+       </svg>
+     )
+   }
+   ```
 
 4. 调用
 
-```js
-<Icon type="filter-line" className={styles['filter-line']} />
-```
+   ```js
+   <Icon type="filter-line" className={styles['filter-line']} />
+   ```
 
 5. 新增字体图标
 
-只需在[iconfont](https://www.iconfont.cn/)上，上传相应的图标，然后下载`Symbol`代码，放到 cdn 上
+   只需在[iconfont](https://www.iconfont.cn/)上，上传相应的图标，然后下载`Symbol`代码，放到 cdn 上
 
 6. 对比 `WebFont`
 
