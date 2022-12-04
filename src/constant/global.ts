@@ -324,6 +324,12 @@ export const SITE_CATEGORY: Site[] = [
         href: 'https://www.gulpjs.com.cn/',
         icon: 'https://www.gulpjs.com.cn/img/favicon.png',
         title: 'gulp'
+      },
+      {
+        id: 'electron-vite',
+        href: 'https://cn-evite.netlify.app/',
+        icon: 'https://cn-evite.netlify.app/favicon.svg',
+        title: 'electron-vite'
       }
     ]
   },

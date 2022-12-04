@@ -1,0 +1,95 @@
+# <center>electron 开发初探</center>
+
+## 背景
+
+最近项目组在用 electron 做 pc 端桌面开发，但是是别的团队在做，不过自己也想学习了解下，就自己探索了一方，总结下
+
+## electron 脚手架选型
+
+1. 选用`electron-vite`搭建脚手架
+
+   使用 pnpm 搭建`electron-vite`项目
+
+   `pnpm create @quick-start/electron`，然后按照提示操作，选中`react-ts`模板
+
+2. 基本结构
+
+   `main`：主进程入口
+   `preload`：预加载进程，用于通讯方法的中转，定义一些常用的 api，让渲染进程能调用原生方法
+   `renderer`：渲染进程，react + vite 项目
+
+3. eslint，prettier 调整
+
+   引入`eslint-plugin-import`,`eslint-import-resolver-typescript`，弃用`eslint-plugin-prettier`
+
+   调整`.eslintrc.js`、`.prettierrc`的配置
+
+4. 路由 router v6 和 less 支持,UI 组件选用`antd`
+
+   引入`react-router-dom:6.4.4`，`less`，`antd`
+
+   调整入口`main.tsx`，支持 routes 渲染
+
+## 开发阶段
+
+脚手架方面准备就绪，开始一些前置的开发
+
+1. 路由配置
+
+   `routes`采用 suspense + lazy 懒加载
+
+2. 自定义 toolbar
+
+   隐藏 electron 自带的 toolbar，用 react 组件自己定制 toolbar
+   在`main`中，通过 ipcMain 定义 toolBar 方法，再在 preload 中定义 api 进行中转，暴露 electron 到 window 中，最后在 renderer 中通过 window.electron 调用
+
+3. 页面基本布局
+
+   header：实现 electron 的 toolbar，可用于最小化，放大，缩小，关闭功能，兼容 windows 和 mac
+   sider：侧边栏，用于显示菜单，显示配置信息等
+   content：显示内容，可显示自己的组件或者通过 webview 展示第三方页面
+
+4. 通讯方法的定义
+
+   接下来就是根据交互，定义一些通讯方法，用于调用 electron 的 api
+
+## 打包阶段
+
+1. 了解[electron-builder](https://juejin.cn/post/6844903693683261453)
+
+- package.json 配置
+
+- electron-builder.yml 配置
+
+2. 熟悉 nsis
+
+   nsis 的配置指的是安装过程的配置，如果没有配置，会默认安装到 C 盘，所以需要自定义安装过程配置。
+   以下是 nsis 的部分配置：
+
+   ```js
+   "nsis": {
+     "oneClick": false, // 是否一键安装
+     "allowElevation": true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。
+     "allowToChangeInstallationDirectory": true, // 允许修改安装目录
+     "installerIcon": "./build/icons/aaa.ico",// 安装图标
+     "uninstallerIcon": "./build/icons/bbb.ico",//卸载图标
+     "installerHeaderIcon": "./build/icons/aaa.ico", // 安装时头部图标
+     "createDesktopShortcut": true, // 创建桌面图标
+     "createStartMenuShortcut": true,// 创建开始菜单图标
+     "shortcutName": "xxxx", // 图标名称
+     "include": "build/script/installer.nsh", // 包含的自定义nsis脚本 这个对于构建需求严格得安装过程相当有用。
+     "script" : "build/script/installer.nsh" // NSIS脚本的路径，用于自定义安装程序。 默认为build / installer.nsi
+   }
+   ```
+
+   这里上一些学习资源：
+
+- [NSIS 初级篇](https://blog.csdn.net/ddjj_1980/article/details/7843944)
+
+- [NSIS 打包脚本基础](https://www.cnblogs.com/jingmoxukong/p/5033622.html)
+
+3. 调整.npmrc
+
+- ELECTRON_MIRROR：`ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/`
+
+  用默认的镜像，会导致`electron-V.xxxx.zip`下载失败
