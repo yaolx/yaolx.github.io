@@ -122,6 +122,12 @@ export const SITE_CATEGORY: Site[] = [
         title: 'vue3'
       },
       {
+        id: 'electron',
+        href: 'https://www.electronjs.org/zh/',
+        icon: 'https://www.electronjs.org/zh/assets/img/logo.svg',
+        title: 'electron'
+      },
+      {
         id: 'angular',
         href: 'https://angular.cn/',
         icon: 'https://angular.cn/assets/images/favicons/favicon.ico',
