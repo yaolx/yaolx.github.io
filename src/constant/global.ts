@@ -123,7 +123,7 @@ export const SITE_CATEGORY: Site[] = [
       },
       {
         id: 'electron',
-        href: 'https://www.electronjs.org/',
+        href: 'https://www.electronjs.org/zh/',
         icon: 'https://www.electronjs.org/zh/assets/img/logo.svg',
         title: 'electron'
       },
