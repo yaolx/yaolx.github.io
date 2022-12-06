@@ -1,0 +1,100 @@
+# <center>electron 开发之三：进程通讯</center>
+
+## 前言
+
+版本发布用到了 electron 的几种通讯机制，接下来主要介绍下。
+由于 electron 文档推行的所谓`上下文隔离`,所以就不使用 remote 模块,所有通信方法通过 preload.ts 进行中转。
+
+## 主进程、渲染进程通讯方法
+
+在主进程`main.js`中，获取 pc 端数据或者触发 pc 端方法，在`preload.js`中通过 contextBridge 中转，
+将一个对象`ipc:{send:xxx,on:xxx}`挂在到 window 对象上
+
+```js
+contextBridge.exposeInMainWorld('electron', api)
+```
+
+## on 和 send
+
+- 主进程 on，渲染进程 send,即渲染进程给主进程发送消息
+
+  主进程通过 on 进行监听
+
+  ```js
+  ipcMain.on('toolbar', (event, val) => {
+    // 处理进程事件
+  }
+  ```
+
+  渲染通过 send 发送事件
+
+  ```js
+  onToolbar: (val) => {
+    ipcRenderer.send('toolbar', val)
+  }
+  ```
+
+  页面通过调用`window.electron.onToolbar('mini')`触发
+
+- 主进程 send，渲染进程 on，即主进程给渲染进程发送消息
+
+  主进程通过 send 发送消息给渲染进程
+
+  ```js
+  mainWindow.webContents.send('message', msg)
+  ```
+
+  渲染进程通过 on 监听事件
+
+  ```js
+  receive: (func) => {
+    ipcRenderer.on('message', (_event, ...args) => func(...args))
+  }
+  ```
+
+  页面调用
+
+  ```js
+  window.electron.receive((res) => {
+    console.log(res)
+  })
+  ```
+
+## handle 和 invoke
+
+也是渲染进程给主进程发送消息，而且能通过异步回调获取主进程的数据
+
+- 主进程监听
+
+  ```js
+  ipcMain.handle('getAppVersion', () => {
+    return app.getVersion()
+  })
+  ```
+
+- 渲染进程发送消息
+
+  ```js
+  updateProgress: (func) => {
+    ipcRenderer.on('update_message', (_event, ...args) => func(...args))
+  }
+  ```
+
+- 页面调用
+
+  ```js
+  window.electron.appUpdater.updateProgress((info) => {
+    console.log('###', info)
+  })
+  ```
+
+## 总结
+
+electron 还有 remote 模块，渲染进程能通过此模块访问到主进程的模块、对象和方法。但是 remote 的一些局限性：
+
+- 性能损耗大：跨进程操作
+- 制造混乱：异步导致执行顺序错乱
+- 制造假象：代理对象导致数据混乱
+- 安全问题：恶意代码攻击
+
+所以新版本中，尽量使用`preload`做通讯中转。preload 是 electron 的预加载机制，可以理解为在 electron 创建时将 nodejs 环境加载到渲染进程中使用。使用 preload 的目的是在 electron 中不开启 node 环境集成情况下使用 node 的模块，避免不安全的 JavaScript 代码随意使用 node 环境。
