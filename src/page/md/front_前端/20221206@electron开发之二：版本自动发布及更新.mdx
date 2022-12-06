@@ -1,0 +1,72 @@
+# <center>electron 开发之二：版本自动发布及更新</center>
+
+## 前言
+
+上一篇主要讲到了通过 electron-vite 搭建脚手架，这次学习下基于 Github Actions 完成 electron 的自动打包、发布及版本更新。
+
+## 配置[gitHub actions](https://yaolx.github.io/#/front)
+
+github actions 的配置在之前的文章中有介绍到，这次来说说 electron 部署 的 workflows
+
+```yml
+name: electron deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  release:
+    name: build and release electron app
+    # 流水线会跑在哪些操作系统中
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # 流水线将分别触发在 windows系统中
+        os: [windows-latest]
+    steps:
+      # 检出代码
+      - name: check out
+        uses: actions/checkout@v3.0.0
+      # 安装node
+      - name: install node.js
+        uses: actions/setup-node@v3.0.0
+        with:
+          node-version: '16'
+      # 安装依赖
+      - name: install
+        run: yarn install
+      # 打包,发布
+      - name: build and publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        run: yarn publish:win
+```
+
+流程比较简单，`publish:win`对应到 package.json 中的 scripts 命令，主要是做了打包和发布的工作。`electron-builder`会帮我们把发布的流程做好,只需在`electron-builder.yml`中配置好 publish 参数
+
+```yml
+publish:
+  provider: github
+  repo: electron-boat
+  owner: yaolx
+  private: false
+  releaseType: release
+```
+
+查看 node_modules/electron-publish 中的源码：`gitHubPublisher`主要做了创建 github 分支、打 tag 和上传文件的工作
+
+## 版本更新机制
+
+主要是`electron-updater`在处理这块流程，分析线上`latest.yml`的版本号和本地客户端版本号哪个比较新，进而触发更新机制。
+
+## electron 通讯机制
+
+利用`on`和`send`处理主进程和渲染进程之间的通讯。
+在主进程中定义版本更新的机制，然后通过 send 将信息发布到渲染进程中，渲染进程中通过 on 接收更新数据，然后触发前端页面的更新
+
+利用`handle`和`invoke`，可以让渲染进程触发方法，通过异步回调获取主进程的数据
+
+## 总结
+
+通过上述的几个步骤，完成了 electron 版本自动发布，更新功能的开发
