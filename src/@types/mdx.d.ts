@@ -24,5 +24,7 @@ interface Issue {
 }
 
 interface CodeBlockProps {
-  component: string
+  children: string
+  className: string
+  component?: string
 }

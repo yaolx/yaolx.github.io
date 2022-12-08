@@ -10,7 +10,8 @@ import styles from './styles/index.module.less'
 const components = {
   CodeBlock,
   MdTitle,
-  MdCard
+  MdCard,
+  code: CodeBlock
 }
 
 interface MdxProps {

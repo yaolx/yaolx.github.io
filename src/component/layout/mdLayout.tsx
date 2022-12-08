@@ -19,7 +19,7 @@ interface Props {
 export default function MdLayout(props: Props) {
   const mdxRouters = genSubMdxRouters(props.type)
   const [active, setActive] = useState('')
-  const [collapsed, setCollapsed] = useState(true)
+  const [collapsed, setCollapsed] = useState(false)
   const navigate = useNavigate()
   const onSelectMenu = ({ key }) => {
     setActive(key)
@@ -48,10 +48,14 @@ export default function MdLayout(props: Props) {
           mode="inline"
           onClick={onSelectMenu}
           selectedKeys={[active]}
-          style={{ height: '100%', borderRight: 0 }}
+          style={{ height: '100%', borderRight: 0, overflowX: 'hidden', overflowY: 'auto' }}
         >
           {map(mdxRouters, (mdx) => {
-            return <Menu.Item key={mdx.path}>{mdx.name}</Menu.Item>
+            return (
+              <Menu.Item key={mdx.path} title={mdx.name}>
+                {mdx.name}
+              </Menu.Item>
+            )
           })}
         </Menu>
       </Sider>

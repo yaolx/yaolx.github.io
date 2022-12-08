@@ -1,5 +1,8 @@
-.code_block{
-  .actions{
+.code_block {
+  position: relative;
+  background: rgb(246, 248, 250);
+  width: 100%;
+  .actions {
     display: flex;
     justify-content: center;
     padding: 4px 0;
@@ -8,17 +11,25 @@
     border-bottom: 1px dashed #f0f0f0;
     opacity: 0.7;
     transition: opacity 0.3s;
-    .action{
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    .action {
       position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
       width: 32px;
       height: 32px;
-      margin-left: 32px;
+      margin-right: 12px;
       color: #00000073;
       cursor: pointer;
       transition: all 0.24s;
     }
+  }
+}
+:global(.h5) {
+  .code_block {
+    width: 100vh;
   }
 }
