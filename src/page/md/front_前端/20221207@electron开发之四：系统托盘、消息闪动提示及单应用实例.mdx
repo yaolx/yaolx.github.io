@@ -1,0 +1,140 @@
+# <center>electron 开发之四：系统托盘、消息闪动提示及单应用实例</center>
+
+## 前言
+
+主要实现系统托盘，消息闪动提示的功能，还有单应用实例的控制
+
+## 系统托盘
+
+实现功能：关闭窗口的时候，将桌面应用放入系统托盘，左键点击，则打开窗口；右键点击，则显示右键菜单
+
+设置托盘必须在程序 ready 之后
+
+- 主进程：
+
+  ```js
+  export function trayInit(win) {
+    // 右键菜单
+    const trayContextMenu = Menu.buildFromTemplate([
+      {
+        label: '显示窗口',
+        click: () => {
+          win.show()
+          win.center()
+          win.focus()
+        }
+      },
+      {
+        label: '退出',
+        role: 'quit'
+      }
+    ])
+    // 设置托盘，最好在根目录建一个文件夹用来存放系统资源
+    const tray = new Tray('resources/images/icon.png')
+    // 设置hover后的信息
+    ipcMain.on('songPlay', async (_e, data) => {
+      tray.setToolTip(data)
+    })
+    // 设置鼠标左键事件
+    tray.on('click', () => {
+      win.show()
+    })
+    // 设置鼠标右键键事件
+    tray.on('right-click', () => {
+      tray.popUpContextMenu(trayContextMenu)
+    })
+  }
+  ```
+
+  `trayContextMenu`里的属性有 label、icon、click、type、role
+
+  ```js
+  role 属性可以具有以下值：
+  undo: 撤消
+  redo: 重做
+  cut: 剪切
+  copy：复制
+  paste： 粘贴
+  pasteAndMatchStyle：粘贴和匹配样式
+  selectAll： 全选
+  delete： 删除
+  minimize - 最小化当前窗口。
+  close - 关闭当前窗口.
+  quit - 退出当前应用.
+  reload - 重新加载当前窗口。
+  forcereload - 忽略缓存，重新加载当前窗口。
+  toggledevtools - 在当前窗口中隐藏/显示开发者工具。
+  toggleFullScreen - Toggle full screen mode on the current window.
+  resetzoom - 将主页的缩放级别重置为初始大小.
+  zoomin - 主页面放大 10%.
+  zoomout -主页面缩小 10%.
+  fileMenu - Whole default "File" menu (Close / Quit)
+  editMenu-默认的 "编辑" 菜单 (包括撤消、复制等)
+  viewMenu - Whole default "View" menu (Reload, Toggle Developer Tools, etc.)
+  windowMenu - Whole default "Window" menu (Minimize, Zoom, etc.)
+  ```
+
+- preload.js
+
+  ```js
+  onPlay: (val) => {
+    ipcRenderer.send('songPlay', val)
+  }
+  ```
+
+- 渲染进程
+
+  点击播放，传参到主进程中，鼠标到系统托盘，hover，即可看到相应的文本提示
+
+  ```js
+  mainView.onPlay(text)
+  ```
+
+## 消息闪动提示
+
+- 通过`tray setImage`设置消息闪动
+
+  通过 setTimeout，设置空图片、默认图片
+
+  ```js
+  setTimeout(() => {
+    tray.setImage(nativeImage.createEmpty())
+    tray.setImage(defaultIcon)
+  })
+  ```
+
+- 调用方法`displayBalloon`，设置气泡提示消息
+
+  ```js
+  tray.displayBalloon({
+    title: '通知',
+    content,
+    iconType: 'info',
+    largeIcon: false
+  })
+  ```
+
+## 应用单实例
+
+从官方文档来看，只需调用`requestSingleInstanceLock`，做判断即可
+
+```js
+// 请求获取实例锁，若成功则返回true，否则表示已存在打开的应用实例
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  // 监听第二个实例，如果主实例存在，则显示主实例
+  app.on('second-instance', () => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore()
+      }
+      mainWindow.show()
+      mainWindow.center()
+      mainWindow.focus()
+    }
+  })
+}
+```
