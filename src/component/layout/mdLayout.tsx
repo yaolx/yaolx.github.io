@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import { ForwardOutlined, BackwardOutlined } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import classNames from 'classnames'
 import { map } from 'lodash'
@@ -31,19 +31,19 @@ export default function MdLayout(props: Props) {
   }, [location.hash])
   return (
     <Layout className={styles.layout}>
-      <div className={styles.folder}>
-        {collapsed ? (
-          <MenuUnfoldOutlined onClick={() => setCollapsed(!collapsed)} />
-        ) : (
-          <MenuFoldOutlined onClick={() => setCollapsed(!collapsed)} />
-        )}
-      </div>
       <Sider
         className={classNames(styles.sider, collapsed ? '' : styles.mdSiderWidth)}
         collapsedWidth="0"
         trigger={null}
         collapsed={collapsed}
       >
+        <div className={classNames(styles.folder, collapsed ? styles.collapsed : '')}>
+          {collapsed ? (
+            <ForwardOutlined onClick={() => setCollapsed(!collapsed)} />
+          ) : (
+            <BackwardOutlined onClick={() => setCollapsed(!collapsed)} />
+          )}
+        </div>
         <Menu
           mode="inline"
           onClick={onSelectMenu}

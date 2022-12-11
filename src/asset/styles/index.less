@@ -2,6 +2,7 @@
 body {
   overflow: hidden;
   font-size: 14px;
+  margin: 0;
   #root {
     overflow: hidden;
   }
@@ -51,7 +52,7 @@ html {
   }
 
   .popup-body {
-    width: 30vw;
+    width: 20%;
     transform: translate(0%, 0px);
     height: 100%;
     top: 0;
@@ -66,4 +67,14 @@ html {
     top: 3px;
     right: -38px;
   }
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: #fff;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #b3cff7;
 }

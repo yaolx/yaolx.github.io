@@ -14,6 +14,7 @@
     background-image: url(../../../asset/images/avatar.jpg);
     background-size: 100% 100%;
     border-radius: 50%;
+    margin-left: 20px;
   }
   .name {
     flex-grow: 1;
@@ -87,11 +88,16 @@
   .folder {
     position: absolute;
     z-index: 1;
-    left: 0;
-    font-size: 20px;
+    top: -5px;
+    right: -20px;
+    font-size: 24px;
+    color: #1890ff;
+    .collapsed {
+      color: #1890ff;
+      left: 0;
+    }
   }
   .sider {
-    border-right: 1px solid #e8e8e8;
     height: calc(100vh - 70px);
   }
 }

@@ -2,7 +2,7 @@
 const DESIGN_WIDTH = 375
 
 // pad尺寸
-const MAX_PAD_WIDTH = 1000
+const MAX_PAD_WIDTH = 600
 
 export default function setFontSize(designWidth = DESIGN_WIDTH, maxWidth = MAX_PAD_WIDTH) {
   // todo 加入dpr处理
@@ -28,4 +28,4 @@ export default function setFontSize(designWidth = DESIGN_WIDTH, maxWidth = MAX_P
   }
 }
 
-setFontSize()
+// setFontSize()
