@@ -2,7 +2,6 @@
   position: relative;
   width: 100%;
   margin: 0 auto;
-  padding: 20px 5% 20px 5%;
   overflow-y: auto;
   height: 100vh;
   transition: cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -18,7 +17,6 @@
     box-sizing: border-box;
     transition: all 0.3s;
     background-color: var(--background-color);
-    cursor: pointer;
 
     .content {
       display: flex;
@@ -26,8 +24,8 @@
     }
     .item {
       display: inline-block;
-      width: 15%;
-      min-width: 100px;
+      width: 20%;
+      min-width: 200px;
       margin-bottom: 15px;
       color: #000;
       position: relative;
@@ -49,6 +47,7 @@
       .title {
         display: inline-block;
         margin-left: 30px;
+        white-space: nowrap;
       }
     }
 
@@ -63,12 +62,17 @@
     margin-bottom: 20px;
   }
   .left {
-    margin-right: 100px;
+    margin: 50px 180px 0 50px;
   }
   .anchor {
     padding-left: 16px;
     position: fixed;
     top: 50px;
     right: 50px;
+    :global {
+      .ant-anchor-ink::before {
+        background-color: rgba(22, 119, 255, 0.3);
+      }
+    }
   }
 }
