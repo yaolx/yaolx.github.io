@@ -1,27 +1,27 @@
 # <center>uniapp 离线打包</center>
 
-# 前言
+## 前言
 
 在前面搭建完成 uniapp 脚手架[uniapp-boat]()后，开始着手做 android、ios 打包的事情。
 脚手架是基于 vite 构建的，用 vscode 进行开发，所以并不打算用 HbuilderX 开发项目，也不会用 HbuilderX 进行打包。
 
-# 了解[uapp](https://github.com/uappkit/uapp)工具
+## 了解[uapp](https://github.com/uappkit/uapp)工具
 
 uapp 是解决 uniapp 开发痛点并提升其开发效率的命令行工具。类似于 cordova, ionic, expo 的作用。uapp 还包含 uapp-android, uapp-ios 两个平台的模板代码
 
-# uappsdk 使用
+## uappsdk 使用
 
-## 安装
+### 安装
 
 `npm install -g uapp`
 
-## 下载 uniapp 离线打包的 SDK
+### 下载 uniapp 离线打包的 SDK
 
 [android 离线打包 SDK](https://nativesupport.dcloud.net.cn/AppDocs/download/android)
 
 [ios 离线打包 SDK](https://nativesupport.dcloud.net.cn/AppDocs/download/ios)
 
-## 解压其中的 SDK 目录，放到.uappsdk 文件夹里，最终.uappsdk 文件夹结构如下：
+### 解压其中的 SDK 目录，放到.uappsdk 文件夹里，最终.uappsdk 文件夹结构如下：
 
 ```js
 
@@ -37,7 +37,7 @@ $HOME:C:\Users\{用户}
     └── manifest.json
 ```
 
-## 下载离线打包工程源码
+### 下载离线打包工程源码
 
 1. 下载 Android 离线工程源码
    见 [uapp-android.md](https://github.com/uappkit/uapp/blob/main/doc/uapp-android.md)
@@ -74,20 +74,20 @@ $HOME:C:\Users\{用户}
     },
   ```
 
-  ## 申请 [dcloud_appkey](https://nativesupport.dcloud.net.cn/AppDocs/usesdk/appkey.html)
+### 申请 [dcloud_appkey](https://nativesupport.dcloud.net.cn/AppDocs/usesdk/appkey.html)
 
-  需要相关配置信息
-  ![20230108145418](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230108145418.png)
+需要相关配置信息
+![20230108145418](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230108145418.png)
 
-  可以通过 uapp info 获取`sha1`,`md5`,`sha256`
+可以通过 uapp info 获取`sha1`,`md5`,`sha256`
 
-  设置完成之后，点击查看`离线打包key`
+设置完成之后，点击查看`离线打包key`
 
-  ![20230108155956](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230108155956.png)
+![20230108155956](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230108155956.png)
 
-  将包名、android.appkey 填入 manifest.json 的 uapp 中
+将包名、android.appkey 填入 manifest.json 的 uapp 中
 
-## android 离线工程相关配置
+### android 离线工程相关配置
 
 1. local.properties 配置 android SDK
    下载 android studio 后，下载对应的 sdk 包，然后配置 sdk 路径
