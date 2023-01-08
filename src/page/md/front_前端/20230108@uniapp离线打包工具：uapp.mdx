@@ -2,7 +2,7 @@
 
 ## 前言
 
-在前面搭建完成 uniapp 脚手架[uniapp-boat]()后，开始着手做 android、ios 打包的事情。
+在前面搭建完成 uniapp 脚手架[uniapp-boat](https://yaolx.github.io/#/front/20230107)后，开始着手做 android、ios 打包的事情。
 脚手架是基于 vite 构建的，用 vscode 进行开发，所以并不打算用 HbuilderX 开发项目，也不会用 HbuilderX 进行打包。
 
 ## 了解[uapp](https://github.com/uappkit/uapp)工具
@@ -90,6 +90,7 @@ $HOME:C:\Users\{用户}
 ### android 离线工程相关配置
 
 1. local.properties 配置 android SDK
+
    下载 android studio 后，下载对应的 sdk 包，然后配置 sdk 路径
    `sdk.dir=E:\\android\\sdk`
 
@@ -116,25 +117,25 @@ $HOME:C:\Users\{用户}
 
 1. 微信分享类名报错
 
-`import io.dcloud.feature.oauth.weixin.AbsWXCallbackActivity`
+   `import io.dcloud.feature.oauth.weixin.AbsWXCallbackActivity`
 
-改为 `import io.dcloud.share.mm.AbsWXCallbackActivity`
+   改为 `import io.dcloud.share.mm.AbsWXCallbackActivity`
 
 2. keytool 命令无法获取到 md5
 
-`keytool -list -v -keystore {your_app}.keystore` 无法获取到 md5，改用 uapp info 可以获取到
+   `keytool -list -v -keystore {your_app}.keystore` 无法获取到 md5，改用 uapp info 可以获取到
 
 3. 执行 prepare 后，离线工程中的资源路径没有 www，
 
-修改 uniapp-boat 的打包命令，增加`--outDir`，指定打包路径
+   修改 uniapp-boat 的打包命令，增加`--outDir`，指定打包路径
 
-```json
-"build:app": "uni build -p app --outDir dist/build/app/www",
-```
+   ```json
+   "build:app": "uni build -p app --outDir dist/build/app/www",
+   ```
 
 4. 如果有 java 类报错，一般是缺少 lib 包
 
-看是哪个类报错，将对应的 aar 包，拷贝到`uappsdk`下的 `android/libs` 下。离线工程这边有做了 link 映射
+   看是哪个类报错，将对应的 aar 包，拷贝到`uappsdk`下的 `android/libs` 下。离线工程这边有做了 link 映射
 
 5. debug 包，在正式包发布的时候，可以去掉
 
