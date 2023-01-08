@@ -1,1 +1,0 @@
-import"./react-vendor.a6bb11e6.js";import{J as r}from"./vendor.2ee69e25.js";import"./__commonjsHelpers__.be7665b8.js";import"./lodash.95eb4f05.js";const e={},n="wrapper";function p({components:t,...o}){return r(n,{...e,...o,components:t,mdxType:"MDXLayout"})}p.isMDXComponent=!0;export{p as default};
