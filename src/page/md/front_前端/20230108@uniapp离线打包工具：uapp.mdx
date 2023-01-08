@@ -1,0 +1,143 @@
+# <center>uniapp 离线打包</center>
+
+# 前言
+
+在前面搭建完成 uniapp 脚手架[uniapp-boat]()后，开始着手做 android、ios 打包的事情。
+脚手架是基于 vite 构建的，用 vscode 进行开发，所以并不打算用 HbuilderX 开发项目，也不会用 HbuilderX 进行打包。
+
+# 了解[uapp](https://github.com/uappkit/uapp)工具
+
+uapp 是解决 uniapp 开发痛点并提升其开发效率的命令行工具。类似于 cordova, ionic, expo 的作用。uapp 还包含 uapp-android, uapp-ios 两个平台的模板代码
+
+# uappsdk 使用
+
+## 安装
+
+`npm install -g uapp`
+
+## 下载 uniapp 离线打包的 SDK
+
+[android 离线打包 SDK](https://nativesupport.dcloud.net.cn/AppDocs/download/android)
+
+[ios 离线打包 SDK](https://nativesupport.dcloud.net.cn/AppDocs/download/ios)
+
+## 解压其中的 SDK 目录，放到.uappsdk 文件夹里，最终.uappsdk 文件夹结构如下：
+
+```js
+
+$HOME:C:\Users\{用户}
+> $HOME/.uappsdk/
+.
+├── android
+│   ├── SDK   # -> 这里是Android的SDK
+│   └── libs  # -> 需要用到的java lib库
+├── ios
+│   ├── SDK   # -> 这里是iOS的SDK
+└── templates
+    └── manifest.json
+```
+
+## 下载离线打包工程源码
+
+1. 下载 Android 离线工程源码
+   见 [uapp-android.md](https://github.com/uappkit/uapp/blob/main/doc/uapp-android.md)
+
+2. 下载 iOS 离线工程源码
+   见 [uapp-ios.md](https://github.com/uappkit/uapp/blob/main/doc/uapp-ios.md)
+
+3. 离线工程下常见命令
+
+- 生成签名文件
+  `uapp keygen`
+- 更新离线 app 中的 manifest 信息 webapp 是指 uniapp 项目
+  `uapp manifest sync ${webapp}/src/manifest.json`
+- 启动 uapp 命令
+  `uapp prepare`
+  会执行 uapp 里配置的命令，先本地构建 app 应用，然后将打包后的源码拷贝到离线工程`app/main/assets/apps`下
+- manifest.json 配置
+
+  ```json
+  "name" : "app-h5",
+    "appid" : "__UNI__C97108E",
+    "description" : "",
+    "versionName" : "1.0.0",
+    "versionCode" : "100",
+    "transformPx" : false,
+    "uapp" : {
+        "name" : "uniapp-boat",
+        "package" : "com.yaolx.uniapp",
+        "android.appkey" : "填入申请的dcloud_appkey",
+        "ios.appkey" : "ios.appkey",
+        "prepare.dir" : "${SRC}/../dist/build/app",
+        "prepare.before" : "cd ${SRC}/../ && npm run build:app",
+        "prepare.after" : "uapp publish debug"
+    },
+  ```
+
+  ## 申请 [dcloud_appkey](https://nativesupport.dcloud.net.cn/AppDocs/usesdk/appkey.html)
+
+  需要相关配置信息
+  ![20230108145418](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230108145418.png)
+
+  可以通过 uapp info 获取`sha1`,`md5`,`sha256`
+
+  设置完成之后，点击查看`离线打包key`
+
+  ![20230108155956](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230108155956.png)
+
+  将包名、android.appkey 填入 manifest.json 的 uapp 中
+
+## android 离线工程相关配置
+
+1. local.properties 配置 android SDK
+   下载 android studio 后，下载对应的 sdk 包，然后配置 sdk 路径
+   `sdk.dir=E:\\android\\sdk`
+
+2. 生成签名文件
+
+   `uapp keygen`
+
+3. 执行 manifest sync，将 uniapp 中的 manifest 不同到离线工程中
+
+   `uapp manifest sync ${webapp}/src/manifest.json`
+
+4. 相关配置检查、验证是否一致
+
+- `app/src/main/assets/data/dcloud_control.xml`中的 appid 是否跟 `manifest` 中的`appid`一致
+- `app/src/main/AndroidManifest.xml`中的 package 是否跟 `uapp.package` 一致
+- `app/custom.gradle`中的 DCLOUD_APPKEY 是否跟 `uapp.android.appkey` 一致
+
+5. 打包 apk
+
+   执行构建，本地打包命令
+   `uapp prepare`
+
+## FAQ
+
+1. 微信分享类名报错
+
+`import io.dcloud.feature.oauth.weixin.AbsWXCallbackActivity`
+
+改为 `import io.dcloud.share.mm.AbsWXCallbackActivity`
+
+2. keytool 命令无法获取到 md5
+
+`keytool -list -v -keystore {your_app}.keystore` 无法获取到 md5，改用 uapp info 可以获取到
+
+3. 执行 prepare 后，离线工程中的资源路径没有 www，
+
+修改 uniapp-boat 的打包命令，增加`--outDir`，指定打包路径
+
+```json
+"build:app": "uni build -p app --outDir dist/build/app/www",
+```
+
+4. 如果有 java 类报错，一般是缺少 lib 包
+
+看是哪个类报错，将对应的 aar 包，拷贝到`uappsdk`下的 `android/libs` 下。离线工程这边有做了 link 映射
+
+5. debug 包，在正式包发布的时候，可以去掉
+
+## 总结
+
+至此，安卓下的离线打包成功，遇到各种问题，逐一解决
