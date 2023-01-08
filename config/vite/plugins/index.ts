@@ -5,7 +5,6 @@
 import eslint from '@rollup/plugin-eslint'
 import typescript from '@rollup/plugin-typescript'
 import reactRefresh from '@vitejs/plugin-react'
-import { chunkSplitPlugin } from 'vite-plugin-chunk-split'
 import viteCompression from 'vite-plugin-compression'
 import mdx from 'vite-plugin-mdx'
 
@@ -34,19 +33,6 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
 
   // 包分析
   VITE_APP_ANALYZE && vitePlugins.push(configVisualizerPlugin())
-  // 分包
-  // 分包后，首页1.7M的文件，现在只有800K
-  isBuild &&
-    vitePlugins.push(
-      chunkSplitPlugin({
-        strategy: 'default',
-        customSplitting: {
-          'react-vendor': ['react', 'react-dom'],
-          lodash: ['lodash'],
-          markmap: ['markmap-lib', 'markmap-view']
-        }
-      })
-    )
 
   // 发布，打包
   if (VITE_APP_COMPRESS_GZIP && isBuild) {
