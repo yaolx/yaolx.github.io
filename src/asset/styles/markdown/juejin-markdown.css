@@ -74,8 +74,7 @@
 /* 无序列表 */
 .markdown-body ul {
   list-style: disc outside;
-  margin-left: 2em;
-  margin-top: 1em;
+  padding-left: 20px;
 }
 
 /* 无序列表内容 */
