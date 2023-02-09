@@ -22,14 +22,14 @@ export const AUTHOR = import.meta.env.VITE_AUTHOR
 
 export const SITE_CATEGORY: Site[] = [
   {
-    title: '教程',
-    id: 'course',
+    title: '学习文档',
+    id: 'study',
     children: [
       {
-        id: 'runoob',
-        href: 'https://www.runoob.com/',
-        icon: 'https://static.runoob.com/images/favicon.ico',
-        title: '菜鸟教程'
+        id: 'rust-course',
+        href: 'https://course.rs/about-book.html',
+        icon: 'https://www.rustwiki.org.cn/img/favicon.ico',
+        title: 'Rust语言圣经'
       },
       {
         id: 'bilibili',
@@ -450,6 +450,12 @@ export const SITE_CATEGORY: Site[] = [
         href: 'https://www.tslang.cn/',
         icon: 'https://www.tslang.cn/assets/images/icons/favicon.ico',
         title: 'typescript'
+      },
+      {
+        id: 'rust',
+        href: 'https://www.rustwiki.org.cn/',
+        icon: 'https://www.rustwiki.org.cn/img/favicon.ico',
+        title: 'rust'
       },
       {
         id: 'sass',

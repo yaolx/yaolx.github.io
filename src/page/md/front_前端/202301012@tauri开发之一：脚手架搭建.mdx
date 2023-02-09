@@ -1,0 +1,48 @@
+# <center>tauri 开发初探</center>
+
+## 背景
+
+基本完成了 electron 的一个桌面应用开发，打包出来的体积比较大，感觉也有点卡顿。
+这次用 tauri 做一个桌面应用看看
+
+## 脚手架搭建
+
+1. `npx create-tauri-app`
+
+选择 `vite + react-ts`，快速搭建脚手架，然后配置 tsconfig，eslint 等一系列配置
+
+2. 参考[tauri-tutorial 教程](https://github.com/lencx/tauri-tutorial/discussions)
+
+做了脚手架搭建，版本自动发布、更新，跨平台编译等功能。
+
+## FAQ
+
+1. 运行`pnpm run tauri dev`报错
+
+```
+thread '<unnamed>' panicked at 'called `Result::unwrap()` on an `Err` value: Error { kind: NotFound, message: "program not found" }', src\interface\rust.rs:762:69
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+环境还没安装，先安装 visual studio 的 C++ build tools, windows 11 sdk
+设置环境变量`C:\Users\{用户}\.cargo\bin`
+
+2. build 失败
+
+```
+error: failed to run custom build command for `slab v0.4.7`
+```
+
+多试几次，让 360 防火墙设置信任
+
+3. wix311-binaries 下载失败
+
+`https://github.com/wixtoolset/wix3/releases/download/wix3112rtm/wix311-binaries.zip`
+
+打开地址，手动下载，到以下地址
+
+`C:\Users\用户名\AppData\Local\tauri\WixTools`
+
+没有 tauri 的话创建一个，再创建一个 WixTools 文件夹。
+
+将 wix311-binaries 解压到 WixTools 下即可
