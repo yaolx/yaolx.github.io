@@ -1,0 +1,96 @@
+# <center>flutter 学习（一）：环境搭建</center>
+
+## 前言
+
+flutter 入门环境搭建遇到的问题
+
+## 环境安装
+
+1. flutter stable 版本下载
+
+   https://flutter.cn/docs/get-started/install/windows
+
+   将 flutter/bin 加入环境变量
+
+   命令行：`where flutter dart`验证是否安装成功
+
+2. 运行 flutter doctor
+
+   检查环境看有哪些报错
+
+3. 设置 android studio 地址
+
+   flutter config --android-studio-dir "D:\Program Files\Android\Android Studio"
+
+4. jdk11
+
+   JAVA_HOME：D:\Program Files\Java\jdk-11.0.6
+
+5. chrome 报错
+
+   设置 chrome 的环境变量
+
+   CHROME_EXECUTABLE：D:\Program Files\Google\Chrome\Application\chrome.exe
+
+6. flutter doctor --android-licenses
+
+   报错：`cmdline-tools component is missing`
+   android studio 安装以下这个依赖
+   ![20230417230222](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230417230222.png)
+
+   cmd 管理员模式下运行，运行`lutter doctor --android-licenses`，一直按 y
+
+7. HTTP Host Availability
+
+   解决办法：https://github.com/flutter/flutter/issues/98170
+
+- Open ${FLUTTER_HOME}\packages\flutter_tools\lib\src\http_host_validator.dart
+- Change https://maven.google.com/ to https://dl.google.com/dl/android/maven2/
+- Close Terminal
+- Open ${FLUTTER_HOME}\bin and delete cache/flutter_tools.snapshot
+- Reopen Terminal and exec flutter doctor
+
+9. Windows Version (Unable to confirm if installed Windows version is 10 or greater)
+
+flutter 的版本需要降级，又需要下载 flutter 的`版本管理工具-fvm`
+
+需要先安装`choco`
+
+- 使用管理员方式打开 PowerShell
+
+- 输入 Set-ExecutionPolicy RemoteSigned，输入 Y
+
+- iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
+
+再安装 fvm
+
+- choco install fvm --- [fvn 使用](https://juejin.cn/post/7219130999685611580)
+
+  环境变量配置：`FVM_HOME=C:\Users\64489\fvm`
+
+  path 中设置 flutter 版本软连接的地址`%FVM_HOME%\default\bin`
+  设置网络镜像
+
+  FLUTTER_STORAGE_BASE_URL：https://storage.flutter-io.cn
+
+  PUB_HOSTED_URL：https://pub.flutter-io.cn
+
+## 开发工具
+
+vscode 安装 flutter 插件
+
+## 创建第一个应用
+
+1. 打开 View > Command Palette。
+
+2. 输入「flutter」，选择 Flutter: New Project。
+
+3. 选择 Application。
+
+4. 新建或选择新项目将存放的上层目录。
+
+5. 输入项目名称，例如 my_app，并点击 Enter。
+
+6. 等待项目创建完成，并且 main.dart 文件展现在编辑器中
+
+7. 选择一个安卓模拟器，按下 F5 运行
