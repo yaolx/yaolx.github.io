@@ -1,0 +1,32 @@
+import"./react.207e1340.js";import{X as u}from"./index.7fa81305.js";import"./lodash.b2cd96a7.js";import"./markmap.34840b8b.js";const e={},l="wrapper";function B({components:F,...E}){return u(l,{...e,...E,components:F,mdxType:"MDXLayout"},u("h1",null,u("center",null,"\u79FB\u52A8\u7AEF\u7EBF\u4E0A\u8C03\u8BD5\u65B9\u6CD5\u603B\u7ED3")),u("h2",null,"\u524D\u8A00"),u("p",null,"\u5F00\u53D1\u8FC7\u7A0B\u4E2D\uFF0C\u907F\u514D\u4E0D\u4E86\u672C\u5730\u662F\u6B63\u5E38\u7684\uFF0C\u4F46\u662F\u7ECF\u5E38\u7EBF\u4E0A\u53D1\u73B0 bug\u3002\u8BE5\u5982\u4F55\u6392\u67E5\u5462"),u("h2",null,"\u8C03\u8BD5\u5206\u7C7B"),u("ol",null,u("li",{parentName:"ol"},"\u975E\u4FB5\u5165\u578B")),u("ul",null,u("li",{parentName:"ul"},"\u4EE3\u7406\u5DE5\u5177\uFF1Afiddler\u3001 charles")),u("p",null,"\u53EF\u5C06\u7EBF\u4E0A\u7684\u57DF\u540D\u6620\u5C04\u5230\u672C\u5730\u5F00\u53D1\u5730\u5740\uFF0C\u4E5F\u53EF\u5355\u72EC\u4EE3\u7406\u4E00\u4E2A\u6216\u8005\u591A\u4E2A\u6587\u4EF6"),u("ul",null,u("li",{parentName:"ul"},u("p",{parentName:"li"},"\u5FAE\u4FE1\u5F00\u53D1\u8005\u5DE5\u5177")),u("li",{parentName:"ul"},u("p",{parentName:"li"},"chrome://inspect/#devices"))),u("p",null,"\u9700\u8981\u7FFB\u5899\uFF0C\u7528\u8FC7\u51E0\u6B21\uFF0C\u4E0D\u7A33\u5B9A\uFF0C\u5C31\u653E\u5F03\u4E86"),u("ol",{start:2},u("li",{parentName:"ol"},"\u4FB5\u5165\u578B")),u("p",null,`\u6B63\u5E38\u60C5\u51B5\u4E0B\uFF0C\u662F\u4E0D\u4F1A\u5F00\u542F debug \u6A21\u5F0F\u7684\u3002
+\u5982\u679C\u5728 url \u540E\u9762\u52A0\u4E0A\u53C2\u6570\uFF0C\u6BD4\u5982 debug=1 \u5C31\u5F00\u542F debug \u6A21\u5F0F\uFF0C\u800C\u4E14\u53EA\u6709\u5F00\u53D1\u4EBA\u5458\u77E5\u9053\uFF0C\u8FD9\u6837\u5C31\u5F88\u65B9\u4FBF\u6392\u67E5\u95EE\u9898\u3002
+\u800C\u4E14\u6B64\u65B9\u6CD5\u4E5F\u65B9\u4FBF QA \u6D4B\u8BD5\u3001\u6392\u67E5\u95EE\u9898\uFF0C\u63D0\u9AD8\u79FB\u52A8\u7AEF\u6D4B\u8BD5\u6548\u7387\u3002
+\u6709\u4EE5\u4E0B 2 \u79CD\u79FB\u52A8\u7AEF debug \u5DE5\u5177\u53EF\u7528`),u("ul",null,u("li",{parentName:"ul"},"eruda")),u("p",null,"\u529F\u80FD\u5F3A\u5927\uFF0C\u57FA\u672C\u8DDF chrome \u5DEE\u4E0D\u591A\uFF0C\u5728\u624B\u673A\u4E0A\u53EF\u4EE5\u67E5\u770B\u63A7\u5236\u53F0\uFF0C\u7F51\u9F99\u8BF7\u6C42\uFF0C\u6837\u5F0F\u3001\u7F13\u5B58\u6570\u636E\u7B49\u3002\u4F46\u662F\u7A0D\u6709\u4E0D\u7A33\u5B9A\uFF0C\u5728\u4E2A\u522B\u771F\u673A\u4E0A\u6709\u65F6\u5019\u6253\u4E0D\u5F00"),u("ul",null,u("li",{parentName:"ul"},"vconsole")),u("p",null,"\u6BD4\u8F83\u597D\u770B\uFF0C\u529F\u80FD\u867D\u7136\u6CA1\u6709 eruda \u591A\uFF0C\u4F46\u662F\u6BD4\u8F83\u7A33\u5B9A\uFF0C\u6709\u65F6\u5019\u4F1A\u9047\u5230 eruda \u6253\u4E0D\u5F00\u7684\u95EE\u9898\uFF0C\u53EF\u4EE5\u7528 vconsole \u5F00\u542F"),u("h2",null,"\u5177\u4F53\u4EE3\u7801\u5B9E\u73B0"),u("ul",null,u("li",{parentName:"ul"},"\u7EBF\u4E0A\u5F00\u542F debug \u6A21\u5F0F\uFF0C\u4F46\u662F\u53EF\u8BBE\u7F6E\u4E3A\u52A8\u6001\u52A0\u8F7D\uFF0C\u6761\u4EF6\u4E0D\u6EE1\u8DB3\u7684\u65F6\u5019\uFF0C\u4E0D\u52A0\u8F7D\u8C03\u8BD5\u4EE3\u7801")),u("p",null,"\u4EE3\u7801\u5982\u4E0B\u5B9E\u73B0"),u("pre",null,u("code",{parentName:"pre",className:"language-js"},`export default function startDebug() {
+  // \u83B7\u53D6search\u4E2D\u7684\u53C2\u6570
+  const params = new URLSearchParams(window.location.search)
+  const debug = params.get('debug')
+  if (debug === '1') {
+    window.localStorage.setItem('debug', '1')
+  }
+  // \u672C\u5730\u5F00\u53D1\u6216\u8005url\u4E2D\u6709\u5E26debug=1\uFF0C\u5219\u5F00\u542Feruda\u8C03\u8BD5
+  if (window.localStorage.getItem('debug') === '1') {
+    const debugTool = params.get('debug_tool') || 'eruda'
+    // \u52A8\u6001\u5F15\u5165\uFF0C\u907F\u514D\u88AB\u6253\u5305\u5230vendor\u4E2D
+    // === eruda\u5B9E\u73B0
+    if (debugTool === 'eruda') {
+      import('eruda').then((eruda) => {
+        eruda.default.init()
+      })
+    }
+    // === vconsole\u5B9E\u73B0
+    if (debugTool === 'vconsole') {
+      import('vconsole').then((VConsole) => {
+        new VConsole.default()
+      })
+    }
+  }
+}
+
+startDebug()
+`)),u("p",null,"\u8BBF\u95EE\u5730\u5740\uFF1A",u("inlineCode",{parentName:"p"},"${host}?debug=1&debug_tool=eruda")),u("h2",null,"\u573A\u666F"),u("ol",null,u("li",{parentName:"ol"},"\u5F00\u53D1\u5FAE\u4FE1\u5C0F\u7A0B\u5E8F\u6216\u8005\u516C\u4F17\u53F7\u9875\u9762")),u("p",null,"\u7528\u5FAE\u4FE1\u5F00\u53D1\u8005\u5DE5\u5177\u662F\u6BD4\u8F83\u65B9\u4FBF\u7684\uFF0C\u80FD\u83B7\u53D6\u7528\u6237\u4FE1\u606F\u548C\u6388\u6743 code\uFF0C\u5F00\u53D1\u8054\u8C03\uFF0C\u6392\u67E5\u7EBF\u4E0A\u95EE\u9898\u4E5F\u6BD4\u8F83\u5BB9\u6613\u3002"),u("ol",{start:2},u("li",{parentName:"ol"},"\u539F\u751F\u7AEF\u5185\u5D4C h5 \u9875\u9762")),u("p",null,`\u53EF\u7528\u4EE3\u7406\u6A21\u5F0F\uFF0C\u6620\u5C04\u5230\u672C\u5730\u5F00\u53D1\u73AF\u5883\uFF0C\u6392\u67E5\u95EE\u9898\u3002
+\u5982\u679C\u4EBA\u4E0D\u5728\u7535\u8111\u65C1\u8FB9\uFF0C\u53EF\u7528 webview \u6253\u5F00 h5 \u9875\u9762\uFF0C\u52A0\u5165 debug=1 \u5F00\u542F debug \u6A21\u5F0F`))}B.isMDXComponent=!0;export{B as default};
