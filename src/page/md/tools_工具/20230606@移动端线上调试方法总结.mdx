@@ -1,0 +1,83 @@
+# <center>移动端线上调试方法总结</center>
+
+## 前言
+
+开发过程中，避免不了本地是正常的，但是经常线上发现 bug。该如何排查呢
+
+## 调试分类
+
+1. 非侵入型
+
+- 代理工具：fiddler、 charles
+
+可将线上的域名映射到本地开发地址，也可单独代理一个或者多个文件
+
+- 微信开发者工具
+
+- chrome://inspect/#devices
+
+需要翻墙，用过几次，不稳定，就放弃了
+
+2. 侵入型
+
+正常情况下，是不会开启 debug 模式的。
+如果在 url 后面加上参数，比如 debug=1 就开启 debug 模式，而且只有开发人员知道，这样就很方便排查问题。
+而且此方法也方便 QA 测试、排查问题，提高移动端测试效率。
+有以下 2 种移动端 debug 工具可用
+
+- eruda
+
+功能强大，基本跟 chrome 差不多，在手机上可以查看控制台，网龙请求，样式、缓存数据等。但是稍有不稳定，在个别真机上有时候打不开
+
+- vconsole
+
+比较好看，功能虽然没有 eruda 多，但是比较稳定，有时候会遇到 eruda 打不开的问题，可以用 vconsole 开启
+
+## 具体代码实现
+
+- 线上开启 debug 模式，但是可设置为动态加载，条件不满足的时候，不加载调试代码
+
+代码如下实现
+
+```js
+export default function startDebug() {
+  // 获取search中的参数
+  const params = new URLSearchParams(window.location.search)
+  const debug = params.get('debug')
+  if (debug === '1') {
+    window.localStorage.setItem('debug', '1')
+  }
+  // 本地开发或者url中有带debug=1，则开启eruda调试
+  if (window.localStorage.getItem('debug') === '1') {
+    const debugTool = params.get('debug_tool') || 'eruda'
+    // 动态引入，避免被打包到vendor中
+    // === eruda实现
+    if (debugTool === 'eruda') {
+      import('eruda').then((eruda) => {
+        eruda.default.init()
+      })
+    }
+    // === vconsole实现
+    if (debugTool === 'vconsole') {
+      import('vconsole').then((VConsole) => {
+        new VConsole.default()
+      })
+    }
+  }
+}
+
+startDebug()
+```
+
+访问地址：`${host}?debug=1&debug_tool=eruda`
+
+## 场景
+
+1. 开发微信小程序或者公众号页面
+
+用微信开发者工具是比较方便的，能获取用户信息和授权 code，开发联调，排查线上问题也比较容易。
+
+2. 原生端内嵌 h5 页面
+
+可用代理模式，映射到本地开发环境，排查问题。
+如果人不在电脑旁边，可用 webview 打开 h5 页面，加入 debug=1 开启 debug 模式
