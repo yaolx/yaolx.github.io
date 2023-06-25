@@ -68,6 +68,9 @@ function Home(): JSX.Element {
         <Divider orientation="center">
           <Link to="/site">前端常用网站</Link>
         </Divider>
+        <Divider orientation="center">
+          <Link to="/checklist">开发自测checklist</Link>
+        </Divider>
         <Divider orientation="center">每日警言</Divider>
         <Divider orientation="center">CSS单位换算器</Divider>
         <Calculating />

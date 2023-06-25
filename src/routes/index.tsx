@@ -12,6 +12,7 @@ import { mdxFiles } from '@/service/mdx-service'
 // 路由懒加载
 const Home = lazy(() => import('@/page/home'))
 const Site = lazy(() => import('@/page/site'))
+const Checklist = lazy(() => import('@/page/develop/checklist'))
 const About = lazy(() => import('../page/about/index.mdx'))
 const Log = lazy(() => import('../page/log/index.mdx'))
 const Resume = lazy(() => import('../page/resume/index.mdx'))
@@ -36,6 +37,14 @@ const routeConfig: RouteObject[] = [
     element: (
       <Suspense>
         <Site />
+      </Suspense>
+    )
+  },
+  {
+    path: '/checklist',
+    element: (
+      <Suspense>
+        <Checklist />
       </Suspense>
     )
   },
