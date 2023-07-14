@@ -32,7 +32,8 @@ monkey({
   userscript: {
     icon: 'https://vitejs.dev/logo.svg',
     namespace: 'yaolx/vite-monkey',
-    match: ['https://www.google.com/']
+    match: ['https://*/*'],
+    exclude: ['https://www.baidu.com/*']
   },
   build: {
     externalGlobals: {
@@ -100,3 +101,9 @@ declare module 'monkey' {
 pnpm run dev
 
 就可以进行开发我们自己的脚本了
+
+## 打包
+
+pnpm run build
+
+将 dist/dev.user.js 上传到 cdn，配置好更新地址

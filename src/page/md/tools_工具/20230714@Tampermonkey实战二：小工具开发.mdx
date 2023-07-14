@@ -1,0 +1,89 @@
+# <center>Tampermonkey 实战二：小工具开发</center>
+
+## 前言
+
+最近一段时间，开发过程中遇到多个工程，每次都要输入用户名密码，很是麻烦，于是想到了用脚本来解决这个问题，于是就有了这个项目。此脚本基于主站，配好他的微服务 url，实现快速登录，而且基于 indexDB 缓存，输入一次跳转，后续从列表选择对应的项目路由跳转即可。
+
+## 启动命令
+
+`pnpm install`
+
+`pnpm run dev`
+
+`pnpm run build`
+
+## 使用说明
+
+1. 到 chrome 应用大横店，安装 chrome `tampermonkey`插件
+
+2. 将`dist/dev-assistant.user.js`文件拉到`tampermonkey`上，提示安装
+
+3. 安装完成后，打开`tampermonkey`界面，点到 tab`已安装脚本`
+
+   ![20230628233343](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230628233343.png)
+
+4. 配置更新页面
+
+   ![20230628233449](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230628233449.png)
+
+   勾选`更新`，配置更新 url
+
+5. 在设置中配置自动更新间隔时间
+
+   ![20230628233639](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230628233639.png)
+
+6. 也可手动检查是否需要更新
+
+   ![20230628233728](https://cdn.jsdelivr.net/gh/yaolx/picBed@main/blogs/pics/20230628233728.png)
+
+7. 使用说明
+
+   基于任意页面打开即可
+
+## 插件功能说明
+
+1. 开发
+
+- 常用网址
+
+- 开发 checklist
+
+- 组件快速登录（开发版有 host，可定制 host）
+
+  基于 zxx 主站，配好其他中小学智慧教育产品的 url，实现快速登录
+
+  基于 indexDB 缓存，输入一次跳转，后续从列表选择对应的项目路由跳转即可
+
+- 本地微服务地址快速配置
+
+  用于快速配置微服务地址缓存，方便开发
+
+- todo 列表
+
+  记录开发过程中的问题
+
+2. 测试
+
+- 清除缓存
+
+- 组件快速登录（测试版无 host，目标地址填入完整地址）
+
+3. 生活小技巧
+
+- 去除广告
+
+- 喜马拉雅音频下载
+
+- QQ 音乐下载
+
+4. 关于 - Todo
+
+- 增加缓存配置下载，生成 json 文件，用于在其他地方也能复用配置信息
+
+## 开发注意事项
+
+1. 本地开发时，如果站点对本地 ip 或者 localhost 进行白名单限制时，可用代理配置到它允许的域名，进行转换
+
+2. 打包后的 user.js 可放到 cdn，再配置到更新的 url，即可实现自动或手动更新脚本
+
+3. vite [集成 https](https://zhuanlan.zhihu.com/p/551720193)
