@@ -13,6 +13,7 @@ import { mdxFiles } from '@/service/mdx-service'
 const Home = lazy(() => import('@/page/home'))
 const Site = lazy(() => import('@/page/site'))
 const Checklist = lazy(() => import('@/page/develop/checklist'))
+const Xddq = lazy(() => import('@/page/game/xddq'))
 const About = lazy(() => import('../page/about/index.mdx'))
 const Log = lazy(() => import('../page/log/index.mdx'))
 const Resume = lazy(() => import('../page/resume/index.mdx'))
@@ -45,6 +46,14 @@ const routeConfig: RouteObject[] = [
     element: (
       <Suspense>
         <Checklist />
+      </Suspense>
+    )
+  },
+  {
+    path: '/xddq',
+    element: (
+      <Suspense>
+        <Xddq />
       </Suspense>
     )
   },

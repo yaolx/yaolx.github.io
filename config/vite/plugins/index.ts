@@ -9,7 +9,6 @@ import viteCompression from 'vite-plugin-compression'
 import mdx from 'vite-plugin-mdx'
 
 import configMockPlugin from './mock'
-import configStyleImportPlugin from './styleImport'
 import configVisualizerPlugin from './visualizer'
 
 import { VITE_APP_ANALYZE, VITE_APP_COMPRESS_GZIP } from '../../constant'
@@ -24,7 +23,6 @@ export function createVitePlugins(viteEnv: string, isBuild: boolean) {
     },
     typescript(),
     reactRefresh(),
-    configStyleImportPlugin(),
     mdx()
   ]
 

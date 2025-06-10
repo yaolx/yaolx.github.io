@@ -51,10 +51,10 @@
   "devDependencies": {
     "@mdx-js/mdx": "^1.6.22",
     "@mdx-js/react": "^1.6.22",
-    "@rollup/plugin-eslint": "8.0.2",
+    "@rollup/plugin-eslint": "^8.0.1",
     "@rollup/plugin-typescript": "^8.3.0",
+    "@types/node": "^24.0.0",
     "@types/lodash": "^4.14.175",
-    "@types/node": "^16.11.0",
     "@types/react": "^17.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
@@ -75,7 +75,6 @@
     "vite": "^2.6.4",
     "vite-plugin-compression": "^0.3.5",
     "vite-plugin-mdx": "^3.5.10",
-    "vite-plugin-mock": "^2.9.6",
-    "vite-plugin-style-import": "^1.2.1"
+    "vite-plugin-mock": "^2.9.6"
   }
 }
