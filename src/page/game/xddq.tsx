@@ -116,11 +116,11 @@ function Times({ params, onUpdate }) {
         onChange={(value) => onUpdate(value, 'blood')}
         value={params.blood}
         type="text"
-        addonBefore="血量"
+        addonBefore="血量（万）"
         addonAfter={
           <Select
             onChange={(value) => {
-              onUpdate(value * 10000, 'blood')
+              onUpdate(value, 'blood')
             }}
             defaultValue={2160}
             style={{ width: 100 }}
@@ -148,7 +148,7 @@ function Body({ params, onUpdate }) {
         onChange={(value) => onUpdate(value, 'blood')}
         value={params.blood}
         type="text"
-        addonBefore="剩余血量"
+        addonBefore="剩余血量（万）"
       />
       <InputNumber
         onChange={(value) => onUpdate(value, 'times')}
@@ -168,7 +168,7 @@ function Calculating() {
     level: 270,
     damage: 270 * 1.2,
     times: 60,
-    blood: 21600000,
+    blood: 2160,
     bodyNum: 0
   })
   const onChangeTab = (tab) => {
@@ -184,10 +184,10 @@ function Calculating() {
     const damage = params.damage
     switch (tab) {
       case '1':
-        target = Math.round(params.blood / (params.bodyNum * damage * 40))
+        target = Math.round((params.blood * 10000) / (params.bodyNum * damage * 40))
         break
       case '2':
-        target = Math.round(params.blood / (params.times * damage * 40))
+        target = Math.round((params.blood * 10000) / (params.times * damage * 40))
         break
       default:
         break
