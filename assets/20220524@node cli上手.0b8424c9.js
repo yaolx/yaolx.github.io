@@ -1,1 +1,0 @@
-import"./react.103bb038.js";import{bf as r}from"./index.19a91aa8.js";import"./lodash.97b9911e.js";import"./markmap.86774f21.js";const e={},n="wrapper";function p({components:t,...o}){return r(n,{...e,...o,components:t,mdxType:"MDXLayout"})}p.isMDXComponent=!0;export{p as default};
