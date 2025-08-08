@@ -184,10 +184,10 @@ function Calculating() {
     const damage = params.damage
     switch (tab) {
       case '1':
-        target = Math.round((params.blood * 10000) / (params.bodyNum * damage * 40))
+        target = Math.round((params.blood * 10000) / (params.bodyNum * damage * 50))
         break
       case '2':
-        target = Math.round((params.blood * 10000) / (params.times * damage * 40))
+        target = Math.round((params.blood * 10000) / (params.times * damage * 50))
         break
       default:
         break
